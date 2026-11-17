@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MakerSpace Bonn Styleguide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --gruen-50:#F0F7EA; --gruen-100:#DCEFD0; --gruen-300:#9CD27D; --gruen-500:#5EB130;
+  --gruen-600:#33791A; --gruen-800:#325725; --gruen-900:#1B3714;
+  --ink:#1E1C19; --stone:#5F5850; --paper:#FBF8F2; --creme:#FAF2E4; --creme-stark:#F5E6C9; --line:#E4DCCB;
+  --violett:#6D3E91; --sky:#009FE3; --sky-text:#0070A8; --mint-bg:#E6F5FC;
+  --gelb:#FCBD30; --orange:#F2711C; --rot:#C62828;
+  --new:#F2711C; --mod:#0070A8; --fix:#C62828;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.6 "IBM Plex Sans",system-ui,sans-serif}
+a{color:var(--gruen-600);text-underline-offset:2px}
+img{max-width:100%;display:block}
+code,.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.88em}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+@media (max-width:600px){.wrap{padding:0 16px}}
+
+/* Kopf */
+.cover{background:var(--gruen-800);color:#fff;position:relative;overflow:hidden}
+.cover .wrap{padding-top:56px;padding-bottom:64px}
+.cover img.logo{width:min(440px,100%)}
+.cover h1{font-size:clamp(40px,7vw,72px);line-height:1;margin:48px 0 12px;font-weight:700;letter-spacing:-.01em}
+.cover p{margin:0;color:#DCEFD0;max-width:620px}
+.cover .meta{margin-top:28px;display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:#fff}
+.tape{height:18px;background:repeating-linear-gradient(-45deg,var(--gruen-500) 0 14px,var(--gruen-900) 14px 28px)}
+.tape.yellow{background:repeating-linear-gradient(-45deg,var(--gelb) 0 14px,var(--ink) 14px 28px)}
+
+/* Navigation */
+nav.toc{position:sticky;top:0;z-index:10;background:var(--paper);border-bottom:1px solid var(--line)}
+nav.toc .wrap{display:flex;gap:4px 18px;overflow-x:auto;white-space:nowrap;padding-top:10px;padding-bottom:10px;font-size:14px}
+nav.toc a{color:var(--ink);text-decoration:none}
+nav.toc a:hover{color:var(--gruen-600);text-decoration:underline}
+
+/* Abschnitte */
+section{padding:64px 0 24px;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+h2{font-size:clamp(30px,4.5vw,44px);line-height:1.1;margin:0 0 8px;font-weight:700;letter-spacing:-.01em}
+h2 .num{color:var(--gruen-600);font-weight:500;margin-right:.3em}
+h3{font-size:22px;line-height:1.25;margin:40px 0 10px;font-weight:700}
+h4{font-size:16px;margin:24px 0 6px;font-weight:700}
+.lead{font-size:19px;line-height:1.5;max-width:720px;margin:8px 0 24px}
+p,ul,ol{max-width:720px}
+ul,ol{padding-left:1.2em}
+li{margin:.2em 0}
+.small{font-size:14px;color:var(--stone)}
+
+/* Änderungs-Kennzeichnung */
+.chg{display:inline-block;font:700 11px/1 "IBM Plex Sans",sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:4px 7px 3px;border-radius:3px;vertical-align:middle;margin-left:8px;color:#fff}
+.chg.new{background:var(--ink);box-shadow:inset 4px 0 0 var(--new)}
+.chg.mod{background:var(--ink);box-shadow:inset 4px 0 0 var(--mod)}
+.chg.fix{background:var(--ink);box-shadow:inset 4px 0 0 var(--fix)}
+.chg.keep{background:transparent;color:var(--stone);border:1px solid var(--line)}
+.diff{background:#fff;border:1px solid var(--line);border-left:6px solid var(--ink);border-radius:4px;padding:14px 18px;margin:18px 0 28px;max-width:820px;font-size:15px}
+.diff strong.t{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.diff ul{margin:.3em 0 0}
+.diff.new{border-left-color:var(--new)} .diff.mod{border-left-color:var(--mod)} .diff.fix{border-left-color:var(--fix)}
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-size:14px;margin:12px 0 0}
+.legend .chg{margin-left:0;margin-right:6px}
+
+/* Karten / Raster */
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:18px}
+.card h4{margin-top:0}
+.do,.dont{border-radius:6px;padding:14px 16px;font-size:15px;background:#fff;border:1px solid var(--line)}
+.do{border-top:5px solid var(--gruen-600)} .dont{border-top:5px solid var(--rot)}
+.do b,.dont b{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.do b{color:var(--gruen-600)} .dont b{color:var(--rot)}
+
+/* Logo-Kacheln */
+.logotile{border-radius:6px;padding:28px;display:flex;align-items:center;justify-content:center;min-height:170px;border:1px solid var(--line)}
+.logotile img{max-height:110px;width:auto}
+.logocap{font-size:14px;margin-top:8px}
+.misuse{position:relative}
+.misuse::after{content:"";position:absolute;inset:0;background:linear-gradient(to top right,transparent calc(50% - 2px),var(--rot) calc(50% - 2px) calc(50% + 2px),transparent calc(50% + 2px));pointer-events:none;border-radius:6px}
+
+/* Farbfelder */
+.swatch{border-radius:6px;overflow:hidden;border:1px solid var(--line);background:#fff;display:flex;flex-direction:column}
+.swatch .chip{height:110px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;font-weight:500}
+.swatch .chip .aa{font-size:13px;font-weight:400}
+.swatch .info{padding:12px 14px;font-size:14px;line-height:1.5}
+.swatch .info .name{font-weight:700;font-size:15px}
+.swatch .info .use{color:var(--stone);margin-top:6px}
+.swatch .info table{border-collapse:collapse;margin-top:4px}
+.swatch .info td{padding:0 10px 0 0;font-family:"IBM Plex Mono",monospace;font-size:12.5px}
+.swatch .info td:first-child{font-family:"IBM Plex Sans";font-weight:500;color:var(--stone)}
+.hero .chip{height:180px}
+.scale{display:flex;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+@media (max-width:600px){.scale{flex-wrap:wrap}.scale div{flex-basis:25%!important}}
+.scale div{flex:1;min-width:0;min-height:84px;padding:8px;font-size:12px;display:flex;flex-direction:column;justify-content:flex-end}
+
+/* Tabellen */
+.tablewrap{overflow-x:auto;margin:12px 0 20px;max-width:100%}
+table.t{border-collapse:collapse;font-size:14px;min-width:560px;background:#fff}
+table.t th,table.t td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+table.t th{background:var(--creme);font-weight:700}
+table.matrix td{text-align:center;font-weight:500;min-width:74px}
+table.matrix td.ok{} table.matrix td.big{} table.matrix td.no{color:var(--stone)!important;background:#fff!important;font-weight:400}
+.pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 6px;border-radius:3px;margin-top:3px}
+
+/* Maker-Elemente */
+.label{display:inline-block;background:var(--ink);color:#fff;font:500 15px/1 "IBM Plex Mono",monospace;padding:8px 12px 7px;letter-spacing:.06em;text-transform:uppercase;border-radius:2px;box-shadow:0 1px 0 rgba(0,0,0,.2)}
+.label.g{background:var(--gruen-500);color:var(--ink)}
+.sticker{display:inline-flex;align-items:center;justify-content:center;width:120px;height:120px;border-radius:50%;background:var(--orange);color:var(--ink);font-weight:700;font-size:20px;line-height:1.1;text-align:center;transform:rotate(-8deg);box-shadow:3px 3px 0 var(--ink)}
+.flag{display:inline-block;background:var(--gelb);color:var(--ink);font-weight:700;padding:6px 12px;font-size:20px}
+.flag + .by{display:block;background:var(--creme);color:var(--ink);font-size:14px;padding:4px 12px;width:max-content}
+.scribble{font-family:"Comic Sans MS","Bradley Hand",cursive;color:var(--ink);font-size:18px;transform:rotate(-3deg);display:inline-block}
+
+/* Schnellstart */
+.cheat{background:var(--gruen-900);color:#fff;border-radius:8px;padding:24px}
+.cheat h4{color:var(--gruen-300);margin-top:0}
+.cheat a{color:#fff}
+.cheat .grid > div{border-top:1px solid rgba(255,255,255,.2);padding-top:12px}
+
+/* Typo-Muster */
+.typo-row{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:baseline;border-top:1px solid var(--line);padding:14px 0}
+@media (max-width:600px){.typo-row{grid-template-columns:1fr;gap:4px}}
+.typo-row .spec{font-size:13px;color:var(--stone)}
+
+footer{background:var(--ink);color:#d8d2c8;padding:40px 0 60px;font-size:14px}
+footer a{color:#fff}
+
+.switch{display:inline-flex;align-items:center;gap:6px;font-weight:500;color:var(--ink);cursor:pointer;padding-right:14px;margin-right:4px;border-right:1px solid var(--line);flex:none}
+.switch input{appearance:none;width:34px;height:20px;border-radius:10px;background:var(--line);position:relative;cursor:pointer;margin:0;transition:background .15s}
+.switch input::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .15s}
+.switch input:checked{background:var(--gruen-600)}
+.switch input:checked::after{left:16px}
+.switch input:focus-visible{outline:2px solid var(--gruen-600);outline-offset:2px}
+body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{display:none!important}
+@media print{
+  nav.toc{display:none}
+  section{break-before:page;padding-top:24px}
+  .card,.swatch,.diff,.do,.dont{break-inside:avoid}
+  body{background:#fff}
+  .tablewrap{overflow:visible}
+  table.t{min-width:0;width:100%;font-size:11px}
+  table.matrix td{min-width:0;padding:5px 4px}
+  table.t th{padding:5px 6px}
+}
+@page{size:A4;margin:14mm}
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="wrap">
+    <img class="logo" src="{{logo-h-negativ}}" alt="MakerSpace Bonn – Eine offene Werkstatt für Bonn. Für alle.">
+    <h1>Styleguide</h1>
+    <p>Wie wir den MakerSpace Bonn sichtbar machen: Logo, Farben, Schrift, Bilder und Sprache. Für alle, die Flyer, Posts, Schilder, Workshops oder Merch gestalten, auch ohne Designausbildung.</p>
+    <div class="meta"><span>Version 2026-11 · <strong>Überarbeitungsentwurf</strong></span><span>Basis: Version 2026-02-15</span><span>Herausgeber: Medienteam MakerSpace Bonn e.V.</span></div>
+  </div>
+  <div class="tape"></div>
+</header>
+
+<nav class="toc" aria-label="Inhalt"><div class="wrap">
+  <label class="switch"><input type="checkbox" id="chgToggle" checked> Änderungen zeigen</label>
+  <a href="#aenderungen" class="chg-block">Änderungen</a><a href="#schnellstart">Schnellstart</a><a href="#einleitung">Einleitung</a><a href="#marke">Marke</a><a href="#logo">Logo</a><a href="#claim">Claim & Name</a><a href="#farben">Farben</a><a href="#kombinationen">Kombinationen</a><a href="#material">Material</a><a href="#typo">Schrift</a><a href="#elemente">Maker-Elemente</a><a href="#schilder">Schilder</a><a href="#bilder">Bilder</a><a href="#sprache">Sprache</a><a href="#vorlagen">Vorlagen</a><a href="#pflege">Pflege</a>
+</div></nav>
+
+<main class="wrap">
+
+<!-- ================= ÄNDERUNGEN ================= -->
+<section id="aenderungen" class="chg-block">
+  <h2>Was sich geändert hat</h2>
+  <p class="lead">Diese Fassung baut auf dem Styleguide vom 15.02.2026 auf. Logo, Markengrün <code>#5EB130</code>, Schriften und Werte bleiben unverändert. Jede Änderung ist im Text markiert.</p>
+  <div class="legend">
+    <span><span class="chg fix">Korrigiert</span>Fehler im Original behoben</span>
+    <span><span class="chg mod">Geändert</span>Regel oder Wert angepasst</span>
+    <span><span class="chg new">Neu</span>Ergänzung, gab es vorher nicht</span>
+    <span><span class="chg keep">Unverändert</span>übernommen, ggf. gekürzt</span>
+  </div>
+
+  <h3>Übersicht</h3>
+  <div class="tablewrap"><table class="t">
+    <tr><th>Bereich</th><th>Art</th><th>Was</th><th>Warum</th></tr>
+    <tr><td><a href="#farben">Farben</a></td><td><span class="chg fix">Korrigiert</span></td><td>RGB-Werte von Typografie-Grün, MINT-Violett und MINT-Blau korrigiert</td><td>Die gedruckten RGB-Werte ergaben ein anderes Grün, ein Braun (109 62 45) und ein Türkis (0 159 125)</td></tr>
+    <tr><td><a href="#farben">Farben</a></td><td><span class="chg mod">Geändert</span></td><td>Textgrün <code>#238811</code> → <code>#33791A</code></td><td>Das alte Textgrün schaffte AA nur auf reinem Weiß (4,56:1), auf dem eigenen Creme-Fond nicht (4,10:1). Neu: 5,40:1 auf Weiß, 4,85:1 auf Creme</td></tr>
+    <tr><td><a href="#farben">Farben</a></td><td><span class="chg mod">Geändert</span></td><td>Fond-Farben als feste Werte statt Transparenz (50 % / 10 %)</td><td>Transparenz lässt sich in Druck, Office und Canva nicht verlässlich nachbauen</td></tr>
+    <tr><td><a href="#farben">Farben</a></td><td><span class="chg new">Neu</span></td><td>Grünskala, warme Neutraltöne (Tinte, Stein, Papier), Text-Blau, Maker-Orange, Sicherheitsrot</td><td>Volunteers brauchten bisher eigene Abstufungen; Fließtext hatte keine definierte Farbe</td></tr>
+    <tr><td><a href="#kombinationen">Kombinationen</a></td><td><span class="chg new">Neu</span></td><td>Tabelle „welche Schrift auf welcher Farbe“ mit Kontrastwerten</td><td>Weiße Schrift auf Markengrün (z. B. die Download-Buttons im alten Guide) hat nur 2,69:1</td></tr>
+    <tr><td><a href="#logo">Logo</a></td><td><span class="chg new">Neu</span></td><td>Negativ-, Weiß- und Schwarz-Version, Hintergrundregeln, Logo-Don'ts</td><td>Für dunkle Flächen, Fotos, Laser, Stempel, Stick und Schwarz-Weiß-Druck gab es keine Vorgabe</td></tr>
+    <tr><td><a href="#claim">Claim</a></td><td><span class="chg fix">Korrigiert</span></td><td>Einheitlich „Eine offene Werkstatt <b>für</b> Bonn. Für alle.“</td><td>Logo und Claim-Seite sagen „für“, die Beispielflyer „in“</td></tr>
+    <tr><td><a href="#material">Material</a></td><td><span class="chg new">Neu</span></td><td>Farben und Logo auf Folie, Filament, Holz, Acryl, Stoff</td><td>Wir stellen viel selbst her; dafür gab es keine Regeln</td></tr>
+    <tr><td><a href="#typo">Schrift</a></td><td><span class="chg new">Neu</span> <span class="chg mod">Geändert</span></td><td>Schriftgrößen-Skala, Mindestgrößen; IBM Plex Sans Regular für Fließtext ergänzt</td><td>Bisher nur Schnitte, keine Größen. Light ist bei kleinen Größen und auf Creme zu dünn</td></tr>
+    <tr><td><a href="#elemente">Maker-Elemente</a></td><td><span class="chg new">Neu</span></td><td>Warnband, Labelstreifen, Sticker, Handnotizen</td><td>Werkstatt-Charakter statt Firmen-Look, ohne die Wiedererkennung zu verwässern</td></tr>
+    <tr><td><a href="#schilder">Schilder</a></td><td><span class="chg new">Neu</span></td><td>Beschilderung und Sicherheitszeichen</td><td>Leitsysteme waren im Geltungsbereich genannt, aber nicht geregelt</td></tr>
+    <tr><td><a href="#einleitung">Einleitung</a>, <a href="#marke">Marke</a></td><td><span class="chg mod">Geändert</span></td><td>Gekürzt, weniger Marketing-Fachbegriffe</td><td>Passt zur eigenen Tonalität: „Nicht werblich überhöht“</td></tr>
+    <tr><td><a href="#schnellstart">Schnellstart</a>, <a href="#vorlagen">Vorlagen</a>, <a href="#pflege">Pflege</a></td><td><span class="chg new">Neu</span></td><td>Spickzettel, Vorlagenliste, Zuständigkeit und Versionierung</td><td>Die meisten gestalten mit Vorlagen, nicht mit 36 Seiten Regeln</td></tr>
+    <tr><td>gesamt</td><td><span class="chg fix">Korrigiert</span></td><td>Tippfehler und falscher Seitenverweis</td><td>Siehe <a href="#pflege">Korrekturliste</a></td></tr>
+  </table></div>
+</section>
+
+<!-- ================= SCHNELLSTART ================= -->
+<section id="schnellstart">
+  <h2><span class="num">0</span>Schnellstart <span class="chg new">Neu</span></h2>
+  <p class="lead">Keine Zeit für den ganzen Guide? Diese Seite reicht für 90 % aller Flyer, Posts und Aushänge. Zum Ausdrucken und Aufhängen.</p>
+  <div class="cheat">
+    <div class="grid g3">
+      <div><h4>1 · Vorlage nehmen</h4>Starte mit einer <a href="#vorlagen">Vorlage</a>. Logo, Farben und Schrift sind dort schon richtig.</div>
+      <div><h4>2 · Logo nicht verändern</h4>Farbe auf Hell, Negativ auf Dunkel, Weiß auf Fotos. Nie verzerren, umfärben oder mit Effekten versehen.</div>
+      <div><h4>3 · Fließtext ist Tinte</h4><code>#1E1C19</code> in IBM Plex Sans Regular. Nie in Grün, Gelb oder Violett.</div>
+      <div><h4>4 · Das helle Grün ist für Flächen</h4><code>#5EB130</code> für Logo, Balken, Formen. Grüne Schrift immer im Textgrün <code>#33791A</code>.</div>
+      <div><h4>5 · Eine Akzentfarbe pro Medium</h4>Violett = MINT, Gelb = von Mitgliedern, Orange = Events. Nicht mischen.</div>
+      <div><h4>6 · Echte Fotos</h4>Echte Mitglieder, echte Projekte, Tageslicht. Keine Stockfotos, keine KI-Bilder, keine Filter.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EINLEITUNG ================= -->
+<section id="einleitung">
+  <h2><span class="num">1</span>Einleitung <span class="chg mod">Geändert</span></h2>
+  <div class="diff mod"><strong class="t">Was ist anders?</strong>Inhalt übernommen, auf etwa ein Drittel gekürzt. Vision, Mission und Werte unverändert.</div>
+  <p class="lead">Der MakerSpace Bonn ist eine offene Werkstatt, ein Lernort und eine Gemeinschaft. Viele Leute gestalten nebenbei für uns: Flyer, Posts, Schilder, Workshop-Handouts. Dieser Guide sorgt dafür, dass das alles nach <em>einem</em> MakerSpace aussieht, und macht es gleichzeitig leichter.</p>
+  <div class="grid g2">
+    <div class="card"><h4>Fest</h4>Logo, Markengrün, Schrift. Daran erkennt man uns.</div>
+    <div class="card"><h4>Frei</h4>Alles andere. Ausprobieren ist ausdrücklich erwünscht. Lieber heute eine gute Lösung als irgendwann eine perfekte.</div>
+  </div>
+  <h3>Vision &amp; Mission <span class="chg keep">Unverändert</span></h3>
+  <p><strong>Vision:</strong> Wir schaffen einen offenen Raum, in dem Menschen gemeinsam lernen, experimentieren und Dinge verwirklichen können, unabhängig von Vorerfahrung, Alter oder Hintergrund.</p>
+  <p><strong>Mission:</strong> Wir ermöglichen Zugang zu Wissen, Werkzeugen und Gemeinschaft. Wir fördern praktisches Lernen, selbstbestimmtes Gestalten und gegenseitige Unterstützung.</p>
+  <h3>Unsere Werte <span class="chg keep">Unverändert</span></h3>
+  <div class="grid g3">
+    <div class="card"><h4>Kreativität</h4>Wir probieren aus und finden ungewöhnliche Lösungen. Gestaltung darf experimentell sein.</div>
+    <div class="card"><h4>Konstruktivität</h4>Lieber umsetzen und verbessern als lange blockieren.</div>
+    <div class="card"><h4>Fehlerkultur</h4>Unperfektes ist erlaubt. Lernen geschieht durch Tun.</div>
+    <div class="card"><h4>Verantwortung</h4>Achtsam mit Ressourcen, Zeit und Menschen. Klar, respektvoll, zugänglich.</div>
+    <div class="card"><h4>Gemeinschaft</h4>Miteinander statt nebeneinander.</div>
+  </div>
+  <p class="small" style="margin-top:20px">Gilt für: Ehrenamtliche, Workshop- und Projektteams, Social Media, Vorstand, externe Partner und Druckereien. Für Print, Digital, Vorlagen, Merch, Räume, Schilder und Veranstaltungen.</p>
+</section>
+
+<!-- ================= MARKE ================= -->
+<section id="marke">
+  <h2><span class="num">2</span>Eine Marke für alles <span class="chg mod">Geändert</span></h2>
+  <div class="diff mod"><strong class="t">Was ist anders?</strong>„Branded House“, „Dachmarke“ und „Programmmarken“ durch einfache Sprache ersetzt. Inhaltlich gleich.</div>
+  <p class="lead">Alles, was wir machen, ist MakerSpace Bonn. Bereiche bekommen eine eigene Akzentfarbe und einen Namenszusatz, aber kein eigenes Logo.</p>
+  <div class="grid g3">
+    <div class="card" style="border-top:6px solid var(--gruen-500)"><h4>MakerSpace Bonn</h4>Der ganze Verein. Grün. Standard für alles.</div>
+    <div class="card" style="border-top:6px solid var(--violett)"><h4>MINT-Bildung</h4>Kurse, Workshops, Schulen, Jugendliche, Förderpartner. Akzent Violett + Hellblau.</div>
+    <div class="card" style="border-top:6px solid var(--gelb)"><h4>Von Mitgliedern</h4>Inhalte aus der Community, z. B. Tipps und Projekte auf Social Media. Akzent Gelb.</div>
+  </div>
+  <p style="margin-top:20px"><strong>Grundsatz:</strong> Vielfalt im Inhalt, Einheit im Auftritt.</p>
+</section>
+
+<!-- ================= LOGO ================= -->
+<section id="logo">
+  <h2><span class="num">3</span>Logo</h2>
+  <h3>Varianten <span class="chg keep">Unverändert</span></h3>
+  <div class="grid g3">
+    <div><div class="logotile" style="background:#fff"><img src="{{logo-h-farbe}}" alt="Logo horizontal"></div><div class="logocap"><b>Horizontal mit Claim</b> · Standard für Querformate · min. 55 mm breit</div></div>
+    <div><div class="logotile" style="background:#fff"><img src="{{logo-v-farbe}}" alt="Logo vertikal"></div><div class="logocap"><b>Vertikal</b> · Hochformate, wenig Breite</div></div>
+    <div><div class="logotile" style="background:#fff"><img src="{{cube-farbe}}" alt="Bildmarke Cube"></div><div class="logocap"><b>Bildmarke (Cube)</b> · nur, wenn das ganze Logo woanders auf dem Medium steht</div></div>
+  </div>
+  <p class="small">Dazu: horizontal ohne Claim (min. 25 mm) und die Firmierung mit „e.V.“ für Briefe, Verträge und Förderanträge. Die genauen Schutzräume (½ X um den Cube, Y zwischen Cube und Schrift) stehen in der Logo-Datei bzw. im Original-Guide S. 9–13.</p>
+
+  <h3>Farbversionen <span class="chg new">Neu</span></h3>
+  <div class="diff new"><strong class="t">Was ist neu?</strong>Bisher gab es nur die farbige Version auf Weiß. Neu sind Versionen für dunkle Flächen, Fotos und einfarbige Techniken (Laser, Stempel, Stick, Schwarz-Weiß-Kopie). Die Dateien liegen neben diesem Dokument im Ordner <code>logos/</code>.</div>
+  <div class="grid g4">
+    <div><div class="logotile" style="background:#fff"><img src="{{logo-v-farbe}}" alt=""></div><div class="logocap"><b>Farbe</b> · auf Weiß, Papier, Creme</div></div>
+    <div><div class="logotile" style="background:var(--gruen-800)"><img src="{{logo-v-negativ}}" alt=""></div><div class="logocap"><b>Negativ</b> · auf Grün 800/900, Tinte</div></div>
+    <div><div class="logotile" style="background:#7a6d5e"><img src="{{logo-v-weiss}}" alt=""></div><div class="logocap"><b>Weiß</b> · auf Fotos und farbigen Flächen</div></div>
+    <div><div class="logotile" style="background:#fff"><img src="{{logo-v-schwarz}}" alt=""></div><div class="logocap"><b>Schwarz</b> · Laser, Stempel, Fax, S/W-Druck</div></div>
+  </div>
+  <p class="small">Auf Fotos weiterhin bevorzugt die weiße „Fahne“ mit farbigem Logo (Original-Guide S. 14–15).</p>
+
+  <h3>Nicht so <span class="chg new">Neu</span></h3>
+  <div class="grid g4">
+    <div><div class="logotile misuse" style="background:#fff"><img src="{{logo-h-farbe}}" alt="" style="transform:scaleX(1.5);max-height:60px"></div><div class="logocap">Nicht verzerren</div></div>
+    <div><div class="logotile misuse" style="background:#fff"><img src="{{logo-v-farbe}}" alt="" style="filter:hue-rotate(160deg)"></div><div class="logocap">Nicht umfärben</div></div>
+    <div><div class="logotile misuse" style="background:var(--gelb)"><img src="{{logo-v-farbe}}" alt=""></div><div class="logocap">Nicht auf Gelb oder Orange (zu wenig Kontrast)</div></div>
+    <div><div class="logotile misuse" style="background:#fff"><img src="{{logo-v-farbe}}" alt="" style="filter:drop-shadow(5px 5px 3px rgba(0,0,0,.6))"></div><div class="logocap">Keine Schatten, Glow, Outlines</div></div>
+    <div><div class="logotile misuse" style="background:#fff"><img src="{{logo-h-farbe}}" alt="" style="transform:rotate(-15deg);max-height:60px"></div><div class="logocap">Nicht drehen</div></div>
+    <div><div class="logotile misuse" style="background:#fff;flex-direction:column;gap:6px"><span style="font:700 24px/1 'IBM Plex Sans'">Makerspace</span><span style="font:700 24px/1 'IBM Plex Sans'">BONN</span></div><div class="logocap">Nicht nachsetzen oder abtippen</div></div>
+    <div><div class="logotile misuse" style="background:linear-gradient(135deg,#8c8c8c,#d9d2c3 40%,#4d4d4d 70%,#c9c9c9)"><img src="{{logo-v-farbe}}" alt=""></div><div class="logocap">Nicht ohne Fahne auf unruhige Fotos</div></div>
+    <div><div class="logotile misuse" style="background:#fff;gap:10px"><img src="{{cube-farbe}}" alt="" style="max-height:60px"><span style="font:700 20px/1.1 'IBM Plex Sans';color:var(--violett)">MINT<br>Labor</span></div><div class="logocap">Keine eigenen Bereichslogos</div></div>
+  </div>
+</section>
+
+<!-- ================= CLAIM & NAME ================= -->
+<section id="claim">
+  <h2><span class="num">4</span>Claim &amp; Schreibweise</h2>
+  <h3>Claim <span class="chg fix">Korrigiert</span></h3>
+  <div class="diff fix"><strong class="t">Was wurde korrigiert?</strong>
+    <ul><li>Der Claim im Logo lautet „für Bonn“, die Beispielflyer zeigten „in Bonn“. Verbindlich ist die Logo-Fassung.</li>
+    <li>Der Satz „Der Claim an in Verbindung mit dem horizontalen Logo stehen. Für Einschränkungen s. S. 4“ war unvollständig und verwies auf die falsche Seite (gemeint: Mindestgrößen S. 9–10).</li></ul></div>
+  <p style="font-size:clamp(24px,4vw,36px);font-weight:700;line-height:1.2;margin:8px 0 16px">Eine offene Werkstatt für Bonn. Für alle.</p>
+  <p>Der Claim sagt, wofür wir stehen: eine Werkstatt, die alle nutzen können, unabhängig von Einkommen, Herkunft oder Vorwissen. Er gehört auf alle Werbemedien und steht in einer Zeile. Er steht entweder im horizontalen Logo oder, beim vertikalen Logo, frei in der Gestaltung.</p>
+
+  <h3>Schreibweise <span class="chg keep">Unverändert</span></h3>
+  <div class="tablewrap"><table class="t">
+    <tr><th>Wann</th><th>So</th><th>Nicht so</th></tr>
+    <tr><td>Werbung, Web, Social, Flyer</td><td><b>MakerSpace Bonn</b></td><td>Makerspace Bonn · Maker Space Bonn · Maker-Space Bonn · MAKERSPACE BONN</td></tr>
+    <tr><td>Verträge, Rechnungen, Förderanträge, Impressum, Behörden</td><td><b>MakerSpace Bonn e.V.</b></td><td>MakerSpace Bonn eV · MSB e.V.</td></tr>
+    <tr><td>Intern, Social, Sticker, Hashtag, nach Ausschreibung</td><td><b>MSB</b> · #MSB</td><td>MSB als erste Nennung in Texten für Externe</td></tr>
+    <tr><td>Allgemein über die Art von Ort</td><td>ein <b>Makerspace</b>, viele Makerspaces</td><td>„ein MakerSpace“ für fremde Werkstätten</td></tr>
+  </table></div>
+</section>
+
+<!-- ================= FARBEN ================= -->
+<section id="farben">
+  <h2><span class="num">5</span>Farben</h2>
+  <p class="lead">Ein helles Grün als Erkennungszeichen, ein dunkleres Grün für Schrift, warme Werkstatt-Neutraltöne, und je eine Akzentfarbe für MINT, Mitglieder-Inhalte und Events.</p>
+  <div class="diff fix"><strong class="t">Was wurde korrigiert?</strong>
+    <ul>
+      <li><b>Typografie-Grün:</b> HEX <code>#238811</code> und RGB 40 137 45 (= <code>#28892D</code>) waren zwei verschiedene Grüns. Wird ersetzt, siehe unten.</li>
+      <li><b>MINT-Violett:</b> RGB stand als 109 62 <b>45</b> (= Braun). Richtig: 109 62 <b>145</b>.</li>
+      <li><b>MINT-Blau:</b> RGB stand als 0 159 <b>125</b> (= Türkis). Richtig: 0 159 <b>227</b>.</li>
+      <li><b>Barrierefreiheit:</b> Die Aussage „AAA für Headlines, AA für Fließtext“ galt nur auf reinem Weiß und nur knapp (4,56:1). Auf dem eigenen Creme-Fond: 4,10:1, also durchgefallen.</li>
+    </ul></div>
+
+  <h3>Markengrün <span class="chg keep">Unverändert</span></h3>
+  <div class="grid g2">
+    <div class="swatch hero"><div class="chip" style="background:var(--gruen-500);color:var(--ink)"><span>MakerSpace Grün</span><span class="aa">Tinte darauf 6,32:1 ✓ · Weiß darauf 2,69:1 ✗</span></div>
+      <div class="info"><div class="name">Grün 500 · Markengrün</div><table><tr><td>HEX</td><td>#5EB130</td></tr><tr><td>RGB</td><td>94 177 48</td></tr><tr><td>CMYK</td><td>67 0 100 0</td></tr></table>
+      <div class="use">Logo, große Flächen, Balken, Icons, Illustration. <b>Nie für Schrift.</b> Schrift darauf immer in Tinte, nie in Weiß.</div></div></div>
+    <div class="swatch hero"><div class="chip" style="background:var(--gruen-600);color:#fff"><span>Textgrün <span class="chg mod" style="margin-left:4px">Geändert</span></span><span class="aa">Weiß darauf 5,40:1 ✓ · auf Weiß 5,40:1 ✓ · auf Creme 4,85:1 ✓</span></div>
+      <div class="info"><div class="name">Grün 600 · Textgrün</div><table><tr><td>HEX</td><td>#33791A</td></tr><tr><td>RGB</td><td>51 121 26</td></tr><tr><td>CMYK</td><td>80 15 100 25*</td></tr></table>
+      <div class="use">Überschriften, Links, Buttons mit weißer Schrift, grüne Textauszeichnung. <span class="chg-txt"><b>Ersetzt <code>#238811</code></b>, das auf Creme nicht reichte.</span></div></div></div>
+  </div>
+
+  <h3>Grünskala <span class="chg new">Neu</span></h3>
+  <p>Für Infokästen, Tabellen, Diagramme, Schilder und Webseiten. Alle Stufen sind aus dem Markengrün abgeleitet.</p>
+  <div class="scale">
+    <div style="background:var(--gruen-50)"><b>50</b>#F0F7EA</div>
+    <div style="background:var(--gruen-100)"><b>100</b>#DCEFD0</div>
+    <div style="background:var(--gruen-300)"><b>300</b>#9CD27D</div>
+    <div style="background:var(--gruen-500)"><b>500</b>#5EB130</div>
+    <div style="background:var(--gruen-600);color:#fff"><b>600</b>#33791A</div>
+    <div style="background:var(--gruen-800);color:#fff"><b>800</b>#325725</div>
+    <div style="background:var(--gruen-900);color:#fff"><b>900</b>#1B3714</div>
+  </div>
+  <div class="tablewrap"><table class="t">
+    <tr><th>Stufe</th><th>HEX</th><th>RGB</th><th>CMYK*</th><th>Wofür</th></tr>
+    <tr><td>Grün 50</td><td class="mono">#F0F7EA</td><td>240 247 234</td><td>6 0 10 0</td><td>Ruhige Flächen, Tabellenzeilen</td></tr>
+    <tr><td>Grün 100</td><td class="mono">#DCEFD0</td><td>220 239 208</td><td>15 0 22 0</td><td>Hervorhebungen, Tags</td></tr>
+    <tr><td>Grün 300</td><td class="mono">#9CD27D</td><td>156 210 125</td><td>42 0 62 0</td><td>Illustration, Diagramme, Akzent auf Dunkelgrün</td></tr>
+    <tr><td>Grün 500</td><td class="mono">#5EB130</td><td>94 177 48</td><td>67 0 100 0</td><td>Markengrün</td></tr>
+    <tr><td>Grün 600</td><td class="mono">#33791A</td><td>51 121 26</td><td>80 15 100 25</td><td>Textgrün</td></tr>
+    <tr><td>Grün 800 <span class="chg keep">bisher „Dunkler Fond“</span></td><td class="mono">#325725</td><td>50 87 37</td><td>80 41 100 40</td><td>Dunkle Flächen, Footer, Schilder (Weiß darauf 8,31:1)</td></tr>
+    <tr><td>Grün 900</td><td class="mono">#1B3714</td><td>27 55 20</td><td>85 45 100 60</td><td>Tiefster Grund; Markengrün darauf gut sichtbar (4,87:1)</td></tr>
+  </table></div>
+
+  <h3>Neutraltöne <span class="chg new">Neu</span> <span class="chg mod">Geändert</span></h3>
+  <div class="diff mod"><strong class="t">Was ist anders?</strong>
+    <ul><li>Neu: eine feste Textfarbe (<b>Tinte</b>) statt „irgendein Schwarz“, plus Sekundärtext und Seitenhintergrund. Leicht warm, damit es zum Creme-Fond und zur Werkstatt passt.</li>
+    <li>Der Creme-Fond war <code>#F5E6C9</code> mit 50 % Deckkraft. Jetzt als fester Wert <code>#FAF2E4</code>, der genau so aussieht. Der volle Ton bleibt als „Creme kräftig“ für Druck.</li></ul></div>
+  <div class="grid g4">
+    <div class="swatch"><div class="chip" style="background:var(--ink);color:#fff"><span>Tinte</span><span class="aa">auf Weiß 17,0:1</span></div><div class="info"><div class="name">Tinte</div><table><tr><td>HEX</td><td>#1E1C19</td></tr><tr><td>RGB</td><td>30 28 25</td></tr><tr><td>CMYK</td><td>30 30 40 90*</td></tr></table><div class="use">Aller Fließtext. Schrift auf hellen Akzentfarben.</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--stone);color:#fff"><span>Stein</span><span class="aa">auf Weiß 7,0:1</span></div><div class="info"><div class="name">Stein</div><table><tr><td>HEX</td><td>#5F5850</td></tr><tr><td>RGB</td><td>95 88 80</td></tr><tr><td>CMYK</td><td>50 50 55 40*</td></tr></table><div class="use">Bildunterschriften, Metadaten, Sekundärtext.</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--paper);color:var(--ink)"><span>Papier</span><span class="aa">Tinte darauf 16,0:1</span></div><div class="info"><div class="name">Papier</div><table><tr><td>HEX</td><td>#FBF8F2</td></tr><tr><td>RGB</td><td>251 248 242</td></tr><tr><td>CMYK</td><td>0 1 4 0*</td></tr></table><div class="use">Seitenhintergrund im Web, Folien.</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--creme);color:var(--ink)"><span>Creme <span class="chg mod" style="margin-left:4px">Geändert</span></span><span class="aa">Textgrün darauf 4,85:1</span></div><div class="info"><div class="name">Creme (Fond)</div><table><tr><td>HEX</td><td>#FAF2E4</td></tr><tr><td>RGB</td><td>250 242 228</td></tr><tr><td>CMYK</td><td>2 5 12 0*</td></tr></table><div class="use">Infokästen, Abschnitte.<span class="chg-txt"> Ersetzt <code>#F5E6C9</code> @ 50 %.</span></div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--creme-stark);color:var(--ink)"><span>Creme kräftig</span><span class="aa">Tinte 13,8:1 · nur Grün 800 als Grün</span></div><div class="info"><div class="name">Creme kräftig</div><table><tr><td>HEX</td><td>#F5E6C9</td></tr><tr><td>RGB</td><td>245 230 201</td></tr><tr><td>CMYK</td><td>5 10 25 0</td></tr></table><div class="use">Druck, Kraftpapier-Optik. Grüne Schrift darauf nur in Grün 800.</div></div></div>
+  </div>
+
+  <h3>Akzentfarben <span class="chg fix">Korrigiert</span> <span class="chg new">Neu</span></h3>
+  <p>Akzentfarben ordnen ein Medium einem Thema zu: Buttons, Balken, Hinterlegungen. <b>Pro Medium nur ein Akzent.</b> Farbe ist nie das einzige Signal: immer auch ein Wort oder Icon (z. B. „MINT“, „von Sophia“), weil Grün und Gelb bei Rot-Grün-Sehschwäche fast gleich aussehen.</p>
+  <h4>MINT-Bildung</h4>
+  <div class="grid g4">
+    <div class="swatch"><div class="chip" style="background:var(--violett);color:#fff"><span>MINT-Violett <span class="chg fix" style="margin-left:4px">RGB korrigiert</span></span><span class="aa">Weiß darauf 7,64:1</span></div><div class="info"><table><tr><td>HEX</td><td>#6D3E91</td></tr><tr><td>RGB</td><td>109 62 145</td></tr><tr><td>CMYK</td><td>70 85 0 0</td></tr></table><div class="use">Balken, Buttons. Schrift darauf weiß.</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--sky);color:var(--ink)"><span>MINT-Blau <span class="chg fix" style="margin-left:4px">RGB korrigiert</span></span><span class="aa">auf Weiß 2,97:1 → keine Schrift</span></div><div class="info"><table><tr><td>HEX</td><td>#009FE3</td></tr><tr><td>RGB</td><td>0 159 227</td></tr><tr><td>CMYK</td><td>100 0 0 0</td></tr></table><div class="use">Nur Grafik, Icons, Illustration.</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--sky-text);color:#fff"><span>MINT-Textblau <span class="chg new" style="margin-left:4px">Neu</span></span><span class="aa">auf Weiß 5,41:1</span></div><div class="info"><table><tr><td>HEX</td><td>#0070A8</td></tr><tr><td>RGB</td><td>0 112 168</td></tr><tr><td>CMYK</td><td>100 35 0 20*</td></tr></table><div class="use">Blaue Überschriften und Links in MINT-Medien.</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--mint-bg);color:var(--ink)"><span>MINT-Fond <span class="chg mod" style="margin-left:4px">Geändert</span></span><span class="aa">Violett darauf 6,85:1</span></div><div class="info"><table><tr><td>HEX</td><td>#E6F5FC</td></tr><tr><td>RGB</td><td>230 245 252</td></tr><tr><td>CMYK</td><td>10 0 0 0*</td></tr></table><div class="use">Infokästen.<span class="chg-txt"> Ersetzt <code>#009FE3</code> @ 10 %.</span></div></div></div>
+  </div>
+  <h4>Von Mitgliedern (User Generated Content)</h4>
+  <div class="grid g4">
+    <div class="swatch"><div class="chip" style="background:var(--gelb);color:var(--ink)"><span>Mitglieder-Gelb</span><span class="aa">Tinte darauf 10,1:1 · Weiß ✗</span></div><div class="info"><table><tr><td>HEX</td><td>#FCBD30</td></tr><tr><td>RGB</td><td>252 189 48</td></tr><tr><td>CMYK</td><td>0 29 86 0</td></tr></table><div class="use">Kennzeichnet Inhalte von Mitgliedern, nicht vom Verein. Immer mit Namen („von …“). Fond: Creme.</div></div></div>
+  </div>
+  <h4>Ergänzungen <span class="chg new">Neu</span></h4>
+  <div class="grid g4">
+    <div class="swatch"><div class="chip" style="background:var(--orange);color:var(--ink)"><span>Maker-Orange</span><span class="aa">Tinte darauf 5,79:1 · Weiß ✗</span></div><div class="info"><table><tr><td>HEX</td><td>#F2711C</td></tr><tr><td>RGB</td><td>242 113 28</td></tr><tr><td>CMYK</td><td>0 65 95 0*</td></tr></table><div class="use">Events und Aktionen: „Heute offen“, „Neu!“, Sticker. Sparsam.</div></div></div>
+    <div class="swatch"><div class="chip" style="background:var(--rot);color:#fff"><span>Sicherheitsrot</span><span class="aa">Weiß darauf 5,62:1</span></div><div class="info"><table><tr><td>HEX</td><td>#C62828</td></tr><tr><td>RGB</td><td>198 40 40</td></tr><tr><td>CMYK</td><td>0 95 90 10*</td></tr></table><div class="use"><b>Nur</b> für Sicherheit, Verbote, Warnungen. Nie dekorativ.</div></div></div>
+  </div>
+  <p class="small">* CMYK-Werte sind Startwerte für gestrichenes Papier (FOGRA39/51) und müssen mit der Druckerei per Proof abgestimmt werden. Für Sicherheitszeichen gelten die Farben der ISO 7010, nicht diese Palette.</p>
+</section>
+
+<!-- ================= KOMBINATIONEN ================= -->
+<section id="kombinationen">
+  <h2><span class="num">6</span>Welche Schrift auf welcher Farbe? <span class="chg new">Neu</span></h2>
+  <div class="diff new"><strong class="t">Warum neu?</strong>Der alte Guide nannte nur zwei Regeln (weiß auf Violett, schwarz auf Gelb). Seine eigenen Download-Buttons nutzten Weiß auf Markengrün mit 2,69:1. Mindestens 4,5:1 ist für normalen Text nötig (WCAG AA). Diese Tabelle nimmt das Nachdenken ab.</div>
+  <p><b>✓ Text</b> = jeder Text (≥ 4,5:1). <b>Groß</b> = nur Überschriften ab 24 px / 18 pt bzw. 19 px / 14 pt fett (≥ 3:1). <b>–</b> = nicht verwenden.</p>
+  <div class="tablewrap">{{matrix}}</div>
+
+  <h3>Die wichtigsten Regeln</h3>
+  <div class="grid g2">
+    <div class="do"><b>So</b>Fließtext immer in Tinte <code>#1E1C19</code>.</div>
+    <div class="dont"><b>Nicht so</b>Fließtext in Grün, Violett, Blau oder Gelb.</div>
+    <div class="do"><b>So</b><span style="display:inline-block;background:var(--gruen-600);color:#fff;padding:6px 14px;border-radius:4px;font-weight:500">→ Download</span> Weiß auf Textgrün, oder <span style="display:inline-block;background:var(--gruen-500);color:var(--ink);padding:6px 14px;border-radius:4px;font-weight:500">→ Download</span> Tinte auf Markengrün.</div>
+    <div class="dont"><b>Nicht so</b><span style="display:inline-block;background:var(--gruen-500);color:#fff;padding:6px 14px;border-radius:4px;font-weight:500">→ Download</span> Weiß auf Markengrün (2,69:1).<span class="chg-txt"> So waren die Buttons im alten Guide.</span></div>
+    <div class="do"><b>So</b>Hintergründe als feste HEX-Werte aus dieser Palette.</div>
+    <div class="dont"><b>Nicht so</b>Deckkraft/Transparenz einstellen, um Farben aufzuhellen.</div>
+    <div class="do"><b>So</b>Ein Akzent pro Medium, plus Wort oder Icon.</div>
+    <div class="dont"><b>Nicht so</b>MINT-Violett, Mitglieder-Gelb und Orange auf einem Flyer.</div>
+  </div>
+</section>
+
+<!-- ================= MATERIAL ================= -->
+<section id="material">
+  <h2><span class="num">7</span>Farbe &amp; Logo auf echtem Material <span class="chg new">Neu</span></h2>
+  <p class="lead">Wir drucken nicht nur Flyer, wir plotten, lasern, sticken und drucken in 3D. Hier steht, wie die Marke auf Material aussieht.</p>
+  <div class="diff new"><strong class="t">Status</strong>Die Werte unten sind Näherungen und <b>Vorschläge</b>. Bitte einmal mit Farbfächer bzw. Musterbuch abgleichen und die gefundenen Produktnummern hier eintragen. Das ist ein gutes Mitmach-Projekt.</div>
+  <div class="tablewrap"><table class="t">
+    <tr><th>Material</th><th>Markengrün entspricht etwa</th><th>Logo-Version</th><th>Hinweise</th></tr>
+    <tr><td>Wandfarbe, Lack, Schilder</td><td>RAL 6018 Gelbgrün (Näherung)</td><td>Farbe oder Negativ</td><td>Mit RAL-Fächer bei Tageslicht prüfen</td></tr>
+    <tr><td>Sonderfarbe Druck</td><td>Pantone 361 C oder 7737 C (Näherung)</td><td>Farbe</td><td>Mit Druckerei abstimmen; Wert hier eintragen</td></tr>
+    <tr><td>Plotterfolie</td><td><i>zu ermitteln</i> (Musterbuch)</td><td>einfarbig: Grün oder Weiß</td><td>Claim erst ab ca. 120 mm Logobreite schneiden; dünne Linien lösen sich</td></tr>
+    <tr><td>Filament (3D-Druck)</td><td><i>zu ermitteln</i>, „Gelbgrün“ gegen Farbfeld prüfen</td><td>Cube als Relief</td><td>Cube ohne Schrift; die Lücken im Cube sind das Erkennungsmerkmal, nicht zuschmieren</td></tr>
+    <tr><td>Lasergravur (Holz, Acryl, Leder)</td><td>–</td><td>Schwarz</td><td>Die Schwarz-Version als Vektor gravieren. Cube min. 10 mm, Claim erst ab 55 mm Breite</td></tr>
+    <tr><td>Stick, Textildruck</td><td>Garn nach Fächer</td><td>Farbe, Weiß oder Negativ</td><td>Ohne Claim sticken, außer sehr groß (Rücken)</td></tr>
+    <tr><td>Stempel, Kopierer</td><td>–</td><td>Schwarz</td><td>Vertikales Logo funktioniert am besten</td></tr>
+  </table></div>
+</section>
+
+<!-- ================= TYPO ================= -->
+<section id="typo">
+  <h2><span class="num">8</span>Schrift</h2>
+  <div class="diff mod"><strong class="t">Was ist anders?</strong>
+    <ul><li><b>Neu:</b> Größenskala und Mindestgrößen. Bisher gab es nur die Schnitte.</li>
+    <li><b>Geändert:</b> Fließtext in <b>IBM Plex Sans Regular</b> statt Light. Light bleibt erlaubt für große Einleitungstexte, ist aber bei kleinen Größen, auf Creme und im Kopierer zu dünn.</li>
+    <li><b>Unverändert:</b> IBM Plex Sans für alles, Montserrat nur im Logo.</li></ul></div>
+  <p><b>IBM Plex Sans</b>: technisch, gut lesbar, erinnert an Normschrift aus dem Handwerk, kostenlos (<a href="https://fonts.google.com/specimen/IBM+Plex+Sans">Google Fonts</a>), in Canva verfügbar. <b>IBM Plex Mono</b> optional für Maße, Code, Labels <span class="chg new">Neu</span>.</p>
+  <div>
+    <div class="typo-row"><div class="spec"><b>Titel</b><br>Bold · Print 36–60 pt · Web 40–56 px · Zeilenabstand 1,05</div><div style="font-size:clamp(32px,5vw,48px);font-weight:700;line-height:1.05">Repair Café im MakerSpace</div></div>
+    <div class="typo-row"><div class="spec"><b>Überschrift</b><br>Bold · Print 18–24 pt · Web 28–32 px</div><div style="font-size:28px;font-weight:700;line-height:1.2">Was du mitbringen solltest</div></div>
+    <div class="typo-row"><div class="spec"><b>Zwischenzeile</b><br>Medium · Print 12–14 pt · Web 20 px</div><div style="font-size:20px;font-weight:500">Jeden Montag ab 18 Uhr</div></div>
+    <div class="typo-row"><div class="spec"><b>Einleitung</b><br>Light · Print 12–14 pt · Web 19–21 px</div><div style="font-size:20px;font-weight:300;line-height:1.5">In unserem Makerspace findest du Werkzeuge, die für die eigene Wohnung zu groß oder zu teuer sind.</div></div>
+    <div class="typo-row"><div class="spec"><b>Fließtext</b> <span class="chg mod">Regular</span><br>Print 9,5–11 pt · Web 16–18 px · Zeilenabstand 1,5</div><div style="font-size:16px;line-height:1.6">Komm vorbei, schau dir die Werkstatt an und lass dir alles zeigen. Du brauchst keine Vorkenntnisse. Sicherheitseinweisungen für Laser, CNC und Metall machen wir gemeinsam.</div></div>
+    <div class="typo-row"><div class="spec"><b>Klein</b><br>Regular · Print min. 7,5 pt · Web min. 14 px</div><div style="font-size:14px;color:var(--stone)">Foto: Mitglied beim Löten · Kennedyallee 18 · 53175 Bonn</div></div>
+    <div class="typo-row"><div class="spec"><b>Label</b> <span class="chg new">Neu</span><br>IBM Plex Mono Medium · Versalien · Sperrung +6 %</div><div><span class="label">Holzwerkstatt · 2. OG</span></div></div>
+  </div>
+  <h3>Mindestgrößen <span class="chg new">Neu</span></h3>
+  <ul>
+    <li>Druck: nie unter 7,5 pt. Auf Creme oder Recyclingpapier lieber 9 pt.</li>
+    <li>Web und Social: nie unter 14 px. Story- und Reel-Text so groß, dass er auf dem Handy ohne Zoom lesbar ist.</li>
+    <li>Schilder: Faustregel 1 cm Buchstabenhöhe (Großbuchstabe) pro 3 m Leseabstand. Lieber größer.</li>
+    <li>Linksbündig setzen, kein Blocksatz, keine Silbentrennung in Überschriften.</li>
+  </ul>
+</section>
+
+<!-- ================= MAKER-ELEMENTE ================= -->
+<section id="elemente">
+  <h2><span class="num">9</span>Maker-Elemente <span class="chg new">Neu</span></h2>
+  <p class="lead">Wir sind eine Werkstatt, kein Konzern. Diese Elemente bringen Werkstatt-Charakter in die Gestaltung. Logo, Grün und Schrift bleiben dabei fest; nur die Elemente drumherum dürfen spielen.</p>
+  <div class="grid g2">
+    <div class="card">
+      <h4>Warnband</h4>
+      <div class="tape" style="margin:8px 0"></div><div class="tape yellow" style="margin:8px 0 12px"></div>
+      Diagonale Streifen als Trenner, Rand oder Event-Balken. Der 45°-Winkel greift die Schnitte im Cube auf. Grün 500 + 900 für den Verein, Gelb + Tinte nur für „Achtung/Baustelle/Neu“.
+    </div>
+    <div class="card">
+      <h4>Labelstreifen</h4>
+      <p style="margin:8px 0 12px"><span class="label">Workshop</span> <span class="label g">Anfänger:innen</span></p>
+      Wie aus dem Beschriftungsgerät: IBM Plex Mono in Versalien auf Tinte oder Markengrün. Für Kategorien, Orte, Termine. Gerne leicht schief auf Fotos.
+    </div>
+    <div class="card">
+      <h4>Sticker</h4>
+      <div style="margin:10px 0 16px"><span class="sticker">Heute<br>offen!</span></div>
+      Runde Störer in Maker-Orange mit hartem Tinten-Schatten. Für Aktionen und Events, maximal einer pro Medium.
+    </div>
+    <div class="card">
+      <h4>Mitglieder-Fahne</h4>
+      <div style="margin:10px 0 14px"><span class="flag">QUICK TIPP</span><span class="by">von Sophia</span></div>
+      Gelber Balken plus Namenszeile für Inhalte von Mitgliedern. <span class="chg-txt">So bisher schon im Original (S. 22), hier als festes Element benannt.</span>
+    </div>
+    <div class="card">
+      <h4>Handnotizen</h4>
+      <div style="margin:10px 0 14px"><span class="scribble">← das hier ist ein Schrittmotor!</span></div>
+      Echte Handschrift (eingescannt oder per Tablet) für Pfeile und Anmerkungen auf Fotos. In Tinte oder Weiß. Keine Handschrift-Fonts für ganze Texte.
+    </div>
+    <div class="card">
+      <h4>Material-Look</h4>
+      <div style="display:flex;gap:8px;margin:10px 0 14px"><div style="width:60px;height:60px;background:var(--creme-stark);border-radius:4px"></div><div style="width:60px;height:60px;background:var(--creme);border-radius:4px"></div><div style="width:60px;height:60px;background:var(--gruen-500);border-radius:4px"></div><div style="width:60px;height:60px;background:var(--ink);border-radius:4px"></div></div>
+      Kraftpapier, Sperrholz, Riso-Druck in zwei Farben (Grün + Tinte). Günstig, nachhaltig und sieht nach Werkstatt aus.
+    </div>
+  </div>
+</section>
+
+<!-- ================= SCHILDER ================= -->
+<section id="schilder">
+  <h2><span class="num">10</span>Schilder &amp; Leitsystem <span class="chg new">Neu</span></h2>
+  <p class="lead">Raumgestaltung und Leitsysteme standen im Geltungsbereich, waren aber nicht geregelt. Vorschlag: so einfach wie möglich.</p>
+  <div class="grid g3">
+    <div class="card" style="background:var(--gruen-800);color:#fff;border:0">
+      <div style="font:500 13px/1 'IBM Plex Mono';letter-spacing:.08em;color:var(--gruen-300)">BEREICH</div>
+      <div style="font-size:30px;font-weight:700;margin:8px 0 2px">Holzwerkstatt</div>
+      <div>Kreissäge · CNC-Fräse · Hobelbank</div>
+    </div>
+    <div class="card" style="background:#fff">
+      <div style="font:500 13px/1 'IBM Plex Mono';letter-spacing:.08em;color:var(--gruen-600)">GERÄT</div>
+      <div style="font-size:26px;font-weight:700;margin:8px 0 2px">Lasercutter</div>
+      <div class="small" style="color:var(--ink)">Nur nach Einweisung · Ansprechperson: Name</div>
+    </div>
+    <div class="card" style="background:#fff;border-left:8px solid var(--rot)">
+      <div style="font:500 13px/1 'IBM Plex Mono';letter-spacing:.08em;color:var(--rot)">SICHERHEIT</div>
+      <div style="font-size:22px;font-weight:700;margin:8px 0 2px">Schutzbrille tragen</div>
+      <div class="small" style="color:var(--ink)">Sicherheitszeichen nach ISO 7010, nicht selbst gestalten</div>
+    </div>
+  </div>
+  <ul style="margin-top:20px">
+    <li><b>Bereichsschilder:</b> Grün 800 mit weißer Schrift. Alle Bereiche gleich; unterschieden wird durch Text und Icon, nicht durch Farbe.</li>
+    <li><b>Geräteschilder:</b> Weiß mit Textgrün-Label. Immer: Name des Geräts, Einweisung ja/nein, Ansprechperson, QR-Code zum Wiki.</li>
+    <li><b>Sicherheit:</b> Offizielle Zeichen nach ISO 7010 (Gebot blau, Verbot rot, Warnung gelb). Erklärender Text darunter in unserer Schrift. „Statt Verboten erklären wir Gründe“ gilt auch hier.</li>
+    <li><b>Icons:</b> Ein einheitliches Linien-Icon-Set, z. B. <a href="https://lucide.dev">Lucide</a> oder <a href="https://tabler.io/icons">Tabler</a> (frei), Strichstärke passend zum Cube. Ein eigenes Set im Cube-Stil wäre ein schönes Mitglieder-Projekt.</li>
+  </ul>
+</section>
+
+<!-- ================= BILDER ================= -->
+<section id="bilder">
+  <h2><span class="num">11</span>Bildsprache <span class="chg keep">Unverändert</span></h2>
+  <div class="diff"><strong class="t">Hinweis</strong>Inhalt übernommen und zusammengefasst. Die Beispielfotos stehen im Original-Guide (S. 24–30). Tippfehler korrigiert.</div>
+  <p class="lead">Unsere Fotos zeigen echte Menschen beim Machen, inklusive Fehlversuchen. Dokumentarisch, warm, nahbar.</p>
+  <h3>Die 4 P's als Checkliste</h3>
+  <div class="tablewrap"><table class="t">
+    <tr><th>P</th><th>Fokus</th><th>Typische Motive</th></tr>
+    <tr><td>Person</td><td>Menschen, Emotionen, Vielfalt</td><td>Porträts, Hände bei der Arbeit</td></tr>
+    <tr><td>Prozess</td><td>Schritte des Machens, auch Fehler</td><td>Skizzen, Bauphasen, Improvisationen</td></tr>
+    <tr><td>Produkt</td><td>Ergebnisse, Prototypen</td><td>3D-Druck, fertiges Werk, Vorher/Nachher</td></tr>
+    <tr><td>Umfeld</td><td>Räume, Atmosphäre</td><td>Werkstatt-Totale, Workshops, Materialvielfalt</td></tr>
+  </table></div>
+  <p>Jede Bildstrecke zeigt alle 4 P's. Bei Einzelbildern bewusst entscheiden, welches P im Fokus steht. Das Hauptmotiv liegt im zentralen Quadrat, damit das Bild in Quer-, Hoch- und Quadratformat funktioniert.</p>
+  <div class="grid g2">
+    <div class="do"><b>So</b>Natürliche Farben, vorhandenes Licht, echte Mitglieder in echten Situationen, Chaos mit Projektbezug, Reste vom Projekt im Bild.</div>
+    <div class="dont"><b>Nicht so</b>Filter und Color Grading, harter Blitz, Stockfotos, KI-Bilder, leere Räume, fremde Markenlogos, gefährliche oder fahrlässige Situationen.</div>
+  </div>
+  <p class="small"><span class="chg-txt">Neu als Hinweis <span class="chg new">Neu</span>: </span>Vor dem Veröffentlichen Einverständnis der abgebildeten Personen einholen, bei Kindern und Jugendlichen in MINT-Kursen schriftlich von den Erziehungsberechtigten.</p>
+</section>
+
+<!-- ================= SPRACHE ================= -->
+<section id="sprache">
+  <h2><span class="num">12</span>Sprache <span class="chg mod">Geändert</span></h2>
+  <div class="diff mod"><strong class="t">Was ist anders?</strong>Inhalt übernommen, gekürzt und um Vorher/Nachher-Beispiele ergänzt <span class="chg new">Neu</span>. Beispiele erklären schneller als Regeln.</div>
+  <p class="lead">Wir schreiben, wie wir miteinander reden: klar, nahbar, auf Augenhöhe. Nicht bürokratisch, nicht werblich überhöht, nicht exklusiv.</p>
+  <ul>
+    <li><b>Wir duzen.</b> Ausnahme: Behörden, Verträge, offizielle Schreiben.</li>
+    <li><b>Kurz und aktiv.</b> Kurze Sätze, konkrete Aussagen, keine Floskeln.</li>
+    <li><b>Fachbegriffe ja, aber erklärt.</b> Fachlichkeit darf informieren, aber nicht ausschließen.</li>
+    <li><b>Gründe statt Verbote.</b> Lernen statt Schuld, Unterstützung statt Druck.</li>
+    <li><b>Gendern</b> mit Doppelpunkt (Einsteiger:innen), wie bisher im Guide verwendet <span class="chg new">Neu als Regel</span>.</li>
+  </ul>
+  <h3>Vorher / Nachher <span class="chg new">Neu</span></h3>
+  <div class="grid g2">
+    <div class="dont"><b>Statt</b>„Die Benutzung des Lasercutters ist ohne vorherige Einweisung strengstens untersagt.“</div>
+    <div class="do"><b>Lieber</b>„Der Laser kann Feuer fangen. Deshalb: erst Einweisung, dann lasern. Termine findest du im Wiki.“</div>
+    <div class="dont"><b>Statt</b>„Wer hat schon wieder die Bandsäge nicht sauber gemacht?!“</div>
+    <div class="do"><b>Lieber</b>„Bitte nach dem Sägen kurz absaugen, dann kann die nächste Person direkt loslegen. Danke!“</div>
+    <div class="dont"><b>Statt</b>„Unser innovatives Maker-Ökosystem bietet State-of-the-Art-Fertigungstechnologien.“</div>
+    <div class="do"><b>Lieber</b>„Bei uns gibt's 3D-Drucker, Laser, Holz- und Metallwerkstatt. Komm vorbei!“</div>
+  </div>
+  <h3>Je nach Zielgruppe <span class="chg keep">Unverändert</span></h3>
+  <div class="tablewrap"><table class="t">
+    <tr><th>Wo</th><th>Wie</th></tr>
+    <tr><td>Community &amp; Social Media</td><td>niedrigschwellig, persönlich, einladend</td></tr>
+    <tr><td>Workshops &amp; Bildung</td><td>erklärend, unterstützend, verständlich</td></tr>
+    <tr><td>Förderung &amp; Behörden</td><td>strukturiert, sachlich, formal korrekt (mit „e.V.“, gesiezt)</td></tr>
+    <tr><td>Soziale und institutionelle Partner</td><td>wirkungsorientiert, verantwortungsvoll</td></tr>
+    <tr><td>Technische Doku</td><td>präzise, eindeutig</td></tr>
+  </table></div>
+</section>
+
+<!-- ================= VORLAGEN ================= -->
+<section id="vorlagen">
+  <h2><span class="num">13</span>Vorlagen &amp; Downloads <span class="chg new">Neu</span></h2>
+  <p class="lead">Die meisten Leute gestalten nicht nach Regeln, sondern ändern eine Vorlage. Gute Vorlagen sind darum der wichtigste Teil dieses Guides.</p>
+  <div class="diff new"><strong class="t">Status</strong>Die Logo-Dateien liegen im Ordner <code>logos/</code> neben diesem Dokument (als PNG aus dem alten PDF extrahiert, für den Druck bitte durch die Vektor-Originale ersetzen). Die Vorlagen unten sind <b>geplant</b> und noch zu erstellen.</div>
+  <div class="tablewrap"><table class="t">
+    <tr><th>Vorlage</th><th>Format</th><th>Werkzeug</th><th>Status</th></tr>
+    <tr><td>Logo-Paket (alle Varianten, Farbe/Negativ/Weiß/Schwarz)</td><td>SVG, PDF, PNG</td><td>–</td><td>PNG vorhanden, Vektor ergänzen</td></tr>
+    <tr><td>Flyer allgemein / MINT</td><td>A5, A6</td><td>Canva, Affinity, InDesign</td><td>geplant</td></tr>
+    <tr><td>Plakat Veranstaltung</td><td>A3, A2</td><td>Canva</td><td>geplant</td></tr>
+    <tr><td>Instagram Post, Story, Reel-Cover (Verein / Mitglieder)</td><td>1080×1350, 1080×1920</td><td>Canva</td><td>geplant</td></tr>
+    <tr><td>Workshop-Handout</td><td>A4</td><td>Word/LibreOffice, Google Docs</td><td>geplant</td></tr>
+    <tr><td>Präsentation</td><td>16:9</td><td>PowerPoint/Impress, Google Slides</td><td>geplant</td></tr>
+    <tr><td>Geräte- und Bereichsschild</td><td>A5, A4</td><td>Canva, Inkscape (auch für Laser)</td><td>geplant</td></tr>
+    <tr><td>Briefpapier, Beitrittserklärung</td><td>A4, DIN 5008</td><td>Word/LibreOffice</td><td>vorhanden (Original S. 34–35)</td></tr>
+    <tr><td>Visitenkarte</td><td>85×55 mm</td><td>Canva, InDesign</td><td>vorhanden (Original S. 34)</td></tr>
+    <tr><td>Farbpalette</td><td>ASE, Canva Brand Kit, CSS</td><td>–</td><td>geplant</td></tr>
+  </table></div>
+</section>
+
+<!-- ================= PFLEGE ================= -->
+<section id="pflege">
+  <h2><span class="num">14</span>Pflege &amp; Mitmachen <span class="chg new">Neu</span></h2>
+  <p class="lead">Der Guide ist ein lebendes Dokument. Damit das klappt, braucht er eine zuständige Stelle und einen Ort für Vorschläge.</p>
+  <ul>
+    <li><b>Zuständig:</b> Medienteam. Kontakt: <i>[Ansprechperson / Kanal eintragen]</i></li>
+    <li><b>Vorschläge:</b> per Nachricht an das Medienteam oder als Kommentar im geteilten Dokument. Jede Änderung bekommt einen Eintrag unten.</li>
+    <li><b>Version:</b> Jahr-Monat (z. B. 2026-11) auf dem Titel. Alte Versionen bleiben archiviert.</li>
+    <li><b>Downloads:</b> Ein fester Ort (Wiki, Cloud-Ordner), auf den der Guide und alle Vorlagen verlinken. Links im PDF müssen funktionieren.</li>
+  </ul>
+
+  <h3>Änderungsprotokoll</h3>
+  <div class="tablewrap"><table class="t">
+    <tr><th>Version</th><th>Was</th></tr>
+    <tr><td>2026-02-15</td><td>Erste veröffentlichte Fassung (Medienteam)</td></tr>
+    <tr><td>2026-11 (Entwurf)</td><td>Farbkorrekturen, neues Textgrün, feste Fond-Werte, Kombinationstabelle, Logo-Varianten und Don'ts, Material, Schriftgrößen, Maker-Elemente, Schilder, Vorlagenliste, Kürzungen. Siehe <a href="#aenderungen">Übersicht</a>.</td></tr>
+  </table></div>
+
+  <h3 class="chg-block">Korrekturliste <span class="chg fix">Korrigiert</span></h3>
+  <div class="tablewrap chg-block"><table class="t">
+    <tr><th>Seite (alt)</th><th>Vorher</th><th>Nachher</th></tr>
+    <tr><td>6</td><td>Markenauftrufe</td><td>Markenauftritte</td></tr>
+    <tr><td>12</td><td>außreichender</td><td>ausreichender</td></tr>
+    <tr><td>16</td><td>Der Claim an in Verbindung … s. S. 4</td><td>Neu formuliert, Verweis auf S. 9–10</td></tr>
+    <tr><td>16</td><td>„… ein einer Zeile …“</td><td>„… in einer Zeile …“</td></tr>
+    <tr><td>16, 22</td><td>Eine offene Werkstatt in Bonn.</td><td>Eine offene Werkstatt für Bonn.</td></tr>
+    <tr><td>20</td><td>RGB 40 137 45 zu #238811</td><td>ersetzt durch #33791A / 51 121 26</td></tr>
+    <tr><td>21</td><td>ähliches</td><td>Ähnliches</td></tr>
+    <tr><td>21</td><td>RGB 109 62 45 · RGB 0 159 125</td><td>RGB 109 62 145 · RGB 0 159 227</td></tr>
+    <tr><td>22</td><td>Raspberry Pies · CAD Arbietsplätze · Freies WLan</td><td>Raspberry Pis · CAD-Arbeitsplätze · Freies WLAN</td></tr>
+    <tr><td>22</td><td>inkl CNC Fräse · Leistungsstarke</td><td>inkl. CNC-Fräse · leistungsstarke</td></tr>
+    <tr><td>24</td><td>weite Versuche</td><td>weitere Versuche</td></tr>
+    <tr><td>26</td><td>Gestaltungsrichlinien</td><td>Gestaltungsrichtlinien</td></tr>
+    <tr><td>29</td><td>Natürliches Farben · Do‘s and Dont‘s</td><td>Natürliche Farben · Do's and Don'ts</td></tr>
+  </table></div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b style="color:#fff">MakerSpace Bonn e.V.</b> · Kennedyallee 18 · 53175 Bonn · makerspacebonn.de</p>
+    <p>Styleguide Version 2026-11 (Überarbeitungsentwurf auf Basis der Version vom 15.02.2026). Kontrastwerte nach WCAG 2.x berechnet. CMYK-Werte mit * sind ungeprüfte Startwerte.</p>
+  </div>
+</footer>
+<script>
+(function(){
+  var t=document.getElementById('chgToggle'),k='msb-styleguide-show-changes';
+  function apply(on){document.body.classList.toggle('clean',!on);t.checked=on}
+  try{var v=localStorage.getItem(k);if(v!==null)apply(v==='1')}catch(e){}
+  t.addEventListener('change',function(){apply(t.checked);try{localStorage.setItem(k,t.checked?'1':'0')}catch(e){}});
+})();
+</script>
+</body>
+</html>
