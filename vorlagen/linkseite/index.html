@@ -5,134 +5,306 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MakerSpace Bonn · Links</title>
 <meta name="description" content="Events, Tickets, Mitglied werden: alle Links vom MakerSpace Bonn e.V.">
+<meta name="theme-color" content="#FBF8F2">
 <link rel="icon" href="favicon.png">
-<!-- Linkseite für die Instagram-Bio. Keine externen Ressourcen, kein Tracking:
-     Schriften liegen in fonts/ (IBM Plex, OFL). Ziel: makerspacebonn.de/links -->
+<!-- Linkseite für die Instagram-Bio, Richtung „Werkbank“: weiche Karten auf Lochraster-Papier.
+     Keine externen Ressourcen, kein Tracking. Einziges JS: die nächsten Termine live aus
+     dem eigenen Ticketshop (pretix, tickets.makerspacebonn.de). Ohne JS oder bei Fehler
+     bleibt der Abschnitt einfach weg, der Link „Alle Termine“ funktioniert immer. -->
 <style>
 @font-face { font-family: 'Plex Sans'; font-weight: 400; font-display: swap; src: url(fonts/ibm-plex-sans-latin-400-normal.woff2) format('woff2'); }
 @font-face { font-family: 'Plex Sans'; font-weight: 700; font-display: swap; src: url(fonts/ibm-plex-sans-latin-700-normal.woff2) format('woff2'); }
 @font-face { font-family: 'Plex Mono'; font-weight: 500; font-display: swap; src: url(fonts/ibm-plex-mono-latin-500-normal.woff2) format('woff2'); }
 
 :root {
-  --gruen-50:#F0F7EA; --gruen-500:#5EB130; --gruen-600:#33791A; --gruen-800:#325725; --gruen-900:#1B3714;
-  --tinte:#1E1C19; --stein:#5F5850; --papier:#FBF8F2; --creme:#FAF2E4; --orange:#F2711C; --weiss:#FFFFFF;
-  --warnband: repeating-linear-gradient(-45deg, var(--gruen-500) 0 12px, var(--gruen-900) 12px 24px);
+  --gruen-50:#F0F7EA; --gruen-100:#DCEFD0; --gruen-300:#9CD27D; --gruen-500:#5EB130; --gruen-600:#33791A;
+  --gruen-800:#325725; --gruen-900:#1B3714;
+  --tinte:#1E1C19; --stein:#5F5850; --papier:#FBF8F2; --creme:#FAF2E4; --creme-stark:#F5E6C9;
+  --orange:#F2711C; --weiss:#FFFFFF;
+  --rand: rgba(30,28,25,.10);
+  --schatten: 0 1px 1px rgba(30,28,25,.05), 0 3px 10px -2px rgba(30,28,25,.09);
+  --schatten-hoch: 0 2px 2px rgba(30,28,25,.05), 0 10px 22px -6px rgba(30,28,25,.18);
+  --radius: 14px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { background: var(--papier); }
 body {
-  font-family: 'Plex Sans', system-ui, sans-serif; color: var(--tinte); background: var(--papier);
-  min-height: 100vh; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased;
+  font-family: 'Plex Sans', system-ui, sans-serif; color: var(--tinte);
+  background-color: var(--papier);
+  /* Lochraster wie auf der Lochwand / Lochrasterplatine */
+  background-image: radial-gradient(circle, rgba(95,88,80,.16) 1.2px, transparent 1.6px);
+  background-size: 22px 22px; background-position: 11px 11px;
+  min-height: 100vh; display: flex; flex-direction: column;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
 }
-.warnband { height: 12px; background: var(--warnband); flex: none; }
-main { width: 100%; max-width: 480px; margin: 0 auto; padding: 40px 16px 32px; flex: 1; }
+.mono { font-family: 'Plex Mono', ui-monospace, monospace; font-weight: 500; text-transform: uppercase; letter-spacing: .07em; }
 
-header { text-align: center; margin-bottom: 28px; }
-header img { width: min(300px, 80%); height: auto; display: block; margin: 0 auto 18px; }
-header p { color: var(--stein); font-size: 16px; line-height: 1.4; }
+main { width: 100%; max-width: 460px; margin: 0 auto; padding: 0 16px 24px; flex: 1; }
 
-.mono { font-family: 'Plex Mono', ui-monospace, monospace; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; }
+/* Kopf: Logo auf Papierkarte, darunter schmales Warnband als Kante */
+header {
+  background: var(--weiss); border-radius: 0 0 22px 22px; box-shadow: var(--schatten);
+  padding: 34px 24px 24px; text-align: center; margin-bottom: 22px; position: relative; overflow: hidden;
+}
+header::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 6px;
+  background: repeating-linear-gradient(-45deg, var(--gruen-500) 0 8px, var(--gruen-900) 8px 16px);
+}
+header img { width: min(260px, 78%); height: auto; display: block; margin: 0 auto 14px; }
+header p { color: var(--stein); font-size: 15px; line-height: 1.45; max-width: 30ch; margin: 0 auto; }
 
-ul { list-style: none; display: grid; gap: 12px; }
+ul { list-style: none; display: grid; gap: 10px; }
+
 a.link {
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: 16px 18px; min-height: 64px;
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 14px 12px 12px; min-height: 68px;
   background: var(--weiss); color: var(--tinte); text-decoration: none;
-  border: 2px solid var(--tinte); box-shadow: 4px 4px 0 var(--tinte);
-  transition: transform .08s, box-shadow .08s;
+  border: 1px solid var(--rand); border-radius: var(--radius); box-shadow: var(--schatten);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
 }
-a.link:hover { transform: translate(-1px,-1px); box-shadow: 5px 5px 0 var(--tinte); }
-a.link:active { transform: translate(3px,3px); box-shadow: 1px 1px 0 var(--tinte); }
-a.link:focus-visible { outline: 3px solid var(--gruen-500); outline-offset: 3px; }
-a.link b { display: block; font-size: 18px; line-height: 1.2; }
-a.link small { display: block; font-size: 14px; color: var(--stein); margin-top: 3px; line-height: 1.3; }
-a.link .pfeil { font-size: 22px; font-weight: 700; flex: none; }
+a.link:hover { transform: translateY(-2px); box-shadow: var(--schatten-hoch); border-color: rgba(30,28,25,.16); }
+a.link:active { transform: translateY(0); box-shadow: var(--schatten); }
+a.link:focus-visible { outline: 3px solid var(--gruen-600); outline-offset: 3px; }
 
-/* Hauptlink: Events, Orange = Events laut Styleguide */
-a.link.events { background: var(--orange); }
-a.link.events small { color: var(--tinte); }
+.icon {
+  flex: none; width: 44px; height: 44px; border-radius: 11px;
+  display: grid; place-items: center; background: var(--gruen-50); color: var(--gruen-600);
+}
+.icon svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.text { flex: 1; min-width: 0; }
+.text b { display: block; font-size: 17px; line-height: 1.25; }
+.text small { display: block; font-size: 14px; color: var(--stein); margin-top: 2px; line-height: 1.35; }
+.pfeil { flex: none; width: 20px; height: 20px; color: var(--stein); transition: transform .18s ease, color .18s ease; }
+.pfeil svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+a.link:hover .pfeil { transform: translateX(3px); color: var(--tinte); }
+
+/* Hauptlink: Events in Maker-Orange, größer, mit Labelstreifen */
+a.link.events {
+  background: var(--orange); border-color: transparent; min-height: 92px; padding: 16px 16px 16px 14px;
+  box-shadow: 0 1px 1px rgba(30,28,25,.06), 0 8px 20px -6px rgba(242,113,28,.55);
+}
+a.link.events:hover { box-shadow: 0 2px 2px rgba(30,28,25,.06), 0 14px 28px -8px rgba(242,113,28,.6); }
+a.link.events .icon { background: rgba(255,255,255,.28); color: var(--tinte); width: 52px; height: 52px; border-radius: 13px; }
+a.link.events .icon svg { width: 28px; height: 28px; }
+a.link.events .text b { font-size: 20px; }
+a.link.events small, a.link.events .pfeil { color: var(--tinte); }
+
+/* Nächste Termine (live aus pretix) */
+.termine[hidden] { display: none; }
+.termine { margin-bottom: 10px; }
+.termine .zwischen { margin-top: 0; }
+a.event { padding: 10px 14px 10px 10px; min-height: 76px; }
+.datum {
+  flex: none; width: 56px; height: 56px; border-radius: 11px; background: var(--orange); color: var(--tinte);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1;
+}
+.datum strong { font-size: 24px; font-weight: 700; letter-spacing: -.02em; }
+.datum span { font-size: 11px; margin-top: 3px; }
+.status { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--stein); margin-top: 3px; }
+.status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gruen-500); }
+.status.rot::before { background: #C62828; }
+.status.gelb::before { background: #FCBD30; }
+
 /* Mitglied werden: Vereinsgrün */
-a.link.verein { background: var(--gruen-800); color: var(--weiss); }
-a.link.verein small { color: var(--gruen-50); }
+a.link.verein { background: var(--gruen-800); color: var(--weiss); border-color: transparent; }
+a.link.verein .icon { background: rgba(255,255,255,.12); color: var(--gruen-300); }
+a.link.verein small { color: var(--gruen-100); }
+a.link.verein .pfeil { color: var(--gruen-100); }
+a.link.verein:hover .pfeil { color: var(--weiss); }
+a.link.verein:focus-visible, a.link.events:focus-visible { outline-color: var(--tinte); }
 
 .label {
-  display: inline-block; font-size: 12px; padding: 5px 8px 4px; margin-bottom: 8px;
-  background: var(--tinte); color: var(--weiss);
+  display: inline-block; font-size: 11px; line-height: 1; padding: 5px 7px 4px; margin-bottom: 6px;
+  background: var(--tinte); color: var(--weiss); border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(0,0,0,.2); transform: rotate(-1.5deg);
 }
 
+.zwischen { font-size: 12px; font-weight: 500; color: var(--stein); margin: 26px 4px 12px; display: flex; align-items: center; gap: 10px; }
+.zwischen::after { content: ""; flex: 1; height: 1px; background: var(--rand); }
+
+/* Offene Tür: Creme-Karte mit Sticker-Datum */
 .termin {
-  margin: 28px 0 0; padding: 18px; background: var(--creme); border-left: 6px solid var(--gruen-500);
+  margin-top: 22px; padding: 20px; background: var(--creme); border-radius: var(--radius);
+  border: 1px solid var(--creme-stark); position: relative;
 }
-.termin b { display: block; font-size: 20px; line-height: 1.2; }
-.termin p { font-size: 15px; color: var(--stein); margin-top: 4px; line-height: 1.4; }
+.termin b, .termin .kicker { padding-right: 66px; }
+.nw { white-space: nowrap; }
+.sticker {
+  position: absolute; top: -12px; right: 14px; width: 66px; height: 66px; border-radius: 50%; background: var(--gruen-500); color: var(--tinte);
+  display: grid; place-items: center; text-align: center; transform: rotate(-8deg);
+  font-family: 'Plex Mono', ui-monospace, monospace; font-weight: 500; font-size: 12px; line-height: 1.15; letter-spacing: .04em;
+  box-shadow: 0 2px 6px -1px rgba(27,55,20,.35);
+}
+.sticker strong { display: block; font-family: 'Plex Sans', system-ui, sans-serif; font-weight: 700; font-size: 18px; letter-spacing: 0; }
+.termin .kicker { font-size: 12px; color: var(--gruen-600); display: block; margin-bottom: 4px; }
+.termin b { display: block; font-size: 19px; line-height: 1.25; }
+.termin p { font-size: 15px; color: var(--stein); margin-top: 6px; line-height: 1.45; }
 
 footer {
-  width: 100%; max-width: 480px; margin: 0 auto; padding: 0 16px 28px;
-  display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; font-size: 12px;
+  width: 100%; max-width: 460px; margin: 0 auto; padding: 8px 16px 28px;
+  display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; font-size: 12px;
 }
-footer a { color: var(--stein); }
-footer a:hover { color: var(--gruen-600); }
+footer a {
+  color: var(--stein); text-decoration: none; padding: 14px 12px; min-height: 48px; display: inline-flex; align-items: center;
+  border-radius: 8px;
+}
+footer a:hover { color: var(--gruen-600); text-decoration: underline; text-underline-offset: 3px; }
+footer a:focus-visible { outline: 3px solid var(--gruen-600); outline-offset: 0; }
+
+@media (min-width: 600px) {
+  main { padding-top: 0; }
+  header { padding-top: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
+  a.link:hover, a.link:hover .pfeil { transform: none; }
+}
 </style>
 </head>
 <body>
-<div class="warnband" aria-hidden="true"></div>
 <main>
   <header>
     <img src="logo.png" alt="MakerSpace Bonn e.V." width="1059" height="160">
     <p>Offene Werkstatt in Bonn. Metall, Elektronik, CNC, Textil und mehr.</p>
   </header>
 
+  <section class="termine" id="termine" aria-labelledby="termine-titel" hidden>
+    <h2 class="zwischen mono" id="termine-titel">Nächste Termine</h2>
+    <ul id="termine-liste"></ul>
+  </section>
+
   <ul>
     <li>
       <a class="link events" href="https://tickets.makerspacebonn.de/msb/">
-        <span><span class="label mono">Aktuell</span><b>Workshops &amp; Events</b><small>Tickets und alle Termine</small></span>
-        <span class="pfeil" aria-hidden="true">→</span>
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-2a2 2 0 0 0 0-4z"/><path d="M15 6v2M15 11v2M15 16v2"/></svg></span>
+        <span class="text"><b>Alle Workshops &amp; Events</b><small>Tickets und Kalender</small></span>
+        <span class="pfeil" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M4 10h12M11 5l5 5-5 5"/></svg></span>
       </a>
     </li>
     <li>
       <a class="link" href="https://makerspacebonn.de/index.php/der-verein/uns-kennenlernen">
-        <span><b>Vorbeikommen</b><small>Offene Tür und Kalender</small></span>
-        <span class="pfeil" aria-hidden="true">→</span>
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 21V5a2 2 0 0 1 2-2h8l4 4v14"/><path d="M2 21h20M14 3v4h4"/><circle cx="14.5" cy="13" r=".6" fill="currentColor"/></svg></span>
+        <span class="text"><b>Vorbeikommen</b><small>Offene Tür und Kalender</small></span>
+        <span class="pfeil" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M4 10h12M11 5l5 5-5 5"/></svg></span>
       </a>
     </li>
     <li>
       <a class="link verein" href="https://makerspacebonn.de/index.php/der-verein/mitglied-werden">
-        <span><b>Mitglied werden</b><small>Werkstatt nutzen, eigene Projekte bauen</small></span>
-        <span class="pfeil" aria-hidden="true">→</span>
-      </a>
-    </li>
-    <li>
-      <a class="link" href="https://makerspacebonn.de/index.php/werkeug-und-raeume">
-        <span><b>Werkzeug &amp; Räume</b><small>Was bei uns steht</small></span>
-        <span class="pfeil" aria-hidden="true">→</span>
-      </a>
-    </li>
-    <li>
-      <a class="link" href="https://makerspacebonn.de/index.php/der-verein/offener-handarbeitstreff">
-        <span><b>Handarbeitstreff</b><small>Nähen, Sticken, Stricken, Reparieren</small></span>
-        <span class="pfeil" aria-hidden="true">→</span>
-      </a>
-    </li>
-    <li>
-      <a class="link" href="https://makerspacebonn.de/index.php/uns-unterstuetzen">
-        <span><b>Uns unterstützen</b><small>Spenden, Sponsoring, Sachspenden</small></span>
-        <span class="pfeil" aria-hidden="true">→</span>
-      </a>
-    </li>
-    <li>
-      <a class="link" href="https://makerspacebonn.de/">
-        <span><b>Website</b><small>makerspacebonn.de</small></span>
-        <span class="pfeil" aria-hidden="true">→</span>
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 4 7.5v9L12 21l8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></svg></span>
+        <span class="text"><b>Mitglied werden</b><small>Werkstatt nutzen, eigene Projekte bauen</small></span>
+        <span class="pfeil" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M4 10h12M11 5l5 5-5 5"/></svg></span>
       </a>
     </li>
   </ul>
 
-  <div class="termin">
-    <span class="label mono">Offene Tür</span>
-    <b>Jeden Dienstag, 18–21 Uhr</b>
-    <p>Komm vorbei, schau dich um und lass dir die Werkstätten zeigen. Kostenlos und unverbindlich.</p>
-  </div>
+  <h2 class="zwischen mono">Mehr entdecken</h2>
+  <ul>
+    <li>
+      <a class="link" href="https://makerspacebonn.de/index.php/werkeug-und-raeume">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14.5 4.5a4.5 4.5 0 0 0-4.3 5.9L4 16.6a2 2 0 0 0 2.8 2.8l6.2-6.2a4.5 4.5 0 0 0 5.9-4.3l-2.7 2.6-2.6-.7-.7-2.6z"/></svg></span>
+        <span class="text"><b>Werkzeug &amp; Räume</b><small>Was bei uns in der Werkstatt steht</small></span>
+        <span class="pfeil" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M4 10h12M11 5l5 5-5 5"/></svg></span>
+      </a>
+    </li>
+    <li>
+      <a class="link" href="https://makerspacebonn.de/index.php/der-verein/offener-handarbeitstreff">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 19 19 5"/><ellipse cx="18.2" cy="5.8" rx="1.2" ry="2.2" transform="rotate(45 18.2 5.8)"/><path d="M8 16c-3 0-5 1-5 3s4 2 6 0 5-4 8-2"/></svg></span>
+        <span class="text"><b>Handarbeitstreff</b><small>Nähen, Sticken, Stricken, Reparieren</small></span>
+        <span class="pfeil" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M4 10h12M11 5l5 5-5 5"/></svg></span>
+      </a>
+    </li>
+    <li>
+      <a class="link" href="https://makerspacebonn.de/index.php/uns-unterstuetzen">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span>
+        <span class="text"><b>Uns unterstützen</b><small>Spenden, Sponsoring, Sachspenden</small></span>
+        <span class="pfeil" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M4 10h12M11 5l5 5-5 5"/></svg></span>
+      </a>
+    </li>
+    <li>
+      <a class="link" href="https://makerspacebonn.de/">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9S9.5 5.5 12 3z"/></svg></span>
+        <span class="text"><b>Website</b><small>makerspacebonn.de</small></span>
+        <span class="pfeil" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M4 10h12M11 5l5 5-5 5"/></svg></span>
+      </a>
+    </li>
+  </ul>
+
+  <section class="termin" aria-labelledby="termin-titel">
+    <div class="sticker" aria-hidden="true"><span>jeden<strong>Di</strong></span></div>
+    <div>
+      <span class="kicker mono">Offene Tür</span>
+      <b id="termin-titel">Jeden Dienstag, <span class="nw">18–21 Uhr</span></b>
+      <p>Komm vorbei, schau dich um und lass dir die Werkstätten zeigen. Kostenlos und unverbindlich.</p>
+    </div>
+  </section>
 </main>
+<template id="event-vorlage">
+  <li>
+    <a class="link event" href="">
+      <span class="datum" aria-hidden="true"><strong></strong><span class="mono"></span></span>
+      <span class="text"><b></b><small class="zeit"></small><span class="status"></span></span>
+      <span class="pfeil" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M4 10h12M11 5l5 5-5 5"/></svg></span>
+    </a>
+  </li>
+</template>
+<script>
+// Nächste Termine aus dem eigenen pretix-Shop. Daten werden geprüft und nur als Text eingesetzt.
+(async () => {
+  const QUELLE = 'https://tickets.makerspacebonn.de/msb/widget/product_list?style=list&lang=de';
+  const ERLAUBT = 'https://tickets.makerspacebonn.de/';
+  const MAX = 3;
+  const MONATE = { januar:'Jan', februar:'Feb', 'märz':'Mär', april:'Apr', mai:'Mai', juni:'Jun', juli:'Jul',
+                   august:'Aug', september:'Sep', oktober:'Okt', november:'Nov', dezember:'Dez' };
+  const istText = (x) => typeof x === 'string' && x.length > 0 && x.length < 300;
+
+  // „Sa, 28. November 2026 14:00 – 18:00“ → Tag, Monat, Zeile darunter. Andere Formate: nur Text.
+  function datum(range) {
+    const m = range.match(/^(\S+), (\d{1,2})\. (\S+) \d{4}(?: (\d{1,2}:\d{2}))?(?: – (\d{1,2}:\d{2}))?$/);
+    if (!m || !MONATE[m[3].toLowerCase()]) return null;
+    const zeit = m[4] ? (m[5] ? `${m[4]}–${m[5]} Uhr` : `ab ${m[4]} Uhr`) : '';
+    return { tag: m[2] + '.', monat: MONATE[m[3].toLowerCase()], zeile: [m[1], zeit].filter(Boolean).join(' · ') };
+  }
+
+  try {
+    const res = await fetch(QUELLE, { signal: AbortSignal.timeout(5000) });
+    if (!res.ok) return;
+    const daten = await res.json();
+    const events = (Array.isArray(daten?.events) ? daten.events : [])
+      .filter((e) => istText(e?.name) && istText(e?.date_range) && istText(e?.event_url) && e.event_url.startsWith(ERLAUBT))
+      .slice(0, MAX);
+    if (events.length === 0) return;
+
+    const vorlage = document.getElementById('event-vorlage');
+    const liste = document.getElementById('termine-liste');
+    for (const e of events) {
+      const li = vorlage.content.firstElementChild.cloneNode(true);
+      const a = li.querySelector('a');
+      a.href = e.event_url;
+      li.querySelector('b').textContent = e.name;
+      const d = datum(e.date_range);
+      if (d) {
+        li.querySelector('.datum strong').textContent = d.tag;
+        li.querySelector('.datum span').textContent = d.monat;
+        li.querySelector('.zeit').textContent = d.zeile;
+      } else {
+        li.querySelector('.datum').remove();
+        li.querySelector('.zeit').textContent = e.date_range;
+      }
+      const st = li.querySelector('.status');
+      const v = e.availability;
+      if (istText(v?.text)) {
+        st.textContent = v.text;
+        if (v.color === 'red') st.classList.add('rot');
+        else if (v.color === 'orange' || v.color === 'yellow') st.classList.add('gelb');
+      } else st.remove();
+      liste.append(li);
+    }
+    document.getElementById('termine').hidden = false;
+  } catch {
+    // Kein Netz, Timeout oder kaputte Daten: Abschnitt bleibt versteckt.
+  }
+})();
+</script>
 <footer class="mono">
   <a href="https://makerspacebonn.de/index.php/impressum">Impressum</a>
   <a href="https://makerspacebonn.de/index.php/datenschutz">Datenschutz</a>
