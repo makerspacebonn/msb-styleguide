@@ -113,6 +113,10 @@ table.matrix td.ok{} table.matrix td.big{} table.matrix td.no{color:var(--stone)
 /* Maker-Elemente */
 .label{display:inline-block;background:var(--ink);color:#fff;font:500 15px/1 "IBM Plex Mono",monospace;padding:8px 12px 7px;letter-spacing:.06em;text-transform:uppercase;border-radius:2px;box-shadow:0 1px 0 rgba(0,0,0,.2)}
 .label.g{background:var(--gruen-500);color:var(--ink)}
+.ki-tag{display:inline-flex;height:36px;font:500 16px/1 "IBM Plex Mono",monospace;letter-spacing:.06em;text-transform:uppercase}
+.ki-tag b{display:flex;align-items:center;padding:0 10px;background:var(--gruen-500);color:var(--ink);font-weight:500}
+.ki-tag span{display:flex;align-items:center;padding:0 12px 0 10px;background:var(--ink);color:#fff}
+.ki-tag.hell span{background:#fff;color:var(--ink)}
 .sticker{display:inline-flex;align-items:center;justify-content:center;width:120px;height:120px;border-radius:50%;background:var(--orange);color:var(--ink);font-weight:700;font-size:20px;line-height:1.1;text-align:center;transform:rotate(-8deg);box-shadow:3px 3px 0 var(--ink)}
 .flag{display:inline-block;background:var(--gelb);color:var(--ink);font-weight:700;padding:6px 12px;font-size:20px}
 .flag + .by{display:block;background:var(--creme);color:var(--ink);font-size:14px;padding:4px 12px;width:max-content}
@@ -560,10 +564,21 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
   <h3>Echte Fotos zuerst, KI wenn nötig <span class="chg mod">Geändert</span></h3>
   <p>Ein echtes Foto aus dem MakerSpace ist immer die erste Wahl. Es zeigt, wer wir sind und was bei uns wirklich passiert. KI-Bilder sind erlaubt, wenn es kein passendes Foto gibt, z. B. für ein Event, das zum ersten Mal stattfindet. Dann gilt:</p>
   <ul>
-    <li><b>Kennzeichnen.</b> Kurzer Hinweis im Bild oder in der Bildunterschrift („Bild: KI-generiert“), auf Instagram zusätzlich das Label „Mit KI erstellt“.</li>
+    <li><b>Kennzeichnen.</b> Mit dem KI-Kennzeichen im Bild (siehe unten), auf Instagram zusätzlich das Label „Mit KI erstellt“. Bei Flyern und Aushängen reicht „Bild: KI-generiert“ in der Bildunterschrift.</li>
     <li><b>Nichts vortäuschen.</b> Kein KI-Bild als Foto eines echten Events, Projekts oder Raums ausgeben. Keine echten Personen nachbilden.</li>
     <li><b>Zu uns passend.</b> Natürliches Licht und Werkstatt-Umfeld statt Hochglanz oder Fantasy-Look.</li>
     <li><b>Später ersetzen.</b> Sobald es echte Fotos vom Event gibt, die für die nächste Runde verwenden.</li>
+  </ul>
+  <h4>Das KI-Kennzeichen <span class="chg new">Neu</span></h4>
+  <p>Ein Labelstreifen mit grünem „KI“-Feld. <b>Bild generiert</b>, wenn das Bild komplett von einer KI stammt. <b>Bild bearbeitet</b>, wenn ein echtes Foto mit KI verändert wurde (z. B. Hintergrund ersetzt, Licht neu berechnet). Normale Helligkeits- und Farbkorrektur braucht kein Kennzeichen.</p>
+  <p style="display:flex;flex-wrap:wrap;gap:12px;margin:12px 0;padding:16px;background:var(--stone)">
+    <span class="ki-tag"><b>KI</b><span>Bild generiert</span></span>
+    <span class="ki-tag hell"><b>KI</b><span>Bild bearbeitet</span></span>
+  </p>
+  <ul>
+    <li><b>Größe:</b> 48 px hoch bei 1080 px Postbreite. Kleiner wird es auf dem Handy unlesbar.</li>
+    <li><b>Platz:</b> In einer freien Ecke, 72 px vom Rand, nicht über anderen Labels oder Text. Dunkle Variante auf hellen Bildstellen, helle auf dunklen.</li>
+    <li><b>Dateien:</b> <code>vorlagen/instagram/elemente/png/ki-*.png</code> (transparent, für Canva).</li>
   </ul>
   <p class="small"><span class="chg-txt">Neu als Hinweis <span class="chg new">Neu</span>: </span>Vor dem Veröffentlichen Einverständnis der abgebildeten Personen einholen, bei Kindern und Jugendlichen in MINT-Kursen schriftlich von den Erziehungsberechtigten.</p>
 </section>

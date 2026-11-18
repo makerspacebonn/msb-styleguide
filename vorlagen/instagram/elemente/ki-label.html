@@ -1,0 +1,20 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><title>KI-Kennzeichen</title>
+<!-- KI-Kennzeichen für Posts mit KI-Bildern (Styleguide Kap. 11 „Kennzeichnen“).
+     Aufbau: grünes „KI“-Feld + Labelstreifen. Hell für dunkle Bildstellen, dunkel für helle.
+     Größe im Post: 48 px hoch bei 1080 px Breite, Abstand zum Rand 72 px (wie --rand).
+     Export: render-elemente.sh → PNG mit transparentem Hintergrund in 2x. -->
+<link rel="stylesheet" href="../post.css">
+<style>
+html, body { width:auto; height:auto; background:transparent; overflow:visible; }
+body { padding:20px; display:flex; flex-direction:column; align-items:flex-start; gap:20px; }
+.ki { display:inline-flex; height:48px; font-family:'IBM Plex Mono',monospace; font-weight:500; text-transform:uppercase; letter-spacing:.06em; font-size:22px; line-height:1; }
+.ki b { display:flex; align-items:center; padding:0 12px; background:var(--gruen-500); color:var(--tinte); font-weight:500; }
+.ki span { display:flex; align-items:center; padding:0 14px 0 12px; }
+.ki.dunkel span { background:var(--tinte); color:var(--weiss); }
+.ki.hell span { background:var(--weiss); color:var(--tinte); }
+</style></head><body>
+  <div class="ki dunkel" id="generiert-dunkel"><b>KI</b><span>Bild generiert</span></div>
+  <div class="ki hell" id="generiert-hell"><b>KI</b><span>Bild generiert</span></div>
+  <div class="ki dunkel" id="bearbeitet-dunkel"><b>KI</b><span>Bild bearbeitet</span></div>
+  <div class="ki hell" id="bearbeitet-hell"><b>KI</b><span>Bild bearbeitet</span></div>
+</body></html>
