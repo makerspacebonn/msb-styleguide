@@ -1,0 +1,26 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><title>12 Rückblick (Kante)</title>
+<!-- Rückblick-Variante von 10-kante. Abweichung wie dort: 30°-Schräge in Grün 800 mit Grün-500-Kante. -->
+<link rel="stylesheet" href="post.css">
+<style>
+.bild { position:absolute; left:0; top:0; width:1080px; height:1060px; }
+.bild img { object-position:45% 30%; }
+.kante, .flaeche { position:absolute; left:0; right:0; bottom:0; }
+.kante { top:724px; background:var(--gruen-500); clip-path:polygon(0 254px, 640px 254px, 1080px 0, 1080px 100%, 0 100%); }
+.flaeche { top:746px; background:var(--gruen-800); clip-path:polygon(0 254px, 640px 254px, 1080px 0, 1080px 100%, 0 100%); }
+.kopf { position:absolute; left:var(--rand); top:var(--rand); }
+.links { position:absolute; left:var(--rand); top:1040px; width:580px; color:var(--weiss); }
+.links .titel { font-size:76px; }
+.links .mono { font-size:24px; line-height:1.5; color:var(--gruen-300); margin-top:26px; }
+.rechts { position:absolute; right:var(--rand); top:1010px; text-align:right; color:var(--weiss); }
+.logo { position:absolute; right:var(--rand); bottom:var(--rand); height:54px; }
+.rechts .datum { font-size:96px; font-weight:700; letter-spacing:-.035em; line-height:1; margin-top:0; }
+.rechts .zeit { font-size:32px; font-weight:500; margin-top:10px; }
+.rechts .klein { font-size:26px; line-height:1.4; margin-top:14px; color:var(--gruen-100); }
+</style></head><body><div class="post">
+  <div class="bild"><img class="foto" src="beispiel-papier.png" alt="Hände schneiden mit einem Cutter einen Papierkaktus für eine Pop-up-Karte aus"></div>
+  <div class="kante"></div><div class="flaeche"></div>
+  <div class="kopf"><span class="label">Rückblick · Paper Engineering</span></div>
+  <div class="links"><div class="titel">Aus Papier<br>wird Kaktus.</div><div class="mono">Danke an alle, die<br>mitgeschnitten haben!</div></div>
+  <div class="rechts"><div class="datum">15.11.</div><div class="zeit">Sonntag</div><div class="klein">Pop-up-Karten-Workshop</div></div>
+  <img class="logo" src="../../logos/logo-h-ohne-claim-negativ.png" alt="MakerSpace Bonn">
+</div></body></html>

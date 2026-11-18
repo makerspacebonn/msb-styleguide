@@ -1,0 +1,40 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><title>09 Spalte</title>
+<!-- Bewusste Abweichungen vom Styleguide:
+     - Senkrechte Infospalte in Grün 800 mit Lineal-Skala (mm-Striche) an der Kante zum Foto.
+     - Datum gestapelt und sehr groß in einer schmalen Spalte; Titel als Tinte-Kasten auf dem Foto. -->
+<link rel="stylesheet" href="post.css">
+<style>
+.bild { position:absolute; left:0; top:0; width:760px; height:1350px; }
+.bild img { object-position:60% 50%; }
+.spalte { position:absolute; left:760px; top:0; width:320px; height:1350px; background:var(--gruen-800); color:var(--weiss); }
+.lineal { position:absolute; left:0; top:0; width:34px; height:100%;
+  background:
+    repeating-linear-gradient(180deg, var(--weiss) 0 3px, transparent 3px 54px) 0 0 / 30px 100% no-repeat,
+    repeating-linear-gradient(180deg, var(--weiss) 0 2px, transparent 2px 10.8px) 0 0 / 14px 100% no-repeat; }
+.inhalt { position:absolute; left:58px; right:var(--rand); top:var(--rand); bottom:var(--rand); display:flex; flex-direction:column; }
+.inhalt .logo { width:150px; }
+.tag { margin-top:auto; font-size:26px; color:var(--gruen-300); }
+.datum { font-size:118px; font-weight:700; line-height:.92; letter-spacing:-.04em; margin-top:8px; }
+.zeit { font-size:36px; font-weight:500; margin-top:14px; }
+.fakten { margin-top:auto; font-size:28px; line-height:1.35; }
+.fakten b { display:block; font-size:34px; }
+.cta { margin-top:40px; font-size:24px; color:var(--gruen-300); }
+.kopf { position:absolute; left:var(--rand); top:var(--rand); }
+.kasten { position:absolute; left:var(--rand); bottom:var(--rand); background:var(--tinte); color:var(--weiss); padding:24px 30px 28px; }
+.kasten .titel { font-size:78px; }
+.kasten .mono { font-size:24px; color:var(--gruen-300); margin-bottom:14px; }
+</style></head><body><div class="post">
+  <div class="bild"><img class="foto" src="beispiel-foto.jpg" alt=""></div>
+  <div class="kopf"><span class="label weiss">Workshop</span></div>
+  <div class="kasten"><div class="mono">mit Bernd · Demystifizierung</div><div class="titel">Lebkuchenhaus<br>bauen</div></div>
+  <div class="spalte"><div class="lineal"></div>
+    <div class="inhalt">
+      <img class="logo" src="../../logos/logo-v-negativ.png" alt="MakerSpace Bonn">
+      <div class="tag mono">Samstag</div>
+      <div class="datum">28.<br>11.</div>
+      <div class="zeit">ab 14:00</div>
+      <div class="fakten"><b>8 Plätze</b>15 € Beitrag<br>Material inkl.<br>nur Mitglieder</div>
+      <div class="cta mono">Ticket:<br>Link in Bio</div>
+    </div>
+  </div>
+</div></body></html>

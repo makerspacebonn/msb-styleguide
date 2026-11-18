@@ -1,0 +1,58 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><title>06 Bauplan</title>
+<!-- Bewusste Abweichungen vom Styleguide:
+     - "Blaupause" in Grün 900 statt Blau: technische Zeichnung als Bildwelt, Rasterlinien in Grün 800.
+     - Bemaßung/Hilfslinien in Orange als reine Grafik (keine Schrift in Orange).
+     - Handnotiz (Caveat) in Weiß auf Grün 900: Platzhalter für echte, eingescannte Handschrift. -->
+<link rel="stylesheet" href="post.css">
+<style>
+.post { background:var(--raster-bauplan), var(--gruen-900); }
+.kopf { position:absolute; top:var(--rand); left:var(--rand); right:var(--rand); color:var(--weiss); }
+.kopf .mono { font-size:26px; color:var(--gruen-300); }
+.kopf .titel { font-size:104px; margin-top:14px; }
+.bild { position:absolute; left:220px; top:410px; width:640px; height:480px; outline:4px solid var(--weiss); }
+svg.mass { position:absolute; inset:0; }
+.masstext { position:absolute; font-family:'IBM Plex Mono', monospace; font-weight:500; font-size:26px; letter-spacing:.06em; text-transform:uppercase; color:var(--weiss); background:var(--gruen-900); padding:4px 12px; line-height:1; }
+.masstext.oben { left:540px; top:352px; transform:translateX(-50%); }
+.masstext.seite { left:150px; top:650px; transform:translate(-50%,-50%) rotate(-90deg); white-space:nowrap; }
+.notiz { position:absolute; left:610px; top:908px; font-size:46px; color:var(--weiss); transform:rotate(-3deg); line-height:1; }
+.schriftfeld { position:absolute; left:var(--rand); right:var(--rand); bottom:var(--rand); display:grid; grid-template-columns:1fr 1fr 270px; border:3px solid var(--weiss); color:var(--weiss); background:var(--gruen-900); }
+.schriftfeld > div { padding:12px 18px 14px; border-right:3px solid var(--weiss); border-bottom:3px solid var(--weiss); }
+.schriftfeld .k { display:block; font-family:'IBM Plex Mono', monospace; font-weight:500; font-size:19px; letter-spacing:.06em; text-transform:uppercase; color:var(--gruen-300); margin-bottom:6px; }
+.schriftfeld .v { font-size:31px; font-weight:500; line-height:1.15; }
+.schriftfeld .logozelle { grid-column:3; grid-row:1 / span 2; border-right:0; display:flex; align-items:center; justify-content:center; }
+.schriftfeld .logozelle img { width:130px; }
+.schriftfeld .letzte { border-bottom:0; }
+.schriftfeld .ende { border-right:0; }
+</style></head><body><div class="post">
+  <div class="kopf">
+    <div class="mono">Workshop · Demystifizierung, 2026 Edition</div>
+    <div class="titel">Lebkuchenhaus<br>bauen</div>
+  </div>
+
+  <div class="bild"><img class="foto" src="beispiel-foto.jpg" alt=""></div>
+
+  <svg class="mass" width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" stroke="#FFFFFF" stroke-width="3">
+    <defs><marker id="pfeil" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0 0 L12 6 L0 12 z" fill="#FFFFFF" stroke="none"/></marker></defs>
+    <!-- Maßlinie oben: Hilfslinien + Maßlinie -->
+    <path d="M220 400 V 356 M860 400 V 356" stroke-width="2"/>
+    <path d="M224 370 H 856" marker-start="url(#pfeil)" marker-end="url(#pfeil)"/>
+    <!-- Maßlinie links -->
+    <path d="M210 410 H 136 M210 890 H 136" stroke-width="2"/>
+    <path d="M150 414 V 886" marker-start="url(#pfeil)" marker-end="url(#pfeil)"/>
+    <!-- Bezugslinie zur Notiz, in Orange -->
+    <circle cx="634" cy="800" r="9" fill="#F2711C" stroke="none"/>
+    <path d="M634 800 L 628 912" stroke="#F2711C" stroke-width="4"/>
+  </svg>
+  <div class="masstext oben">8 Häuser</div>
+  <div class="masstext seite">ab 14:00</div>
+  <div class="notiz hand">alles Material ist gestellt</div>
+
+  <div class="schriftfeld">
+    <div><span class="k">Datum</span><span class="v">Sa 28.11.</span></div>
+    <div><span class="k">Leitung</span><span class="v">Bernd</span></div>
+    <div class="logozelle"><img src="../../logos/logo-v-negativ.png" alt="MakerSpace Bonn"></div>
+    <div><span class="k">Beitrag</span><span class="v">15 € inkl. Material</span></div>
+    <div><span class="k">Zugang</span><span class="v">nur Mitglieder</span></div>
+    <div class="letzte" style="grid-column:1 / span 3; border-right:0; display:flex; justify-content:space-between; align-items:baseline;"><span class="k" style="margin:0">Ticket nötig</span><span class="v">Link in Bio</span></div>
+  </div>
+</div></body></html>

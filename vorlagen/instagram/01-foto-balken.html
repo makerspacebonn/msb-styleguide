@@ -1,0 +1,26 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><title>01 Foto + Balken</title>
+<link rel="stylesheet" href="post.css">
+<style>
+.bild { position:absolute; inset:0 0 520px 0; }
+.bild .label { position:absolute; top:var(--rand); left:var(--rand); transform:rotate(-2deg); }
+.sticker { right:70px; bottom:450px; z-index:2; }
+.balken { position:absolute; left:0; right:0; bottom:0; height:520px; background:var(--gruen-800); color:var(--weiss); }
+.balken .warnband { position:absolute; top:-28px; left:0; right:0; }
+.inhalt { position:absolute; left:var(--rand); right:var(--rand); top:60px; }
+.titel { font-size:96px; }
+.zeile { font-size:40px; font-weight:500; margin-top:24px; color:var(--gruen-100); }
+.logo { position:absolute; left:var(--rand); bottom:56px; height:86px; }
+.tickets { position:absolute; right:var(--rand); bottom:70px; font-size:28px; color:var(--weiss); }
+</style></head><body><div class="post">
+  <div class="bild"><img class="foto" src="beispiel-foto.jpg" alt="">
+    <span class="label weiss">Workshop · nur für Mitglieder</span></div>
+  <div class="sticker"><b>8</b><span>Plätze</span></div>
+  <div class="balken"><div class="warnband"></div>
+    <div class="inhalt">
+      <div class="titel">Lebkuchenhaus<br>bauen</div>
+      <div class="zeile">mit Bernd · Sa 28.11. · ab 14 Uhr</div>
+    </div>
+    <img class="logo" style="height:54px;width:auto" src="../../logos/logo-h-ohne-claim-negativ.png" alt="MakerSpace Bonn">
+    <div class="tickets mono">Tickets → Link in Bio</div>
+  </div>
+</div></body></html>

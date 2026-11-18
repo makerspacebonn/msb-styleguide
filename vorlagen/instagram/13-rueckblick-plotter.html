@@ -1,0 +1,28 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><title>13 Rückblick (Plotter)</title>
+<!-- Rückblick-Variante von 07-sucher. Statt Kamerasucher: Passermarken wie beim Print-&-Cut des Schneideplotters
+     (gefülltes Quadrat oben links, Winkel an den anderen Ecken), in Tinte. Foto ~70 %, Text im Tinte-Block. -->
+<link rel="stylesheet" href="post.css">
+<style>
+.foto { position:absolute; left:0; top:0; width:1080px; height:930px; object-position:50% 55%; }
+svg.marken { position:absolute; inset:0; }
+.status { position:absolute; top:150px; left:150px; right:var(--rand); display:flex; justify-content:space-between; }
+.status .label { font-size:26px; }
+.block { position:absolute; left:0; right:0; bottom:0; height:420px; background:var(--tinte); color:var(--weiss); }
+.block .titel { position:absolute; left:var(--rand); top:50px; font-size:80px; }
+.block .zeile { position:absolute; left:var(--rand); top:250px; font-size:32px; font-weight:500; color:var(--gruen-300); }
+.block .mono { position:absolute; left:var(--rand); bottom:78px; font-size:24px; }
+.block img { position:absolute; right:var(--rand); bottom:62px; height:72px; }
+</style></head><body><div class="post">
+  <img class="foto" src="beispiel-plotter.png" alt="Mit dem Schneideplotter ausgeschnittene Tannenbäume aus grünem Papier">
+  <svg class="marken" width="1080" height="1350" viewBox="0 0 1080 1350">
+    <rect x="56" y="56" width="56" height="56" fill="#1E1C19"/>
+    <path d="M1024 56 H 934 M1024 56 V 146 M56 874 V 784 M56 874 H 146 M1024 874 H 934 M1024 874 V 784" stroke="#1E1C19" stroke-width="10" fill="none"/>
+  </svg>
+  <div class="status"><span class="label">Rückblick · Pop-up-Karten</span></div>
+  <div class="block">
+    <div class="titel">Ein Tannenwald,<br>geplottet.</div>
+    <div class="zeile">Geschnitten mit der Silhouette Cameo</div>
+    <div class="mono">Danke fürs Mitmachen!</div>
+    <img style="height:54px;width:auto" src="../../logos/logo-h-ohne-claim-negativ.png" alt="MakerSpace Bonn">
+  </div>
+</div></body></html>

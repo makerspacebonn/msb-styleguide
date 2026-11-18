@@ -1,0 +1,26 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><title>08 Anschnitt</title>
+<!-- Bewusste Abweichungen vom Styleguide:
+     - Übergroße Schrift (300 px), die oben von der Fotokante angeschnitten wird: Das Foto liegt über dem Wort.
+     - Titel in einem Tinte-Kasten, der auf der Fotokante sitzt und ins Grün übergeht.
+     - Logo in der Farbversion auf einer weißen Fahne, die von der Oberkante hängt. -->
+<link rel="stylesheet" href="post.css">
+<style>
+.post { background:var(--gruen-500); }
+.riese { position:absolute; left:48px; top:930px; font-size:300px; font-weight:700; letter-spacing:-.045em; line-height:1; color:var(--tinte); }
+.bild { position:absolute; left:0; top:0; width:1080px; height:1000px; overflow:hidden; }
+.bild img { object-position:90% 50%; }
+.kasten { position:absolute; left:var(--rand); bottom:350px; background:var(--tinte); color:var(--weiss); padding:22px 30px 26px; }
+.kasten .titel { font-size:90px; }
+.kopf { position:absolute; left:var(--rand); top:var(--rand); }
+.kopf .label { transform:rotate(-1.5deg); }
+.fahne { position:absolute; right:var(--rand); top:0; width:190px; padding:76px 24px 24px; background:var(--weiss); }
+.fahne img { width:100%; display:block; }
+.info { position:absolute; left:var(--rand); right:var(--rand); bottom:var(--rand); display:flex; justify-content:space-between; font-size:26px; }
+</style></head><body><div class="post">
+  <div class="riese">bauen.</div>
+  <div class="bild"><img class="foto" src="beispiel-foto.jpg" alt=""></div>
+  <div class="kopf"><span class="label">Nur für Mitglieder · 8 Plätze</span></div>
+  <div class="fahne"><img src="../../logos/logo-v-farbe.png" alt="MakerSpace Bonn"></div>
+  <div class="kasten"><div class="titel">Lebkuchenhaus</div></div>
+  <div class="info mono"><span>Sa 28.11. · ab 14:00 · mit Bernd · 15 €</span><span>Link in Bio</span></div>
+</div></body></html>

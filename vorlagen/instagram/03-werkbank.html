@@ -1,0 +1,27 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><title>03 Werkbank</title>
+<link rel="stylesheet" href="post.css">
+<style>
+.post { background:var(--creme-kraeftig); }
+.abzug { position:absolute; top:120px; left:120px; width:760px; height:620px; background:var(--weiss); padding:24px 24px 24px; transform:rotate(-3.5deg); box-shadow:0 6px 0 rgba(30,28,25,.12); }
+.abzug img { width:100%; height:100%; object-fit:cover; }
+.tape { position:absolute; width:190px; height:52px; background:var(--gruen-300); }
+.tape.a { top:-22px; left:60px; transform:rotate(-8deg); }
+.tape.b { top:-18px; right:50px; transform:rotate(10deg); }
+.notiz { position:absolute; top:690px; left:640px; font-size:58px; line-height:1; color:var(--tinte); transform:rotate(-6deg); }
+.notiz svg { display:block; margin:0 0 4px 150px; }
+.titel { position:absolute; left:var(--rand); right:var(--rand); top:830px; font-size:100px; }
+.titel em { font-style:normal; color:var(--gruen-800); }
+.labels { position:absolute; left:var(--rand); top:1060px; display:flex; gap:18px; flex-wrap:wrap; }
+.labels .label:nth-child(1) { transform:rotate(-2deg); }
+.labels .label:nth-child(2) { transform:rotate(1.5deg); }
+.labels .label:nth-child(3) { transform:rotate(-1deg); }
+.logo { position:absolute; left:var(--rand); bottom:56px; height:82px; }
+.fuss { position:absolute; right:var(--rand); bottom:70px; font-size:26px; }
+</style></head><body><div class="post">
+  <div class="abzug"><img src="beispiel-foto.jpg" alt=""><div class="tape a"></div><div class="tape b"></div></div>
+  <div class="notiz hand"><svg width="70" height="70" viewBox="0 0 70 70" fill="none" stroke="#1E1C19" stroke-width="5" stroke-linecap="round"><path d="M60 64 C 50 40, 30 22, 10 10"/><path d="M10 10 L 30 12 M10 10 L 14 30"/></svg>bau dein eigenes!</div>
+  <div class="titel">Lebkuchenhaus<br><em>bauen</em> mit Bernd</div>
+  <div class="labels"><span class="label">Sa 28.11.</span><span class="label gruen">ab 14 Uhr</span><span class="label">15 €</span></div>
+  <img class="logo" style="height:54px;width:auto" src="../../logos/logo-h-ohne-claim-farbe.png" alt="MakerSpace Bonn">
+  <div class="fuss mono">Nur für Mitglieder</div>
+</div></body></html>

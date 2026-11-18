@@ -1,0 +1,15 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><title>15 Emo: Streifen</title>
+<!-- Emotionaler Post, nur Text + Logo. Satz zeilenweise auf Tinte-Streifen (Labelstreifen in groß), Logo auf weißer Fahne. -->
+<link rel="stylesheet" href="post.css">
+<style>
+.foto { position:absolute; inset:0; object-position:50% 40%; }
+.zeilen { position:absolute; left:var(--rand); bottom:150px; display:flex; flex-direction:column; align-items:flex-start; gap:12px; }
+.zeilen span { background:var(--tinte); color:var(--weiss); font-size:72px; font-weight:700; line-height:1; letter-spacing:-.015em; padding:16px 26px 20px; }
+.zeilen span:last-child { background:var(--gruen-500); color:var(--tinte); }
+.fahne { position:absolute; right:var(--rand); top:0; width:190px; padding:76px 24px 24px; background:var(--weiss); }
+.fahne img { width:100%; display:block; }
+</style></head><body><div class="post">
+  <img class="foto" src="beispiel-papier.png" alt="">
+  <div class="zeilen"><span>Erst Papier.</span><span>Dann Kaktus.</span><span>Dann Stolz.</span></div>
+  <div class="fahne"><img src="../../logos/logo-v-farbe.png" alt="MakerSpace Bonn"></div>
+</div></body></html>

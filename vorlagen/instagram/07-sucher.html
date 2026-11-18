@@ -1,0 +1,37 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><title>07 Sucher</title>
+<!-- Bewusste Abweichungen vom Styleguide:
+     - Kamera-Sucher als Overlay auf dem Vollbild: Ecken, Fokusrahmen und Fadenkreuz in Weiß, Fokusrahmen-Ecken in Orange (nur Grafik).
+     - Statuszeile im Sucher-Look (Mono auf Tinte-Streifen), Aufnahmepunkt in Orange.
+     - Foto nimmt 75 % der Fläche ein; Text steht im Tinte-Block darunter. -->
+<link rel="stylesheet" href="post.css">
+<style>
+.foto { position:absolute; left:0; top:0; width:1080px; height:1020px; object-position:95% 50%; }
+svg.sucher { position:absolute; inset:0; }
+.status { position:absolute; top:var(--rand); left:var(--rand); right:var(--rand); display:flex; justify-content:space-between; }
+.status .label { font-size:26px; }
+.status .rec::before { content:''; display:inline-block; width:18px; height:18px; border-radius:50%; background:var(--orange); margin-right:12px; vertical-align:1px; }
+.fokus { position:absolute; left:440px; top:560px; }
+.fokus .label { font-size:24px; padding:10px 14px 9px; }
+.block { position:absolute; left:0; right:0; bottom:0; height:330px; background:var(--tinte); color:var(--weiss); }
+.block .titel { position:absolute; left:var(--rand); top:46px; font-size:84px; }
+.block .zeile { position:absolute; left:var(--rand); top:172px; font-size:34px; font-weight:500; color:var(--gruen-300); }
+.block .mono { position:absolute; left:var(--rand); top:246px; font-size:24px; color:var(--weiss); }
+.block img { position:absolute; right:var(--rand); bottom:60px; height:72px; }
+</style></head><body><div class="post">
+  <img class="foto" src="beispiel-foto.jpg" alt="">
+  <svg class="sucher" width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="square">
+    <!-- Sucherecken -->
+    <path d="M40 300 V 150 H 190 M1040 300 V 150 H 890 M40 870 V 990 H 190 M1040 870 V 990 H 890"/>
+    <!-- Fadenkreuz Bildmitte -->
+    <path d="M600 535 V 585 M575 560 H 625" stroke-width="3"/>
+    <!-- Fokusrahmen um das Haus -->
+    <path d="M220 250 V 220 H 260 M980 250 V 220 H 940 M220 870 V 900 H 260 M980 870 V 900 H 940" stroke="#F2711C" stroke-width="6"/>
+  </svg>
+  <div class="status"><span class="label rec">Sa 28.11. · 14:00</span><span class="label">8 Plätze</span></div>
+  <div class="block">
+    <div class="titel">Lebkuchenhaus bauen</div>
+    <div class="zeile">mit Bernd · 15 € inkl. Material</div>
+    <div class="mono">Nur Mitglieder · Ticket: Link in Bio</div>
+    <img style="height:54px;width:auto" src="../../logos/logo-h-ohne-claim-negativ.png" alt="MakerSpace Bonn">
+  </div>
+</div></body></html>
