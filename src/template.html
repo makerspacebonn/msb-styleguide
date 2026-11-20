@@ -222,6 +222,13 @@ table.app-tabelle{width:100%;border-collapse:collapse;font-size:13.5px}
   .app-opt{display:none}
 }
 
+.code-box{max-width:820px;margin:8px 0 16px;border:1px solid var(--line);border-radius:6px;background:#fff;position:relative}
+.code-box summary{cursor:pointer;padding:10px 14px;font-weight:500;list-style-position:inside}
+.code-box summary:focus-visible,.kopieren:focus-visible{outline:2px solid var(--gruen-600);outline-offset:2px}
+.code-box pre.code{margin:0;border-radius:0 0 6px 6px}
+.kopieren{position:absolute;top:6px;right:8px;font:500 13px "IBM Plex Sans",sans-serif;padding:5px 12px;border:1px solid var(--line);border-radius:4px;background:var(--creme);color:var(--ink);cursor:pointer}
+.kopieren:hover{border-color:var(--stone)}
+.code-box:not([open]) .kopieren{display:none}
 /* Typo-Muster */
 .typo-row{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:baseline;border-top:1px solid var(--line);padding:14px 0}
 @media (max-width:600px){.typo-row{grid-template-columns:1fr;gap:4px}}
@@ -230,6 +237,8 @@ table.app-tabelle{width:100%;border-collapse:collapse;font-size:13.5px}
 footer{background:var(--ink);color:#d8d2c8;padding:40px 0 60px;font-size:14px}
 footer a{color:#fff}
 
+.ver{flex:none;font:500 12px/1 "IBM Plex Mono",monospace;color:var(--stone)!important;text-decoration:none!important;padding:4px 7px 3px;border:1px solid var(--line);border-radius:3px;margin-right:6px}
+.ver:hover{color:var(--ink)!important;border-color:var(--stone)}
 .switch{display:inline-flex;align-items:center;gap:6px;font-weight:500;color:var(--ink);cursor:pointer;padding-right:14px;margin-right:4px;border-right:1px solid var(--line);flex:none}
 .switch input{appearance:none;width:34px;height:20px;border-radius:10px;background:var(--line);position:relative;cursor:pointer;margin:0;transition:background .15s}
 .switch input::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:left .15s}
@@ -242,6 +251,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
   section{break-before:page;padding-top:24px}
   .card,.swatch,.diff,.do,.dont,.modus{break-inside:avoid}
   pre.code{white-space:pre-wrap;font-size:10px}
+  .kopieren{display:none!important}
   .app-demo .modus{display:block!important}
   body{background:#fff}
   .tablewrap{overflow:visible}
@@ -259,13 +269,14 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
     <img class="logo" src="{{logo-h-negativ}}" alt="MakerSpace Bonn – Eine offene Werkstatt für Bonn. Für alle.">
     <h1>Styleguide</h1>
     <p>Wie wir den MakerSpace Bonn sichtbar machen: Logo, Farben, Schrift, Bilder und Sprache. Für alle, die Flyer, Posts, Schilder, Workshops oder Merch gestalten, auch ohne Designausbildung.</p>
-    <div class="meta"><span>Version 2026-11 · <strong>Überarbeitungsentwurf</strong></span><span>Basis: Version 2026-02-15</span><span>Herausgeber: Medienteam MakerSpace Bonn e.V.</span></div>
+    <div class="meta"><span>Version {{version}} · <strong>Überarbeitungsentwurf</strong></span><span>Stand {{stand}}</span><span>Basis: Version 2026-02-15</span><span>Herausgeber: Medienteam MakerSpace Bonn e.V.</span></div>
   </div>
   <div class="tape"></div>
 </header>
 
 <nav class="toc" aria-label="Inhalt"><div class="wrap">
   <label class="switch"><input type="checkbox" id="chgToggle"> Änderungen zeigen</label>
+  <a class="ver" href="#protokoll" title="Stand {{stand}} · Änderungsprotokoll">{{version}} · {{stand_datum}}</a>
   <a href="#aenderungen" class="chg-block">Änderungen</a><a href="#schnellstart">Schnellstart</a><a href="#einleitung">Einleitung</a><a href="#marke">Marke</a><a href="#logo">Logo</a><a href="#claim">Claim & Name</a><a href="#farben">Farben</a><a href="#kombinationen">Kombinationen</a><a href="#modi">Hell &amp; Dunkel</a><a href="#material">Material</a><a href="#typo">Schrift</a><a href="#elemente">Maker-Elemente</a><a href="#schilder">Schilder</a><a href="#bilder">Bilder</a><a href="#sprache">Sprache</a><a href="#vorlagen">Vorlagen</a><a href="#pflege">Pflege</a>
 </div></nav>
 
@@ -601,14 +612,14 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
   <h3>Zum Kopieren</h3>
   <h4>Farben (CSS)</h4>
   <p>Für Webseiten und Anwendungen. Folgt der Systemeinstellung. Mit <code>data-theme="light"</code> oder <code>data-theme="dark"</code> am <code>&lt;html&gt;</code>-Element lässt sich ein Modus erzwingen, z. B. über den Umschalter.</p>
-  <pre class="code">{{modi_css}}</pre>
+  <details class="code-box"><summary>CSS-Farben anzeigen</summary><button type="button" class="kopieren">Kopieren</button><pre class="code">{{modi_css}}</pre></details>
   <p>Für die Browserleiste auf dem Handy zusätzlich im <code>&lt;head&gt;</code>:</p>
-  <pre class="code">{{modi_meta}}</pre>
+  <details class="code-box"><summary>Meta-Tags anzeigen</summary><button type="button" class="kopieren">Kopieren</button><pre class="code">{{modi_meta}}</pre></details>
   <h4>Umschalter</h4>
-  <pre class="code">{{modi_umschalter}}</pre>
+  <details class="code-box"><summary>Umschalter (HTML, CSS, JS) anzeigen</summary><button type="button" class="kopieren">Kopieren</button><pre class="code">{{modi_umschalter}}</pre></details>
   <h4>shadcn/ui (Vereinssoftware)</h4>
   <p>Ordnet die Rollen den Variablen von shadcn/ui zu. Ersetzt dort die festen Farbwerte im <code>:root</code>-Block.</p>
-  <pre class="code">{{modi_shadcn}}</pre>
+  <details class="code-box"><summary>shadcn/ui-Zuordnung anzeigen</summary><button type="button" class="kopieren">Kopieren</button><pre class="code">{{modi_shadcn}}</pre></details>
 </section>
 
 <!-- ================= MATERIAL ================= -->
@@ -826,16 +837,13 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
   <ul>
     <li><b>Zuständig:</b> Medienteam. Kontakt: <i>[Ansprechperson / Kanal eintragen]</i></li>
     <li><b>Vorschläge:</b> per Nachricht an das Medienteam oder als Kommentar im geteilten Dokument. Jede Änderung bekommt einen Eintrag unten.</li>
-    <li><b>Version:</b> Jahr-Monat (z. B. 2026-11) auf dem Titel. Alte Versionen bleiben archiviert.</li>
+    <li><b>Version:</b> Jahr-Monat und laufende Nummer (z. B. 2026-11.7) mit Datum und Uhrzeit. Jede Änderung bekommt eine neue Version und einen Eintrag im <a href="#protokoll">Änderungsprotokoll</a>. Die aktuelle Version steht auf dem Titel, oben in der Navigation und im Fuß. Alte Versionen bleiben archiviert.</li>
     <li><b>Downloads:</b> Ein fester Ort (Wiki, Cloud-Ordner), auf den der Guide und alle Vorlagen verlinken. Links im PDF müssen funktionieren.</li>
   </ul>
 
-  <h3>Änderungsprotokoll</h3>
-  <div class="tablewrap"><table class="t">
-    <tr><th>Version</th><th>Was</th></tr>
-    <tr><td>2026-02-15</td><td>Erste veröffentlichte Fassung (Medienteam)</td></tr>
-    <tr><td>2026-11 (Entwurf)</td><td>Farbkorrekturen, neues Textgrün, feste Fond-Werte, Kombinationstabelle, Logo-Varianten und Don'ts, Hell/Dunkel-Palette, Material, Schriftgrößen, Maker-Elemente, Schilder, KI-Bild-Regel, Vorlagenliste, Kürzungen. Siehe <a href="#aenderungen">Übersicht</a>.</td></tr>
-  </table></div>
+  <h3 id="protokoll">Änderungsprotokoll</h3>
+  <p class="small">Neueste Version zuerst. Zeiten in Berliner Zeit.</p>
+  <div class="tablewrap">{{protokoll}}</div>
 
   <h3 class="chg-block">Korrekturliste <span class="chg fix">Korrigiert</span></h3>
   <div class="tablewrap chg-block"><table class="t">
@@ -861,7 +869,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
 <footer>
   <div class="wrap">
     <p><b style="color:#fff">MakerSpace Bonn e.V.</b> · Kennedyallee 18 · 53175 Bonn · makerspacebonn.de</p>
-    <p>Styleguide Version 2026-11 (Überarbeitungsentwurf auf Basis der Version vom 15.02.2026). Kontrastwerte nach WCAG 2.x berechnet. CMYK-Werte mit * sind ungeprüfte Startwerte.</p>
+    <p>Styleguide Version {{version}}, Stand {{stand}} (Überarbeitungsentwurf auf Basis der Version vom 15.02.2026). Kontrastwerte nach WCAG 2.x berechnet. CMYK-Werte mit * sind ungeprüfte Startwerte.</p>
   </div>
 </footer>
 <script>
@@ -890,6 +898,21 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
   });
   mq.addEventListener('change',function(){if(demo.dataset.modus==='auto')zeige('auto')});
   zeige('auto');
+})();
+(function(){
+  // Code-Kästen: Kopieren-Knopf; im Druck alle aufklappen
+  document.querySelectorAll('.code-box').forEach(function(box){
+    var knopf=box.querySelector('.kopieren'),code=box.querySelector('pre').textContent;
+    knopf.addEventListener('click',function(){
+      var fertig=function(t){knopf.textContent=t;setTimeout(function(){knopf.textContent='Kopieren'},1800)};
+      // Ersatzweg ohne Clipboard-API: Code markieren und kopieren; klappt das nicht, bleibt er markiert
+      var markieren=function(){var r=document.createRange();r.selectNodeContents(box.querySelector('pre'));var sel=getSelection();sel.removeAllRanges();sel.addRange(r);
+        var ok=false;try{ok=document.execCommand('copy')}catch(e){}fertig(ok?'Kopiert ✓':'Markiert: ⌘C / Strg+C')};
+      if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(code).then(function(){fertig('Kopiert ✓')},markieren)}
+      else markieren();
+    });
+  });
+  window.addEventListener('beforeprint',function(){document.querySelectorAll('.code-box').forEach(function(b){b.open=true})});
 })();
 </script>
 </body>

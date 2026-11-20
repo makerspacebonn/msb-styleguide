@@ -1,10 +1,20 @@
-"""Build index.html from src/template.html: inlines logos/*.png and the contrast matrix.
+"""Build index.html from src/template.html: inlines logos/*.png, the contrast matrix,
+the light/dark palette and the version history from src/versionen.json.
 
-Usage: python3 src/build.py
+Usage:
+  python3 src/build.py                    # bauen
+  python3 src/build.py --version "Was"    # Version mit Zeit eintragen (oder offene aktualisieren), dann bauen
+  python3 src/build.py --pruefen          # nur prüfen: Versionseintrag da, index.html aktuell (Pre-Commit-Hook)
 """
+import argparse
 import base64
+import hashlib
+import json
 import pathlib
+import subprocess
+from datetime import datetime, timezone
 from html import escape
+from zoneinfo import ZoneInfo
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
@@ -387,21 +397,128 @@ def vorschau_mint(i):
       </div>'''
 
 
-html = (ROOT / 'src' / 'template.html').read_text().replace('{{matrix}}', matrix())
-for platzhalter, wert in {
-    'modi_tabelle': modi_tabelle(),
-    'modi_css': escape(modi_css(), quote=False), 'modi_meta': escape(modi_meta(), quote=False),
-    'modi_umschalter': escape(MODI_UMSCHALTER, quote=False), 'modi_shadcn': escape(MODI_SHADCN, quote=False),
-    'vorschau_inhalt': paar(vorschau_inhalt), 'vorschau_ebenen': paar(vorschau_ebenen),
-    'vorschau_app': paar(vorschau_app, 'app-modus'), 'vorschau_mint': paar(vorschau_mint, 'kompakt'),
-}.items():
-    html = html.replace('{{' + platzhalter + '}}', wert)
-for p in (ROOT / 'logos').glob('*.png'):
-    html = html.replace('{{' + p.stem + '}}', 'data:image/png;base64,' + base64.b64encode(p.read_bytes()).decode())
-missing = [line.strip() for line in html.splitlines() if '{{' in line]
-if missing:
-    raise SystemExit(f'Unresolved placeholders: {missing[:3]}')
-tmp = ROOT / 'index.html.tmp'
-tmp.write_text(html)
-tmp.replace(ROOT / 'index.html')
-print(f'index.html written ({len(html) // 1024} KB)')
+# ---- Versionen: jede Änderung am Dokument bekommt Nummer und Zeit ----
+VERSIONEN = ROOT / 'src' / 'versionen.json'
+BERLIN = ZoneInfo('Europe/Berlin')
+# Alles, woraus index.html entsteht. versionen.json selbst zählt nicht, sonst ändert jeder Eintrag den Abdruck.
+EINGABEN = ('src/template.html', 'src/build.py', 'logos/*.png')
+
+
+def fingerabdruck(root=ROOT):
+    h = hashlib.sha256()
+    for muster in EINGABEN:
+        for datei in sorted(root.glob(muster)):
+            h.update(str(datei.relative_to(root)).encode() + b'\0' + datei.read_bytes() + b'\0')
+    return h.hexdigest()[:12]
+
+
+def naechste_nummer(versionen, jetzt):
+    """Jahr-Monat.laufende Nummer, im Monat von `jetzt` (Europe/Berlin)."""
+    monat = jetzt.astimezone(BERLIN).strftime('%Y-%m')
+    nummern = [int(v['version'].split('.')[1]) for v in versionen if v['version'].startswith(monat + '.')]
+    return f'{monat}.{max(nummern, default=0) + 1}'
+
+
+def mit_version(versionen, was, jetzt, abdruck, im_commit):
+    """Neue Version vorn eintragen. Ist die neueste noch nicht committet, wird sie stattdessen aktualisiert,
+    damit ein Commit genau eine Version bekommt. `im_commit`: Versionsnummern, die schon in HEAD stehen."""
+    zeit = jetzt.astimezone(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    neueste = versionen[0] if versionen else None
+    if neueste and neueste.get('fingerabdruck') and neueste['version'] not in im_commit:
+        return [{**neueste, 'zeit': zeit, 'was': was or neueste['was'], 'fingerabdruck': abdruck}] + versionen[1:]
+    if not was:
+        raise SystemExit('Neue Version braucht eine Beschreibung: --version "Was sich geändert hat"')
+    return [{'version': naechste_nummer(versionen, jetzt), 'zeit': zeit, 'was': was, 'fingerabdruck': abdruck}] + versionen
+
+
+def versionen_im_commit():
+    """Versionsnummern in HEAD:src/versionen.json; leer, wenn es die Datei dort (noch) nicht gibt."""
+    try:
+        r = subprocess.run(['git', 'show', 'HEAD:src/versionen.json'], cwd=ROOT, capture_output=True, text=True, timeout=10)
+    except (OSError, subprocess.TimeoutExpired):
+        return set()
+    return {v['version'] for v in json.loads(r.stdout)} if r.returncode == 0 else set()
+
+
+def lade_versionen():
+    versionen = json.loads(VERSIONEN.read_text())
+    if not versionen or not all({'version', 'zeit', 'was'} <= v.keys() for v in versionen):
+        raise SystemExit(f'{VERSIONEN.name}: jeder Eintrag braucht version, zeit und was')
+    return versionen
+
+
+def speichere_versionen(versionen):
+    tmp = VERSIONEN.with_suffix('.json.tmp')
+    tmp.write_text(json.dumps(versionen, ensure_ascii=False, indent=2) + '\n')
+    tmp.replace(VERSIONEN)
+
+
+def stand(eintrag):
+    """'20.11.2026, 19:55 Uhr' in Berliner Zeit; Einträge ohne Uhrzeit nur mit Datum."""
+    z = eintrag['zeit']
+    if 'T' not in z:
+        return datetime.strptime(z, '%Y-%m-%d').strftime('%d.%m.%Y')
+    return datetime.strptime(z, '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=timezone.utc).astimezone(BERLIN).strftime('%d.%m.%Y, %H:%M Uhr')
+
+
+def protokoll(versionen):
+    rows = ['<table class="t"><tr><th>Version</th><th>Stand</th><th>Was</th></tr>']
+    rows += [f'<tr><td class="mono" style="white-space:nowrap">{escape(v["version"])}</td>'
+             f'<td style="white-space:nowrap">{stand(v)}</td><td>{escape(v["was"])}</td></tr>' for v in versionen]
+    return '\n'.join(rows + ['</table>'])
+
+
+def render(versionen):
+    html = (ROOT / 'src' / 'template.html').read_text().replace('{{matrix}}', matrix())
+    aktuell = versionen[0]
+    for platzhalter, wert in {
+        'modi_tabelle': modi_tabelle(),
+        'modi_css': escape(modi_css(), quote=False), 'modi_meta': escape(modi_meta(), quote=False),
+        'modi_umschalter': escape(MODI_UMSCHALTER, quote=False), 'modi_shadcn': escape(MODI_SHADCN, quote=False),
+        'vorschau_inhalt': paar(vorschau_inhalt), 'vorschau_ebenen': paar(vorschau_ebenen),
+        'vorschau_app': paar(vorschau_app, 'app-modus'), 'vorschau_mint': paar(vorschau_mint, 'kompakt'),
+        'version': escape(aktuell['version']), 'stand': stand(aktuell), 'stand_datum': stand(aktuell).split(',')[0],
+        'protokoll': protokoll(versionen),
+    }.items():
+        html = html.replace('{{' + platzhalter + '}}', wert)
+    for p in (ROOT / 'logos').glob('*.png'):
+        html = html.replace('{{' + p.stem + '}}', 'data:image/png;base64,' + base64.b64encode(p.read_bytes()).decode())
+    missing = [line.strip() for line in html.splitlines() if '{{' in line]
+    if missing:
+        raise SystemExit(f'Unresolved placeholders: {missing[:3]}')
+    return html
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description='Baut index.html aus src/template.html.')
+    ap.add_argument('--version', metavar='WAS', nargs='?', const='',
+                    help='Version mit aktueller Zeit eintragen (offene, noch nicht committete Version wird aktualisiert)')
+    ap.add_argument('--pruefen', action='store_true', help='nichts schreiben, nur prüfen (Pre-Commit-Hook)')
+    args = ap.parse_args(argv)
+    versionen, abdruck = lade_versionen(), fingerabdruck()
+    if args.version is not None:
+        versionen = mit_version(versionen, args.version, datetime.now(timezone.utc), abdruck, versionen_im_commit())
+        speichere_versionen(versionen)
+        print(f'Version {versionen[0]["version"]} · {stand(versionen[0])}')
+    html = render(versionen)
+    ohne_version = versionen[0].get('fingerabdruck') != abdruck
+    if args.pruefen:
+        fehler = []
+        if ohne_version:
+            fehler.append('Änderung ohne Versionseintrag: python3 src/build.py --version "Was sich geändert hat"')
+        if (ROOT / 'index.html').read_text() != html:
+            fehler.append('index.html ist nicht aktuell: python3 src/build.py')
+        if fehler:
+            raise SystemExit('\n'.join(fehler))
+        print(f'ok: Version {versionen[0]["version"]}, index.html aktuell')
+        return
+    tmp = ROOT / 'index.html.tmp'
+    tmp.write_text(html)
+    tmp.replace(ROOT / 'index.html')
+    print(f'index.html written ({len(html) // 1024} KB) · Version {versionen[0]["version"]}')
+    if ohne_version:
+        print('Hinweis: Änderung noch ohne Versionseintrag. Vor dem Commit: python3 src/build.py --version "Was sich geändert hat"')
+
+
+if __name__ == '__main__':
+    main()

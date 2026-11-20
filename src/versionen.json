@@ -1,0 +1,43 @@
+[
+  {
+    "version": "2026-11.7",
+    "zeit": "2026-11-20T20:27:51Z",
+    "was": "Version und Stand bei jeder Änderung: Nummer Jahr-Monat.N mit Datum und Uhrzeit, immer sichtbar auf dem Titel, in der Navigation und im Fuß; Änderungsprotokoll mit allen Versionen. Code-Kästen eingeklappt, mit Kopieren-Knopf",
+    "fingerabdruck": "3cb1ab7d4db5"
+  },
+  {
+    "version": "2026-11.6",
+    "zeit": "2026-11-20T18:55:20Z",
+    "was": "Hell & Dunkel: Farbrollen für beide Modi, Ebenen, Muster für Anwendungen mit Status und Umschalter, Code zum Kopieren (CSS, Umschalter, shadcn/ui)"
+  },
+  {
+    "version": "2026-11.5",
+    "zeit": "2026-11-18T18:30:33Z",
+    "was": "Bildsprache: KI-Kennzeichen als Labelstreifen („Bild generiert“, „Bild bearbeitet“)"
+  },
+  {
+    "version": "2026-11.4",
+    "zeit": "2026-11-18T18:13:59Z",
+    "was": "Schilder: QR-Code zum Inventar-Eintrag auf Geräteschildern"
+  },
+  {
+    "version": "2026-11.3",
+    "zeit": "2026-11-17T03:59:53Z",
+    "was": "Bildsprache: KI-Bilder erlaubt, wenn es kein passendes Foto gibt, mit Kennzeichnung; echte Fotos haben Vorrang"
+  },
+  {
+    "version": "2026-11.2",
+    "zeit": "2026-11-17T02:48:05Z",
+    "was": "Änderungshinweise ausgeblendet, einblendbar über den Schalter „Änderungen zeigen“"
+  },
+  {
+    "version": "2026-11.1",
+    "zeit": "2026-11-17T02:45:57Z",
+    "was": "Überarbeitungsentwurf: Farbkorrekturen, neues Textgrün, feste Fond-Werte, Kombinationstabelle, Logo-Varianten und Don'ts, Material, Schriftgrößen, Maker-Elemente, Schilder, Vorlagenliste, Kürzungen"
+  },
+  {
+    "version": "2026-02-15",
+    "zeit": "2026-02-15",
+    "was": "Erste veröffentlichte Fassung (Medienteam)"
+  }
+]

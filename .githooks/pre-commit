@@ -1,0 +1,6 @@
+#!/bin/sh
+# Styleguide: keine Änderung am Dokument ohne Version, kein veraltetes index.html.
+# Einmalig pro Klon aktivieren: git config core.hooksPath .githooks
+set -e
+python3 -m unittest discover -s src -q
+python3 src/build.py --pruefen
