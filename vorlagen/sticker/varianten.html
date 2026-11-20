@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sticker-Varianten</title>
+<meta name="description" content="Entwurf: acht Sticker-Formen als Ersatz für den runden Störer im Styleguide von MakerSpace Bonn e.V.">
+<!-- Entwurfsseite für den Abschnitt „Maker-Elemente“, Element „Sticker“. Der Kreis soll durch eine
+     Form mit mehr Werkstatt-Charakter ersetzt werden. Reines HTML/CSS, Formen als inline-SVG
+     (<symbol> + <use>), damit sie verlustfrei skalieren und der harte Schatten per drop-shadow
+     der Kontur folgt (clip-path würde box-shadow abschneiden).
+     Schriften wie in vorlagen/linkseite: lokale woff2 aus ../linkseite/fonts. -->
+<style>
+@font-face { font-family: 'Plex Sans'; font-weight: 400; font-display: swap; src: url(../linkseite/fonts/ibm-plex-sans-latin-400-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Plex Sans'; font-weight: 700; font-display: swap; src: url(../linkseite/fonts/ibm-plex-sans-latin-700-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Plex Mono'; font-weight: 500; font-display: swap; src: url(../linkseite/fonts/ibm-plex-mono-latin-500-normal.woff2) format('woff2'); }
+
+:root {
+  color-scheme: light;
+  --gruen-50:#F0F7EA; --gruen-100:#DCEFD0; --gruen-300:#9CD27D; --gruen-500:#5EB130; --gruen-600:#33791A;
+  --gruen-800:#325725; --gruen-900:#1B3714;
+  --tinte:#1E1C19; --stein:#5F5850; --papier:#FBF8F2; --creme:#FAF2E4; --creme-stark:#F5E6C9; --linie:#E4DCCB;
+  --kreide:#EDE8DE; --gelb:#FCBD30; --orange:#F2711C; --weiss:#FFFFFF;
+
+  /* Sticker-Tokens: Fläche, Text, harte Kante (Schatten, Faden, Ringe). Im Dunkeln wird die Kante Kreide. */
+  --st-flaeche: var(--orange);
+  --st-text: var(--tinte);
+  --st-kante: var(--tinte);
+}
+* { box-sizing: border-box; }
+html { background: var(--papier); }
+body {
+  margin: 0; background: var(--papier); color: var(--tinte);
+  font: 400 16px/1.6 'Plex Sans', 'IBM Plex Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+@media (max-width: 600px) { .wrap { padding: 0 16px; } }
+.mono { font-family: 'Plex Mono', 'IBM Plex Mono', ui-monospace, monospace; font-weight: 500; }
+
+/* Kopf */
+header { background: var(--gruen-800); color: var(--weiss); }
+header .wrap { padding-top: 44px; padding-bottom: 48px; display: grid; grid-template-columns: 1fr auto; gap: 24px 40px; align-items: center; }
+header h1 { font-size: clamp(34px, 6vw, 56px); line-height: 1.02; margin: 0 0 14px; letter-spacing: -.01em; }
+header p { margin: 0; color: var(--gruen-100); max-width: 58ch; }
+header .stand { margin-top: 18px; font-size: 14px; color: var(--kreide); }
+.tape { height: 18px; background: repeating-linear-gradient(-45deg, var(--gruen-500) 0 14px, var(--gruen-900) 14px 28px); }
+.alt { text-align: center; font-size: 14px; color: var(--gruen-100); }
+.alt .kreis {
+  display: inline-flex; align-items: center; justify-content: center; width: 110px; height: 110px; border-radius: 50%;
+  background: var(--orange); color: var(--tinte); font-weight: 700; font-size: 18px; line-height: 1.1;
+  transform: rotate(-8deg); box-shadow: 3px 3px 0 var(--kreide); margin-bottom: 10px;
+}
+@media (max-width: 640px) { header .wrap { grid-template-columns: 1fr; } .alt { text-align: left; } }
+
+main { padding: 8px 0 64px; }
+section.variante { padding: 48px 0 8px; border-bottom: 1px solid var(--linie); }
+section.variante:last-of-type { border-bottom: 0; }
+.kopf { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+.kopf .buchst {
+  font: 500 15px/1 'Plex Mono', monospace; background: var(--tinte); color: var(--weiss);
+  padding: 7px 10px 6px; border-radius: 2px; letter-spacing: .06em;
+}
+h2 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; margin: 0; }
+.idee { margin: 4px 0 22px; color: var(--stein); max-width: 70ch; }
+
+/* Drei Untergründe nebeneinander, auf dem Handy untereinander */
+.buehnen { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 860px) { .buehnen { grid-template-columns: 1fr; } }
+.buehne {
+  position: relative; border-radius: 8px; overflow: hidden; min-height: 260px;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 26px 30px; padding: 36px 20px 40px;
+}
+.buehne .was { position: absolute; left: 12px; bottom: 9px; font: 500 12px/1 'Plex Mono', monospace; letter-spacing: .04em; }
+.hell { background: var(--weiss); border: 1px solid var(--linie); }
+.hell .was { color: var(--stein); }
+.dunkel { background: var(--gruen-900); --st-kante: var(--kreide); }
+.dunkel .was { color: var(--gruen-300); }
+/* Foto-Platzhalter: Lochwand vor warmem Werkstattlicht */
+.foto {
+  background:
+    radial-gradient(circle, rgba(30,28,25,.55) 2px, transparent 2.6px) 0 0 / 20px 20px,
+    radial-gradient(120% 90% at 20% 15%, #B49A78 0%, #8A7158 45%, #4E4136 100%);
+}
+.foto .was { color: var(--weiss); background: rgba(30,28,25,.7); padding: 4px 6px; border-radius: 2px; bottom: 8px; }
+.klein-reihe { display: flex; gap: 22px; align-items: center; }
+
+.text-block { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 8px 40px; margin: 22px 0 10px; }
+@media (max-width: 760px) { .text-block { grid-template-columns: 1fr; } }
+.text-block h3 { font-size: 15px; margin: 0 0 4px; }
+.text-block p { margin: 0 0 12px; max-width: 62ch; }
+.text-block ul { margin: 0; padding-left: 18px; }
+.text-block li { margin-bottom: 4px; }
+
+/* ===================== Sticker-Grundgerüst ===================== */
+.st {
+  --s: 160px;                      /* Größe: Breite der Form */
+  position: relative; display: inline-block; flex: none;
+  width: var(--s); color: var(--st-text);
+  transform: rotate(var(--dreh, -8deg));
+}
+.st > svg {
+  position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; display: block;
+  fill: var(--st-flaeche);
+  /* harter Schatten folgt der Kontur; wächst mit der Größe (3 px bei 120 px wie bisher) */
+  filter: drop-shadow(calc(var(--s) * .025) calc(var(--s) * .025) 0 var(--st-kante));
+}
+.st > span {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; font-weight: 700; line-height: 1.04; letter-spacing: -.005em;
+  font-size: calc(var(--s) * var(--k, .17));
+}
+.st small { display: block; font: 500 .5em/1.2 'Plex Mono', monospace; letter-spacing: .03em; margin-top: .45em; }
+
+/* A · Mutter: Sechskant wie der Cube, Fase als Kreis */
+.st.mutter { aspect-ratio: 1; --k: .17; --dreh: -8deg; }
+.st.mutter > span { padding: 0 16%; }
+.st.mutter.klein { --s: 76px; }
+
+/* B · Anhänger: Etikett mit 45°-Schnitten, Öse und Faden */
+.st.anhaenger { aspect-ratio: 150 / 84; --k: .118; --dreh: -7deg; --s: 220px; }
+.st.anhaenger > span { padding: 0 6% 0 27%; align-items: flex-start; text-align: left; }
+.st.anhaenger.klein { --s: 108px; --k: .125; }
+
+/* C · Klebeband: gerissene Enden, quer über Kanten und Fotos */
+.st.band { aspect-ratio: 160 / 52; --k: .108; --dreh: -4deg; --s: 250px; --st-flaeche: var(--gelb); }
+.st.band > span { padding: 0 9%; flex-direction: row; gap: .4em; white-space: nowrap; }
+.st.band.klein { --s: 118px; --k: .112; }
+.st.band.gruen { --st-flaeche: var(--gruen-500); }
+
+/* D · Zahnrad: Stern-Störer, aber aus der Werkstatt */
+.st.zahnrad { aspect-ratio: 1; --k: .155; --dreh: -10deg; --s: 168px; }
+.st.zahnrad > span { padding: 0 20%; }
+.st.zahnrad.klein { --s: 80px; }
+
+/* ===================== E–H: zweite Runde ===================== */
+
+/* E · Platine: Steckkarte mit Lötstopplack, Leiterbahnen, Goldkontakten. Grün 500 ist der Lack,
+   Orange die Aktions-Variante. Bei Hover geht die LED an (--led/--glow erben in den <use>-Baum). */
+.st.platine { aspect-ratio: 160 / 104; --k: .13; --dreh: -6deg; --s: 196px; --st-flaeche: var(--gruen-500); }
+.st.platine > span { padding: 3% 14% 8.5%; }
+.st.platine.orange { --st-flaeche: var(--orange); }
+.st.platine.klein { --s: 112px; --k: .15; }
+.st.platine:hover { --led: var(--gelb); --glow: .75; }
+
+/* F · Zollstock: zwei Glieder mit Niet; das zweite Glied klappt bei Hover weiter ein */
+.st.zollstock { aspect-ratio: 180 / 80; --k: .086; --dreh: -5deg; --s: 260px; --st-flaeche: var(--gelb); }
+.st.zollstock > span { padding: 25% 41.5% 4.2% 1.5%; flex-direction: row; white-space: nowrap; }
+.st.zollstock .glied2 { transform: rotate(-32deg); transform-origin: 63.889% 71.25%; }
+.st.zollstock:hover .glied2 { transform: rotate(-56deg); }
+.st.zollstock.klein { --s: 172px; --k: .1; }
+
+/* G · Laserteil: Teil noch in der Restplatte, Schnittfuge in Tinte, vier Stege.
+   Das Teil ist ein eigenes SVG ohne Schatten; bei Hover bricht es heraus und bekommt ihn. */
+.st.laser { aspect-ratio: 192 / 124; --k: .122; --dreh: -6deg; --s: 214px; }
+.st.laser > span { padding: 11% 31% 11% 11.5%; }
+.st.laser > svg.teil { filter: none; }
+.st.laser.klein { --s: 130px; --k: .148; }
+.st.laser:hover > svg.teil {
+  filter: drop-shadow(calc(var(--s) * .025) calc(var(--s) * .025) 0 var(--st-kante));
+  transform: translate(-2.5%, -3.5%);
+}
+.st.laser:hover > span { transform: translate(-2.5%, -3.5%); }
+
+/* H · Sprechblase: Treppenstufen wie beim 3D-Druck mit grober Schicht; Zipfel links oder rechts */
+.st.blase { aspect-ratio: 120 / 102; --k: .16; --dreh: -5deg; --s: 150px; }
+.st.blase > span { padding: 0 9% 20%; }
+.st.blase.rechts use { transform: scaleX(-1); transform-origin: center; }
+.st.blase.klein { --s: 78px; --k: .17; }
+.st.blase.gelb { --st-flaeche: var(--gelb); }
+
+@media (max-width: 400px) {
+  .st.anhaenger { --s: 200px; }
+  .st.band { --s: 228px; }
+}
+@media (max-width: 400px) {
+  .st.zollstock { --s: 236px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .st.wackel:hover { transform: rotate(calc(var(--dreh) + 3deg)); transition: transform .2s ease; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .st.zollstock .glied2 { transition: transform .35s cubic-bezier(.3, 1.4, .6, 1); }
+  .st.laser > svg.teil, .st.laser > span { transition: transform .18s ease-out; }
+}
+
+/* Empfehlung */
+.urteil { background: var(--creme); border-radius: 8px; padding: 28px; margin-top: 48px; display: grid; grid-template-columns: auto 1fr; gap: 24px 32px; align-items: center; }
+.urteil h2 { margin-bottom: 8px; }
+.urteil p { margin: 0 0 10px; max-width: 66ch; }
+@media (max-width: 640px) { .urteil { grid-template-columns: 1fr; padding: 22px 18px; } }
+.urteil-st { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
+@media (min-width: 641px) { .urteil-st { flex-direction: column; } }
+.regeln { margin-top: 28px; font-size: 15px; color: var(--stein); }
+.regeln b { color: var(--tinte); }
+</style>
+</head>
+<body>
+
+<!-- Formen einmal definieren, überall per <use> einsetzen. Füllung kommt aus --st-flaeche,
+     Linien aus --st-kante (beide werden in den Schatten-Baum von <use> vererbt). -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Sechskant, Spitze oben wie der Cube; Ecken leicht gerundet; Fase als dünner Kreis -->
+    <symbol id="f-mutter" viewBox="0 0 100 100">
+      <path d="M50 3 L91 26.5 V73.5 L50 97 L9 73.5 V26.5 Z" style="stroke:var(--st-flaeche)" stroke-width="5" stroke-linejoin="round"/>
+      <circle cx="50" cy="50" r="38.5" fill="none" style="stroke:var(--st-text)" stroke-width="1.3" opacity=".45"/>
+    </symbol>
+    <!-- Anhänger: links zwei 45°-Schnitte, Öse ausgestanzt (evenodd), Ösenring, Faden -->
+    <symbol id="f-anhaenger" viewBox="0 0 150 84" overflow="visible">
+      <path fill-rule="evenodd" d="M0 24 L24 0 H150 V84 H24 L0 60 Z M14 42 a8 8 0 1 0 16 0 a8 8 0 1 0 -16 0 Z"/>
+      <circle cx="22" cy="42" r="11.5" fill="none" style="stroke:var(--st-text)" stroke-width="2"/>
+      <path d="M22 42 C 12 34, 2 22, -16 -6" fill="none" style="stroke:var(--st-kante)" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+    <!-- Klebeband: gerissene Zickzack-Enden -->
+    <symbol id="f-band" viewBox="0 0 160 52">
+      <path d="M6 0 H154 L160 6.5 L154 13 L159 19.5 L154 26 L160 32.5 L155 39 L160 45.5 L154 52 H6 L0 45.5 L5 39 L0 32.5 L6 26 L1 19.5 L6 13 L0 6.5 Z"/>
+    </symbol>
+    <!-- Zahnrad, 12 Zähne -->
+    <symbol id="f-zahnrad" viewBox="0 0 100 100">
+      <path d="M43.4 8.5 45.6 0.2 54.4 0.2 56.6 8.5 65.1 10.8 71.1 4.6 78.8 9.1 76.4 17.4 82.6 23.6 90.9 21.2 95.4 28.9 89.2 34.9 91.5 43.4 99.8 45.6 99.8 54.4 91.5 56.6 89.2 65.1 95.4 71.1 90.9 78.8 82.6 76.4 76.4 82.6 78.8 90.9 71.1 95.4 65.1 89.2 56.6 91.5 54.4 99.8 45.6 99.8 43.4 91.5 34.9 89.2 28.9 95.4 21.2 90.9 23.6 82.6 17.4 76.4 9.1 78.8 4.6 71.1 10.8 65.1 8.5 56.6 0.2 54.4 0.2 45.6 8.5 43.4 10.8 34.9 4.6 28.9 9.1 21.2 17.4 23.6 23.6 17.4 21.2 9.1 28.9 4.6 34.9 10.8Z"/>
+    </symbol>
+
+    <!-- E · Platine: Steckkarte mit 45°-Fase oben rechts, Kontaktzunge samt Kodierschlitz unten,
+         drei Befestigungslöcher ausgestanzt (evenodd). Leiterbahnen in Tinte, Pads und Kontakte in Gelb (Gold). -->
+    <symbol id="f-platine" viewBox="0 0 160 104">
+      <path fill-rule="evenodd" d="M5 0 H144 L160 16 V87 Q160 92 155 92 H116 V102 Q116 104 114 104 H88 V96 H84 V104 H46 Q44 104 44 102 V92 H5 Q0 92 0 87 V5 Q0 0 5 0 Z M6.4 10 a3.6 3.6 0 1 0 7.2 0 a3.6 3.6 0 1 0 -7.2 0 Z M6.4 82 a3.6 3.6 0 1 0 7.2 0 a3.6 3.6 0 1 0 -7.2 0 Z M146.4 82 a3.6 3.6 0 1 0 7.2 0 a3.6 3.6 0 1 0 -7.2 0 Z"/>
+      <g fill="none" style="stroke:var(--gelb)" stroke-width="2.2">
+        <circle cx="10" cy="10" r="4.7"/><circle cx="10" cy="82" r="4.7"/><circle cx="150" cy="82" r="4.7"/>
+      </g>
+      <g fill="none" style="stroke:var(--st-text)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" opacity=".5">
+        <path d="M50.5 94 V90 L44.5 84 H24 L18 78 V44"/>
+        <path d="M59.5 94 V89"/>
+        <path d="M68.5 94 V90 L74.5 84 H90"/>
+        <path d="M103.5 94 V90 L109.5 84 H134 L140 78 V36"/>
+        <path d="M33 9.5 H62 L66 13.5"/>
+      </g>
+      <g style="fill:var(--gelb)">
+        <circle cx="18" cy="41" r="2.8"/><circle cx="59.5" cy="86.5" r="2.8"/><circle cx="93" cy="84" r="2.8"/>
+        <circle cx="140" cy="33" r="2.8"/><circle cx="68" cy="15.5" r="2.8"/>
+        <rect x="48" y="94" width="5" height="8.5" rx=".8"/><rect x="57" y="94" width="5" height="8.5" rx=".8"/>
+        <rect x="66" y="94" width="5" height="8.5" rx=".8"/><rect x="75" y="94" width="5" height="8.5" rx=".8"/>
+        <rect x="92" y="94" width="5" height="8.5" rx=".8"/><rect x="101" y="94" width="5" height="8.5" rx=".8"/>
+        <rect x="110" y="94" width="4" height="8.5" rx=".8"/>
+      </g>
+      <g style="fill:var(--st-text)">
+        <circle cx="18" cy="41" r="1"/><circle cx="59.5" cy="86.5" r="1"/><circle cx="93" cy="84" r="1"/>
+        <circle cx="140" cy="33" r="1"/><circle cx="68" cy="15.5" r="1"/>
+      </g>
+      <!-- SMD-LED: aus = Tinte, an = Gelb mit Schein -->
+      <circle cx="27" cy="9.5" r="8.5" style="fill:var(--gelb);opacity:var(--glow, 0)"/>
+      <rect x="21.5" y="6.5" width="11" height="6" rx="1.2" style="fill:var(--led, var(--st-text))"/>
+    </symbol>
+
+    <!-- F · Zollstock: Glied 1 (Text, Niet) liegt über Glied 2 (Zahlen). Beide im selben Koordinatensystem,
+         Glied 2 wird per CSS um den Niet (115|57) gedreht. -->
+    <symbol id="f-glied1" viewBox="0 0 180 80" overflow="visible">
+      <path d="M0 40 H115 A17 17 0 0 1 115 74 H0 Z"/>
+      <path fill="none" style="stroke:var(--st-text)" stroke-width=".9" d="M3 40v6.5M7 40v3.2M11 40v3.2M15 40v3.2M19 40v3.2M23 40v6.5M27 40v3.2M31 40v3.2M35 40v3.2M39 40v3.2M43 40v6.5M47 40v3.2M51 40v3.2M55 40v3.2M59 40v3.2M63 40v6.5M67 40v3.2M71 40v3.2M75 40v3.2M79 40v3.2M83 40v6.5M87 40v3.2M91 40v3.2M95 40v3.2M99 40v3.2M103 40v6.5"/>
+      <path fill="none" style="stroke:var(--st-text)" stroke-width="1" opacity=".55" d="M115 40 A17 17 0 0 1 115 74"/>
+      <circle cx="115" cy="57" r="5.2" style="fill:var(--kreide);stroke:var(--st-text)" stroke-width="1.4"/>
+      <circle cx="115" cy="57" r="1.3" style="fill:var(--st-text)"/>
+    </symbol>
+    <symbol id="f-glied2" viewBox="0 0 180 80" overflow="visible">
+      <path d="M115 40 H172 A17 17 0 0 1 172 74 H115 A17 17 0 0 1 115 40 Z"/>
+      <path fill="none" style="stroke:var(--st-text)" stroke-width=".9" d="M135 40v3.2M139 40v3.2M143 40v6.5M147 40v3.2M151 40v3.2M155 40v3.2M159 40v3.2M163 40v6.5M167 40v3.2M171 40v3.2"/>
+      <g style="fill:var(--st-text)" font-family="Plex Mono, IBM Plex Mono, monospace" font-weight="500" font-size="9" text-anchor="middle">
+        <text x="143" y="57">21</text><text x="163" y="57">22</text>
+      </g>
+    </symbol>
+
+    <!-- G · Laserteil: Restplatte, aus der schon Teile herausgeschnitten wurden (Sechskant wie A, Rundlöcher; evenodd).
+         Schnittfuge als Tinte-Fläche unter dem Teil, vier Stege überbrücken sie. Das Teil selbst ist f-laser-teil,
+         ein eigenes SVG darüber, damit es bei Hover herausbrechen kann. -->
+    <symbol id="f-laser-platte" viewBox="0 0 192 124">
+      <path fill-rule="evenodd" d="M4 0 H188 Q192 0 192 4 V120 Q192 124 188 124 H4 Q0 124 0 120 V4 Q0 0 4 0 Z M165 21 L178 28.5 V43.5 L165 51 L152 43.5 V28.5 Z M157 82 a10 10 0 1 0 20 0 a10 10 0 1 0 -20 0 Z M176 109 a4.5 4.5 0 1 0 9 0 a4.5 4.5 0 1 0 -9 0 Z"/>
+      <path d="M25 16 H129 L140 27 V97 L129 108 H25 L14 97 V27 Z" style="fill:var(--tinte);stroke:var(--tinte)" stroke-width="4.6" stroke-linejoin="round"/>
+      <g>
+        <rect x="48.2" y="12.4" width="3.6" height="5.2"/><rect x="102.2" y="106.4" width="3.6" height="5.2"/>
+        <rect x="10.4" y="68.2" width="5.2" height="3.6"/><rect x="138.4" y="48.2" width="5.2" height="3.6"/>
+      </g>
+    </symbol>
+    <symbol id="f-laser-teil" viewBox="0 0 192 124">
+      <path d="M25 16 H129 L140 27 V97 L129 108 H25 L14 97 V27 Z"/>
+    </symbol>
+
+    <!-- H · Sprechblase: Rechteck mit Treppenstufen (Raster 6), Zipfel unten links; feine Schichtlinien -->
+    <symbol id="f-blase" viewBox="0 0 120 102">
+      <path d="M12 0 H108 V6 H114 V12 H120 V66 H114 V72 H108 V78 H48 V84 H42 V90 H36 V96 H30 V102 H24 V78 H12 V72 H6 V66 H0 V12 H6 V6 H12 Z"/>
+      <path fill="none" style="stroke:var(--st-text)" stroke-width=".5" opacity=".16" d="M12 6H108M6 12H114M6 18H114M6 24H114M6 30H114M6 36H114M6 42H114M6 48H114M6 54H114M6 60H114M6 66H114M12 72H108M24 78H48M24 84H42M24 90H36M24 96H30"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header>
+  <div class="wrap">
+    <div>
+      <h1>Sticker, neu geformt</h1>
+      <p>Der runde Störer funktioniert, sieht aber aus wie aus jedem Supermarkt-Prospekt. Hier sind acht Formen, die aus der Werkstatt kommen: A bis D bleiben nah am klassischen Störer, E bis H trauen sich mehr. Farbe, Schrift und harter Schatten bleiben wie im Styleguide, nur die Kontur ändert sich.</p>
+      <div class="stand mono">Entwurf, 20.11.2026, Abschnitt Maker-Elemente</div>
+    </div>
+    <div class="alt"><span class="kreis">Heute<br>offen!</span><br>bisher</div>
+  </div>
+</header>
+<div class="tape"></div>
+
+<main class="wrap">
+
+  <!-- ===================== A ===================== -->
+  <section class="variante" id="mutter">
+    <div class="kopf"><span class="buchst">A</span><h2>Mutter</h2></div>
+    <p class="idee">Sechskant-Mutter von oben: Spitze oben wie der Cube, die Fase als feiner Kreis.</p>
+    <div class="buehnen">
+      <div class="buehne hell">
+        <span class="st mutter wackel"><svg><use href="#f-mutter"/></svg><span>Heute<br>offen!<small>bis 22 Uhr</small></span></span>
+        <div class="klein-reihe">
+          <span class="st mutter klein"><svg><use href="#f-mutter"/></svg><span>Neu!</span></span>
+          <span class="st mutter klein"><svg><use href="#f-mutter"/></svg><span>Repair<br>Café</span></span>
+        </div>
+        <span class="was">auf Weiß</span>
+      </div>
+      <div class="buehne dunkel">
+        <span class="st mutter"><svg><use href="#f-mutter"/></svg><span>Repair<br>Café<small>Sa 14 Uhr</small></span></span>
+        <div class="klein-reihe">
+          <span class="st mutter klein"><svg><use href="#f-mutter"/></svg><span>Gratis</span></span>
+          <span class="st mutter klein"><svg><use href="#f-mutter"/></svg><span>Heute<br>offen!</span></span>
+        </div>
+        <span class="was">auf Grün 900</span>
+      </div>
+      <div class="buehne foto">
+        <span class="st mutter"><svg><use href="#f-mutter"/></svg><span>Neu!<small>Lasercutter</small></span></span>
+        <span class="was">auf Foto</span>
+      </div>
+    </div>
+    <div class="text-block">
+      <div>
+        <h3>Warum</h3>
+        <p>Der Sechskant ist die Silhouette des Cube, also unser eigenes Zeichen, und gleichzeitig das Werkstatt-Teil schlechthin. Er bleibt kompakt wie der Kreis, hat aber Kanten und eine Richtung. Die Fase gibt Tiefe, ohne einen zweiten Farbton zu brauchen.</p>
+      </div>
+      <div>
+        <h3>Eignet sich für</h3>
+        <ul><li>den Standard-Störer überall, wo bisher der Kreis saß</li><li>kleine Flächen ab 72 px (App, Linkseite, Story)</li><li>kurze Texte bis zwei Zeilen</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== B ===================== -->
+  <section class="variante" id="anhaenger">
+    <div class="kopf"><span class="buchst">B</span><h2>Anhänger</h2></div>
+    <p class="idee">Hängeetikett mit 45°-Schnitten, ausgestanzter Öse und Faden, wie am Werkzeug im Regal.</p>
+    <div class="buehnen">
+      <div class="buehne hell">
+        <span class="st anhaenger wackel"><svg><use href="#f-anhaenger"/></svg><span>Repair Café<small>Sa 14–17 Uhr</small></span></span>
+        <div class="klein-reihe">
+          <span class="st anhaenger klein"><svg><use href="#f-anhaenger"/></svg><span>Neu!</span></span>
+        </div>
+        <span class="was">auf Weiß</span>
+      </div>
+      <div class="buehne dunkel">
+        <span class="st anhaenger"><svg><use href="#f-anhaenger"/></svg><span>Heute offen!<small>18–22 Uhr</small></span></span>
+        <div class="klein-reihe">
+          <span class="st anhaenger klein"><svg><use href="#f-anhaenger"/></svg><span>Gratis</span></span>
+        </div>
+        <span class="was">auf Grün 900</span>
+      </div>
+      <div class="buehne foto">
+        <span class="st anhaenger"><svg><use href="#f-anhaenger"/></svg><span>Gratis<small>für Mitglieder</small></span></span>
+        <span class="was">auf Foto</span>
+      </div>
+    </div>
+    <div class="text-block">
+      <div>
+        <h3>Warum</h3>
+        <p>Ein Preisschild aus der Werkstatt: Die zwei 45°-Schnitte sind dieselben wie im Cube und im Warnband, die Öse ist echt ausgestanzt, man sieht den Grund durch. Das Querformat lässt Platz für eine zweite Zeile mit Uhrzeit oder Bedingung.</p>
+      </div>
+      <div>
+        <h3>Eignet sich für</h3>
+        <ul><li>Preise, Uhrzeiten, „Gratis“ mit Bedingung</li><li>Event-Kacheln und Plakate mit etwas Platz</li><li>weniger für sehr kleine Flächen: unter 100 px Breite wird es eng</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== C ===================== -->
+  <section class="variante" id="band">
+    <div class="kopf"><span class="buchst">C</span><h2>Klebeband</h2></div>
+    <p class="idee">Ein abgerissenes Stück Gewebeband, schief aufgeklebt. Gelb für Aktionen, Grün für Vereinssachen.</p>
+    <div class="buehnen">
+      <div class="buehne hell">
+        <span class="st band wackel"><svg><use href="#f-band"/></svg><span>Heute offen!</span></span>
+        <span class="st band klein gruen"><svg><use href="#f-band"/></svg><span>Repair Café</span></span>
+        <span class="was">auf Weiß</span>
+      </div>
+      <div class="buehne dunkel">
+        <span class="st band"><svg><use href="#f-band"/></svg><span>Neu! <span class="mono" style="font-size:.62em">Lötstation</span></span></span>
+        <span class="st band klein"><svg><use href="#f-band"/></svg><span>Gratis</span></span>
+        <span class="was">auf Grün 900</span>
+      </div>
+      <div class="buehne foto">
+        <span class="st band gruen"><svg><use href="#f-band"/></svg><span>Repair Café</span></span>
+        <span class="was">auf Foto</span>
+      </div>
+    </div>
+    <div class="text-block">
+      <div>
+        <h3>Warum</h3>
+        <p>Klebeband ist das, womit in der Werkstatt alles beschriftet wird. Die Form ist breit statt rund und lässt sich über Bildkanten und Ecken legen, wie ein schnell drangeklebter Hinweis. Wirkt am lockersten und passt zum Labelstreifen.</p>
+      </div>
+      <div>
+        <h3>Eignet sich für</h3>
+        <ul><li>Fotos und Social Media, gern über eine Ecke geklebt</li><li>einzeilige Texte, auch etwas länger</li><li>weniger als kompakter Störer in der App: braucht Breite</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== D ===================== -->
+  <section class="variante" id="zahnrad">
+    <div class="kopf"><span class="buchst">D</span><h2>Zahnrad</h2></div>
+    <p class="idee">Der klassische Sternstörer mit Zacken, nur dass die Zacken Zähne sind.</p>
+    <div class="buehnen">
+      <div class="buehne hell">
+        <span class="st zahnrad wackel"><svg><use href="#f-zahnrad"/></svg><span>Gratis<small>Schnuppern</small></span></span>
+        <div class="klein-reihe">
+          <span class="st zahnrad klein"><svg><use href="#f-zahnrad"/></svg><span>Neu!</span></span>
+        </div>
+        <span class="was">auf Weiß</span>
+      </div>
+      <div class="buehne dunkel">
+        <span class="st zahnrad"><svg><use href="#f-zahnrad"/></svg><span>Heute<br>offen!</span></span>
+        <div class="klein-reihe">
+          <span class="st zahnrad klein"><svg><use href="#f-zahnrad"/></svg><span>Repair<br>Café</span></span>
+        </div>
+        <span class="was">auf Grün 900</span>
+      </div>
+      <div class="buehne foto">
+        <span class="st zahnrad"><svg><use href="#f-zahnrad"/></svg><span>Neu!</span></span>
+        <span class="was">auf Foto</span>
+      </div>
+    </div>
+    <div class="text-block">
+      <div>
+        <h3>Warum</h3>
+        <p>Hat die laute Wirkung eines Sternstörers, aber mit einem Bild aus der Mechanik statt aus der Werbung. Sehr auffällig, dafür am nächsten am Kreis und am ehesten Klischee.</p>
+      </div>
+      <div>
+        <h3>Eignet sich für</h3>
+        <ul><li>Plakate und Flyer, die von Weitem wirken müssen</li><li>sehr kurze Wörter (Neu!, Gratis)</li><li>sparsam: neben der Bildmarke wirkt es schnell unruhig</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== E ===================== -->
+  <section class="variante" id="platine">
+    <div class="kopf"><span class="buchst">E</span><h2>Platine</h2></div>
+    <p class="idee">Eine kleine Steckkarte: Lötstopplack, Leiterbahnen, Goldkontakte und drei Befestigungslöcher, durch die der Grund scheint.</p>
+    <div class="buehnen">
+      <div class="buehne hell">
+        <span class="st platine"><svg><use href="#f-platine"/></svg><span>Lötkurs<small>Do 19 Uhr</small></span></span>
+        <div class="klein-reihe">
+          <span class="st platine orange klein"><svg><use href="#f-platine"/></svg><span>Neu!</span></span>
+        </div>
+        <span class="was">auf Weiß</span>
+      </div>
+      <div class="buehne dunkel">
+        <span class="st platine orange"><svg><use href="#f-platine"/></svg><span>Heute<br>offen!<small>bis 22 Uhr</small></span></span>
+        <div class="klein-reihe">
+          <span class="st platine klein"><svg><use href="#f-platine"/></svg><span>Gratis</span></span>
+        </div>
+        <span class="was">auf Grün 900</span>
+      </div>
+      <div class="buehne foto">
+        <span class="st platine"><svg><use href="#f-platine"/></svg><span>Repair<br>Café<small>Sa 14 Uhr</small></span></span>
+        <span class="was">auf Foto</span>
+      </div>
+    </div>
+    <div class="text-block">
+      <div>
+        <h3>Warum</h3>
+        <p>Elektronik ist der Bereich, über den die meisten Neuen zu uns kommen: Lötkurs, Repair Café, Arduino-Abend. Die Platine ist das einzige Werkstatt-Motiv, das von Haus aus grün ist, also passt Grün 500 als Lötstopplack für Vereinssachen, Orange bleibt für Aktionen. Die Leiterbahnen knicken in 45° wie die Schnitte im Cube. Mit der Maus drüber geht die LED an.</p>
+      </div>
+      <div>
+        <h3>Eignet sich für</h3>
+        <ul><li>alles rund um Elektronik und Reparieren</li><li>Web, Social und Plakat ab etwa 110 px Breite</li><li>nicht unter 100 px: Bahnen und Pads werden zu Krümeln, und als allgemeiner Störer liest sie sich zu sehr nach Elektronik</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== F ===================== -->
+  <section class="variante" id="zollstock">
+    <div class="kopf"><span class="buchst">F</span><h2>Zollstock</h2></div>
+    <p class="idee">Zwei Glieder eines Zollstocks mit Niet im Gelenk, das zweite aufgeklappt. Gelb wie das Original.</p>
+    <div class="buehnen">
+      <div class="buehne hell">
+        <span class="st zollstock"><svg><use class="glied2" href="#f-glied2"/><use href="#f-glied1"/></svg><span>Heute offen!</span></span>
+        <span class="st zollstock klein"><svg><use class="glied2" href="#f-glied2"/><use href="#f-glied1"/></svg><span>Neu!</span></span>
+        <span class="was">auf Weiß</span>
+      </div>
+      <div class="buehne dunkel">
+        <span class="st zollstock"><svg><use class="glied2" href="#f-glied2"/><use href="#f-glied1"/></svg><span>Repair Café</span></span>
+        <span class="st zollstock klein"><svg><use class="glied2" href="#f-glied2"/><use href="#f-glied1"/></svg><span>Gratis</span></span>
+        <span class="was">auf Grün 900</span>
+      </div>
+      <div class="buehne foto">
+        <span class="st zollstock"><svg><use class="glied2" href="#f-glied2"/><use href="#f-glied1"/></svg><span>Neu!</span></span>
+        <span class="was">auf Foto</span>
+      </div>
+    </div>
+    <div class="text-block">
+      <div>
+        <h3>Warum</h3>
+        <p>Den Zollstock hatte jede:r schon in der Hand; Gelb, Skala und Niet erkennt man auf einen Blick. Das abgeknickte Glied macht aus einem Streifen eine Form mit Richtung, die über eine Bildkante ragen kann. Mit der Maus drüber klappt das Glied ein Stück weiter ein.</p>
+      </div>
+      <div>
+        <h3>Eignet sich für</h3>
+        <ul><li>Holzwerkstatt, Bauprojekte, Workshops zum Selbermachen</li><li>einzeilige Texte bis etwa zwölf Zeichen</li><li>nicht unter 170 px Breite: der Text sitzt nur im ersten Glied und wird schnell zu klein, als kompakter Störer ungeeignet</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== G ===================== -->
+  <section class="variante" id="laserteil">
+    <div class="kopf"><span class="buchst">G</span><h2>Laserteil</h2></div>
+    <p class="idee">Ein frisch gelasertes Teil aus Acryl, das noch mit vier Stegen in der Restplatte hängt.</p>
+    <div class="buehnen">
+      <div class="buehne hell">
+        <span class="st laser"><svg><use href="#f-laser-platte"/></svg><svg class="teil"><use href="#f-laser-teil"/></svg><span>Neu!<small>Lasercutter</small></span></span>
+        <div class="klein-reihe">
+          <span class="st laser klein"><svg><use href="#f-laser-platte"/></svg><svg class="teil"><use href="#f-laser-teil"/></svg><span>Gratis</span></span>
+        </div>
+        <span class="was">auf Weiß</span>
+      </div>
+      <div class="buehne dunkel">
+        <span class="st laser"><svg><use href="#f-laser-platte"/></svg><svg class="teil"><use href="#f-laser-teil"/></svg><span>Heute<br>offen!</span></span>
+        <div class="klein-reihe">
+          <span class="st laser klein"><svg><use href="#f-laser-platte"/></svg><svg class="teil"><use href="#f-laser-teil"/></svg><span>Neu!</span></span>
+        </div>
+        <span class="was">auf Grün 900</span>
+      </div>
+      <div class="buehne foto">
+        <span class="st laser"><svg><use href="#f-laser-platte"/></svg><svg class="teil"><use href="#f-laser-teil"/></svg><span>Repair<br>Café<small>Sa 14 Uhr</small></span></span>
+        <span class="was">auf Foto</span>
+      </div>
+    </div>
+    <div class="text-block">
+      <div>
+        <h3>Warum</h3>
+        <p>Erzählt in einem Bild, was bei uns passiert: Gerade wurde etwas gemacht, und es wartet darauf, dass jemand es herausnimmt. Schnittfuge und Stege erkennt jede:r, die schon mal am Laser stand, und die Löcher daneben sind die vorigen Aufträge, eins davon eine Mutter wie in A. Mit der Maus drüber bricht das Teil heraus.</p>
+      </div>
+      <div>
+        <h3>Eignet sich für</h3>
+        <ul><li>„Neu!“ für Geräte und Kurse, Ankündigungen</li><li>Plakate, Social und Web ab etwa 110 px Breite</li><li>wenig Text: die Restplatte kostet Rand, das Textfeld ist deutlich kleiner als die Form</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== H ===================== -->
+  <section class="variante" id="sprechblase">
+    <div class="kopf"><span class="buchst">H</span><h2>Sprechblase</h2></div>
+    <p class="idee">Eine Sprechblase mit Treppenstufen, wie eine Rundung aus dem 3D-Drucker mit grober Schichthöhe.</p>
+    <div class="buehnen">
+      <div class="buehne hell">
+        <span class="st blase wackel"><svg><use href="#f-blase"/></svg><span>Heute<br>offen!<small>bis 22 Uhr</small></span></span>
+        <div class="klein-reihe">
+          <span class="st blase klein"><svg><use href="#f-blase"/></svg><span>Neu!</span></span>
+          <span class="st blase klein rechts"><svg><use href="#f-blase"/></svg><span>Gratis</span></span>
+        </div>
+        <span class="was">auf Weiß</span>
+      </div>
+      <div class="buehne dunkel">
+        <span class="st blase"><svg><use href="#f-blase"/></svg><span>Lötkurs<small>Do 19 Uhr</small></span></span>
+        <div class="klein-reihe">
+          <span class="st blase klein gelb"><svg><use href="#f-blase"/></svg><span>Repair<br>Café</span></span>
+        </div>
+        <span class="was">auf Grün 900</span>
+      </div>
+      <div class="buehne foto">
+        <span class="st blase rechts"><svg><use href="#f-blase"/></svg><span>Neu!<small>Lasercutter</small></span></span>
+        <span class="was">auf Foto</span>
+      </div>
+    </div>
+    <div class="text-block">
+      <div>
+        <h3>Warum</h3>
+        <p>Ein Sticker ruft etwas, und die Sprechblase sagt genau das. Der Zipfel kann links oder rechts sitzen und auf etwas im Foto zeigen, etwa auf das neue Gerät. Die Stufen sind der Treppenstufeneffekt aus dem 3D-Druck, die feinen Linien die Schichten. Im Kern ist die Form ein Rechteck, deshalb bleibt sie auch bei 72 px ruhig und lesbar.</p>
+      </div>
+      <div>
+        <h3>Eignet sich für</h3>
+        <ul><li>Fotos, auf denen der Zipfel auf etwas zeigt</li><li>kleine Flächen ab 72 px (App, Linkseite, Story)</li><li>Texte, die man rufen würde, bis zwei Zeilen; für Preise mit Bedingung ist B besser</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="urteil" id="empfehlung">
+    <div class="urteil-st">
+      <span class="st mutter" style="--s:140px"><svg><use href="#f-mutter"/></svg><span>Mutter<small>Standard</small></span></span>
+      <span class="st blase" style="--s:132px; --k:.15"><svg><use href="#f-blase"/></svg><span>Sprech-<br>blase</span></span>
+    </div>
+    <div>
+      <h2>Empfehlung: A bleibt, H kommt dazu</h2>
+      <p>Auch nach acht Formen ersetzt die Mutter (A) den Kreis am besten: gleiche Größe, gleiche Farbe, gleicher Schatten, funktioniert bei 72 px genauso wie auf dem Plakat. Und sie ist die einzige Form, die direkt aus unserem Logo kommt, statt nur nach Werkstatt auszusehen.</p>
+      <p>Von den neuen ist die Sprechblase (H) die stärkste. Sie bleibt bei 72 px lesbar, sagt schon durch ihre Form „hier ruft jemand“, und der Zipfel kann auf etwas im Foto zeigen. Als zweite Form für Fotos und Social ist sie vielseitiger als das Klebeband (C), weil sie auch klein funktioniert.</p>
+      <p>Laserteil (G) und Platine (E) erzählen am meisten, bleiben aber Spezialisten: G für ein großes „Neu!“ auf Plakat oder Post, E nur bei Elektronik-Themen. Den Anhänger (B) nur, wenn eine zweite Zeile wirklich nötig ist. Zollstock (F) und Zahnrad (D) würde ich weglassen: F braucht viel Breite für wenig Text, D ist zu nah am Supermarkt-Stern. Im Alltag nicht mehr als zwei Formen, sonst wird es unruhig.</p>
+    </div>
+  </section>
+
+  <p class="regeln"><b>Regeln wie bisher:</b> Tinte auf Orange, Gelb oder Grün 500 (alle über 4,5 : 1), nie Weiß auf Orange. Harter Schatten in Tinte, im Dunkelmodus in Kreide. Maximal ein Sticker pro Medium. Technisch: Form als SVG, Schatten per <code class="mono">drop-shadow</code>, damit er der Kontur folgt.</p>
+</main>
+</body>
+</html>

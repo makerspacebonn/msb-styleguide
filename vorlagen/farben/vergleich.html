@@ -1,0 +1,1174 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leiste und Dunkelmodus</title>
+<meta name="description" content="Entwurf: Seitenleiste wie in der Vereinssoftware und Dunkelmodus in der Tannen-Familie, aktuell und neu im Vergleich, mit Optionen und Kontrastwerten. MakerSpace Bonn e.V.">
+<!-- Entwurfsseite für Abschnitt 7 „Hell & Dunkel“ des Styleguides, Runde 2.
+     Vergleicht die heutige Palette aus src/build.py (MODI/KONSTANT) mit dem Vorschlag: Seitenleiste als eigene
+     MODI-Rollen mit den Werten der Vereinssoftware (vereinssoftware/src/styles.css, --sidebar*), Dunkel-Ebenen
+     in derselben entsättigten Grün-Familie, drei Optionen für die Leiste im Dunkeln und zum Vergleich die
+     gesättigten Grüntöne aus Runde 1. Alles zwischen den gen-Markierungen wird aus denselben Daten erzeugt und
+     mit build.modi_kontrast() gegen MODI_PRUEFEN (plus neue Leisten-Paarungen) gerechnet. Die Vorschauen sind
+     Nachbauten der Vorschauen aus src/template.html. Schriften: lokale woff2 aus ../linkseite/fonts. -->
+<style>
+@font-face { font-family: 'Plex Sans'; font-weight: 400; font-display: swap; src: url(../linkseite/fonts/ibm-plex-sans-latin-400-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Plex Sans'; font-weight: 700; font-display: swap; src: url(../linkseite/fonts/ibm-plex-sans-latin-700-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Plex Mono'; font-weight: 500; font-display: swap; src: url(../linkseite/fonts/ibm-plex-mono-latin-500-normal.woff2) format('woff2'); }
+
+/* ---------- Seite (Entwurfsseite, wie vorlagen/sticker) ---------- */
+:root {
+  color-scheme: light;
+  --pg-gruen-100:#DCEFD0; --pg-gruen-500:#5EB130; --pg-gruen-600:#33791A; --pg-gruen-800:#325725; --pg-gruen-900:#1B3714;
+  --pg-tinte:#1E1C19; --pg-stein:#5F5850; --pg-papier:#FBF8F2; --pg-creme:#FAF2E4; --pg-rand:#E4DCCB;
+  --pg-kreide:#EDE8DE; --pg-orange:#F2711C; --pg-weiss:#FFFFFF;
+}
+* { box-sizing: border-box; }
+html { background: var(--pg-papier); }
+body {
+  margin: 0; background: var(--pg-papier); color: var(--pg-tinte);
+  font: 400 16px/1.6 'Plex Sans', 'IBM Plex Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1320px; margin: 0 auto; padding: 0 24px; }
+@media (max-width: 600px) { .wrap { padding: 0 16px; } }
+.mono, code { font-family: 'Plex Mono', 'IBM Plex Mono', ui-monospace, monospace; font-weight: 500; }
+code { font-size: .88em; }
+a { color: var(--pg-gruen-600); text-underline-offset: 2px; }
+a:focus-visible { outline: 3px solid var(--pg-gruen-600); outline-offset: 2px; }
+
+header.seite { background: var(--pg-gruen-800); color: var(--pg-weiss); }
+header.seite .wrap { padding-top: 44px; padding-bottom: 48px; }
+header.seite h1 { max-width: 20ch; font-size: clamp(34px, 6vw, 56px); line-height: 1.02; margin: 0 0 14px; letter-spacing: -.01em; }
+header.seite p { margin: 0; color: var(--pg-gruen-100); max-width: 66ch; }
+header.seite .stand { margin-top: 18px; font-size: 14px; color: var(--pg-kreide); }
+.band { height: 18px; background: repeating-linear-gradient(-45deg, var(--pg-gruen-500) 0 14px, var(--pg-gruen-900) 14px 28px); }
+
+main { padding: 8px 0 72px; }
+section.teil { padding: 48px 0 16px; border-bottom: 1px solid var(--pg-rand); }
+section.teil:last-of-type { border-bottom: 0; }
+h2 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; margin: 0 0 6px; }
+.idee { margin: 4px 0 22px; color: var(--pg-stein); max-width: 74ch; }
+h3 { font-size: 16px; line-height: 1.35; margin: 0 0 4px; }
+h3.zwischen { font-size: 21px; margin: 40px 0 4px; }
+
+/* Kurzfassung */
+.kurz { background: var(--pg-creme); border-radius: 8px; padding: 26px 28px; margin-top: 40px;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px 32px; }
+.kurz p { margin: 0; font-size: 15px; }
+.kurz h3 { font-size: 17px; }
+@media (max-width: 820px) { .kurz { grid-template-columns: 1fr; padding: 22px 18px; } }
+
+/* Vergleich: zwei Spalten, schmal untereinander */
+.vergleich { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 16px; align-items: start; }
+@media (max-width: 960px) { .vergleich { grid-template-columns: 1fr; } }
+figure.vg { margin: 0; min-width: 0; }
+figure.vg figcaption { font-size: 14px; margin: 0 0 7px; color: var(--pg-stein); display: flex; gap: 4px 8px; align-items: baseline; flex-wrap: wrap; }
+figure.vg figcaption b { color: var(--pg-tinte); font-size: 15px; }
+figure.vg.neu figcaption b { color: var(--pg-gruen-600); }
+.empf { display: inline-block; font-size: 12px; font-weight: 700; line-height: 1; padding: 4px 8px 3px; border-radius: 3px; background: var(--pg-gruen-500); color: var(--pg-tinte); }
+.bewertung { background: var(--pg-creme); border-radius: 8px; padding: 18px 20px; font-size: 15px; align-self: start; }
+.bewertung p { margin: 0 0 10px; }
+.bewertung p:last-child { margin-bottom: 0; }
+
+/* Entscheidungen */
+.gruende { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px 36px; margin: 28px 0 14px; }
+@media (max-width: 900px) { .gruende { grid-template-columns: 1fr; } }
+.gruende p { margin: 0 0 14px; font-size: 15px; max-width: 62ch; }
+
+/* ---------- Vorschau-Rahmen: Tokens je Variante ---------- */
+.v { container-type: inline-size; background: var(--hintergrund); color: var(--text); border: 1px solid var(--pg-rand);
+  border-radius: 8px; overflow: hidden; font-size: 15px; line-height: 1.55; }
+.v.dunkel { border-color: var(--pg-tinte); }
+/* gen:tokens */
+.v.t-alt-hell {
+  --hintergrund: #FBF8F2;
+  --flaeche: #FFFFFF;
+  --fond: #FAF2E4;
+  --linie: #E4DCCB;
+  --text: #1E1C19;
+  --text-leise: #5F5850;
+  --text-gruen: #33791A;
+  --fokus: #33791A;
+  --button: #33791A;
+  --button-hover: #325725;
+  --button-text: #FFFFFF;
+  --fond-gruen: #F0F7EA;
+  --fond-gelb: #FDF3D7;
+  --text-gelb: #8A5A00;
+  --fond-rot: #FCEBE9;
+  --text-rot: #C62828;
+  --fond-mint: #E6F5FC;
+  --text-violett: #6D3E91;
+  --text-blau: #0070A8;
+  --leiste: #1B3714;
+  --leiste-text: #EDE8DE;
+  --leiste-leise: #9CD27D;
+  --leiste-feld: #1B3714;
+  --leiste-hover: #325725;
+  --leiste-linie: #325725;
+  --leiste-aktiv: #325725;
+  --leiste-aktiv-text: #EDE8DE;
+  --leiste-fokus: #9CD27D;
+  --marke: #5EB130;
+  --tinte: #1E1C19;
+  --kreide: #EDE8DE;
+  --gruen-300: #9CD27D;
+  --gruen-800: #325725;
+  --gruen-900: #1B3714;
+  --violett: #6D3E91;
+  --gelb: #FCBD30;
+  --orange: #F2711C;
+  --rot: #C62828;
+}
+.v.t-alt-dunkel {
+  --hintergrund: #141210;
+  --flaeche: #1E1C19;
+  --fond: #2B2721;
+  --linie: #3E3932;
+  --text: #EDE8DE;
+  --text-leise: #AAA297;
+  --text-gruen: #9CD27D;
+  --fokus: #9CD27D;
+  --button: #5EB130;
+  --button-hover: #9CD27D;
+  --button-text: #1E1C19;
+  --fond-gruen: #1B3714;
+  --fond-gelb: #33280F;
+  --text-gelb: #FCBD30;
+  --fond-rot: #3B1A17;
+  --text-rot: #FF7B7B;
+  --fond-mint: #152D37;
+  --text-violett: #BC94DB;
+  --text-blau: #009FE3;
+  --leiste: #1B3714;
+  --leiste-text: #EDE8DE;
+  --leiste-leise: #9CD27D;
+  --leiste-feld: #1B3714;
+  --leiste-hover: #325725;
+  --leiste-linie: #325725;
+  --leiste-aktiv: #325725;
+  --leiste-aktiv-text: #EDE8DE;
+  --leiste-fokus: #9CD27D;
+  --marke: #5EB130;
+  --tinte: #1E1C19;
+  --kreide: #EDE8DE;
+  --gruen-300: #9CD27D;
+  --gruen-800: #325725;
+  --gruen-900: #1B3714;
+  --violett: #6D3E91;
+  --gelb: #FCBD30;
+  --orange: #F2711C;
+  --rot: #C62828;
+}
+.v.t-neu-hell {
+  --hintergrund: #FBF8F2;
+  --flaeche: #FFFFFF;
+  --fond: #FAF2E4;
+  --linie: #E4DCCB;
+  --text: #1E1C19;
+  --text-leise: #5F5850;
+  --text-gruen: #33791A;
+  --fokus: #33791A;
+  --button: #33791A;
+  --button-hover: #325725;
+  --button-text: #FFFFFF;
+  --fond-gruen: #F0F7EA;
+  --fond-gelb: #FDF3D7;
+  --text-gelb: #8A5A00;
+  --fond-rot: #FCEBE9;
+  --text-rot: #C62828;
+  --fond-mint: #E6F5FC;
+  --text-violett: #6D3E91;
+  --text-blau: #0070A8;
+  --leiste: #13201A;
+  --leiste-text: #D6E0DA;
+  --leiste-leise: #9BA6A0;
+  --leiste-feld: #1F2B26;
+  --leiste-hover: #213129;
+  --leiste-linie: #2A3C33;
+  --leiste-aktiv: #5EB130;
+  --leiste-aktiv-text: #1E1C19;
+  --leiste-fokus: #5EB130;
+  --marke: #5EB130;
+  --tinte: #1E1C19;
+  --kreide: #EDE8DE;
+  --gruen-300: #9CD27D;
+  --gruen-800: #325725;
+  --gruen-900: #1B3714;
+  --violett: #6D3E91;
+  --gelb: #FCBD30;
+  --orange: #F2711C;
+  --rot: #C62828;
+}
+.v.t-emp-dunkel {
+  --hintergrund: #0C1511;
+  --flaeche: #13201A;
+  --fond: #213129;
+  --linie: #2A3C33;
+  --text: #EDE8DE;
+  --text-leise: #9BA6A0;
+  --text-gruen: #9CD27D;
+  --fokus: #9CD27D;
+  --button: #5EB130;
+  --button-hover: #9CD27D;
+  --button-text: #1E1C19;
+  --fond-gruen: #1B3714;
+  --fond-gelb: #33280F;
+  --text-gelb: #FCBD30;
+  --fond-rot: #3B1A17;
+  --text-rot: #FF7B7B;
+  --fond-mint: #152D37;
+  --text-violett: #BC94DB;
+  --text-blau: #009FE3;
+  --leiste: #13201A;
+  --leiste-text: #D6E0DA;
+  --leiste-leise: #9BA6A0;
+  --leiste-feld: #1F2B26;
+  --leiste-hover: #213129;
+  --leiste-linie: #2A3C33;
+  --leiste-aktiv: #5EB130;
+  --leiste-aktiv-text: #1E1C19;
+  --leiste-fokus: #5EB130;
+  --marke: #5EB130;
+  --tinte: #1E1C19;
+  --kreide: #EDE8DE;
+  --gruen-300: #9CD27D;
+  --gruen-800: #325725;
+  --gruen-900: #1B3714;
+  --violett: #6D3E91;
+  --gelb: #FCBD30;
+  --orange: #F2711C;
+  --rot: #C62828;
+}
+.v.t-a-dunkel {
+  --hintergrund: #0C1511;
+  --flaeche: #13201A;
+  --fond: #213129;
+  --linie: #2A3C33;
+  --text: #EDE8DE;
+  --text-leise: #9BA6A0;
+  --text-gruen: #9CD27D;
+  --fokus: #9CD27D;
+  --button: #5EB130;
+  --button-hover: #9CD27D;
+  --button-text: #1E1C19;
+  --fond-gruen: #1B3714;
+  --fond-gelb: #33280F;
+  --text-gelb: #FCBD30;
+  --fond-rot: #3B1A17;
+  --text-rot: #FF7B7B;
+  --fond-mint: #152D37;
+  --text-violett: #BC94DB;
+  --text-blau: #009FE3;
+  --leiste: #070E0A;
+  --leiste-text: #D6E0DA;
+  --leiste-leise: #9BA6A0;
+  --leiste-feld: #0F1914;
+  --leiste-hover: #131F19;
+  --leiste-linie: #192620;
+  --leiste-aktiv: #5EB130;
+  --leiste-aktiv-text: #1E1C19;
+  --leiste-fokus: #5EB130;
+  --marke: #5EB130;
+  --tinte: #1E1C19;
+  --kreide: #EDE8DE;
+  --gruen-300: #9CD27D;
+  --gruen-800: #325725;
+  --gruen-900: #1B3714;
+  --violett: #6D3E91;
+  --gelb: #FCBD30;
+  --orange: #F2711C;
+  --rot: #C62828;
+}
+.v.t-b-dunkel {
+  --hintergrund: #0C1511;
+  --flaeche: #13201A;
+  --fond: #213129;
+  --linie: #2A3C33;
+  --text: #EDE8DE;
+  --text-leise: #9BA6A0;
+  --text-gruen: #9CD27D;
+  --fokus: #9CD27D;
+  --button: #5EB130;
+  --button-hover: #9CD27D;
+  --button-text: #1E1C19;
+  --fond-gruen: #1B3714;
+  --fond-gelb: #33280F;
+  --text-gelb: #FCBD30;
+  --fond-rot: #3B1A17;
+  --text-rot: #FF7B7B;
+  --fond-mint: #152D37;
+  --text-violett: #BC94DB;
+  --text-blau: #009FE3;
+  --leiste: #213129;
+  --leiste-text: #D6E0DA;
+  --leiste-leise: #9BA6A0;
+  --leiste-feld: #283831;
+  --leiste-hover: #2C3E35;
+  --leiste-linie: #35493F;
+  --leiste-aktiv: #5EB130;
+  --leiste-aktiv-text: #1E1C19;
+  --leiste-fokus: #5EB130;
+  --marke: #5EB130;
+  --tinte: #1E1C19;
+  --kreide: #EDE8DE;
+  --gruen-300: #9CD27D;
+  --gruen-800: #325725;
+  --gruen-900: #1B3714;
+  --violett: #6D3E91;
+  --gelb: #FCBD30;
+  --orange: #F2711C;
+  --rot: #C62828;
+}
+.v.t-g-dunkel {
+  --hintergrund: #11280C;
+  --flaeche: #1B3714;
+  --fond: #24441C;
+  --linie: #325725;
+  --text: #EDE8DE;
+  --text-leise: #B1BCA8;
+  --text-gruen: #9CD27D;
+  --fokus: #9CD27D;
+  --button: #5EB130;
+  --button-hover: #9CD27D;
+  --button-text: #1E1C19;
+  --fond-gruen: #2A4F0F;
+  --fond-gelb: #463104;
+  --text-gelb: #FCBD30;
+  --fond-rot: #55201B;
+  --text-rot: #FF8682;
+  --fond-mint: #103645;
+  --text-violett: #BC94DB;
+  --text-blau: #38A9E8;
+  --leiste: #13201A;
+  --leiste-text: #D6E0DA;
+  --leiste-leise: #9BA6A0;
+  --leiste-feld: #1F2B26;
+  --leiste-hover: #213129;
+  --leiste-linie: #2A3C33;
+  --leiste-aktiv: #5EB130;
+  --leiste-aktiv-text: #1E1C19;
+  --leiste-fokus: #5EB130;
+  --marke: #5EB130;
+  --tinte: #1E1C19;
+  --kreide: #EDE8DE;
+  --gruen-300: #9CD27D;
+  --gruen-800: #325725;
+  --gruen-900: #1B3714;
+  --violett: #6D3E91;
+  --gelb: #FCBD30;
+  --orange: #F2711C;
+  --rot: #C62828;
+}
+/* /gen:tokens */
+
+/* ---------- Gemeinsame Bausteine aus src/template.html (Abschnitt 7) ---------- */
+.v p { margin: 0 0 8px; }
+.v a { color: var(--text-gruen); text-decoration: underline; text-underline-offset: 2px; }
+.m-leise { color: var(--text-leise); font-size: 14px; }
+.label { display: inline-block; font: 500 15px/1 'Plex Mono', monospace; padding: 8px 12px 7px; letter-spacing: .06em; text-transform: uppercase; border-radius: 2px; }
+.label.m-label { background: var(--text); color: var(--flaeche); font-size: 12px; padding: 6px 9px 5px; }
+.m-h { font-size: 22px; font-weight: 700; line-height: 1.2; margin: 12px 0 6px; max-width: calc(100% - 84px); }
+.m-sticker { position: absolute; top: 14px; right: 16px; width: 72px; height: 72px; border-radius: 50%; background: var(--orange); color: var(--tinte);
+  display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 700; font-size: 13px; line-height: 1.1;
+  transform: rotate(-8deg); box-shadow: 3px 3px 0 var(--text); }
+.m-tag-gruen { background: var(--fond-gruen); color: var(--text); font-size: 13px; padding: 3px 8px; border-radius: 3px; }
+.m-button { background: var(--button); color: var(--button-text); padding: 7px 14px; border-radius: 4px; }
+.m-fond { background: var(--fond); border-radius: 6px; padding: 10px 12px; font-size: 14px; }
+.m-rot { color: var(--text-rot); font-weight: 700; }
+.m-feld { display: flex; align-items: center; gap: 8px; background: var(--flaeche); border: 1px solid var(--text-leise); border-radius: 6px; padding: 7px 10px; color: var(--text-leise); font-size: 14px; }
+.m-feld svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.m-mint { background: var(--fond-mint); border-left: 4px solid var(--text-violett); border-radius: 0 6px 6px 0; padding: 10px 12px; font-size: 14px; }
+.m-violett { color: var(--text-violett); font-weight: 700; }
+.v a.m-blau { color: var(--text-blau); }
+
+/* ---------- (a) Anwendung, nachgebaut aus template.html .app-*; Leiste über die neuen Rollen --leiste-* ---------- */
+.v.app-v { font-size: 14px; line-height: 1.45; }
+.app { display: grid; grid-template-columns: 156px minmax(0, 1fr); min-height: 330px; }
+.app svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.app-seite { background: var(--leiste); color: var(--leiste-text); padding: 14px 10px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.app-logo { height: 18px; width: auto; max-width: 100%; margin: 2px 6px 14px; align-self: flex-start; display: block; }
+.app-suche { display: flex; align-items: center; gap: 8px; background: var(--leiste-feld); border: 1px solid var(--leiste-linie); border-radius: 6px; padding: 6px 8px; margin-bottom: 12px; }
+.app-suche kbd { margin-left: auto; font: 500 11px 'Plex Mono', monospace; color: var(--leiste-leise); }
+.app-gruppe { font: 500 11px/1 'Plex Mono', monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--leiste-leise); padding: 6px 8px; }
+.app-nav { display: flex; flex-direction: column; gap: 2px; }
+.app-punkt { display: flex; align-items: center; gap: 10px; padding: 7px 8px; border-radius: 6px; }
+.app-punkt.aktiv { background: var(--leiste-aktiv); color: var(--leiste-aktiv-text); font-weight: 700; }
+.app-zahlmarke { margin-left: auto; background: var(--gelb); color: var(--tinte); font-size: 11px; font-weight: 700; border-radius: 999px; padding: 0 7px; }
+.app-haupt { min-width: 0; display: flex; flex-direction: column; }
+.app-kopf { display: flex; align-items: center; gap: 6px; background: var(--flaeche); border-bottom: 1px solid var(--linie); padding: 4px 10px 4px 16px; }
+.app-pfad { flex: 1; color: var(--text-leise); font-size: 13px; min-width: 0; }
+.app-schalter { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 8px; color: var(--text); }
+.app-schalter svg { width: 20px; height: 20px; }
+.app-profil { width: 30px; height: 30px; border-radius: 50%; background: var(--fond-gruen); color: var(--text-gruen); display: grid; place-items: center; font-size: 12px; font-weight: 700; flex: none; }
+.app-inhalt { padding: 14px; display: grid; gap: 12px; align-content: start; }
+.app-titel { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.app-h { font-size: 20px; font-weight: 700; }
+.app-knoepfe { display: flex; gap: 8px; }
+.app-btn { padding: 6px 12px; border-radius: 6px; }
+.app-btn.haupt { background: var(--button); color: var(--button-text); }
+.app-btn.zweit { background: var(--fond); color: var(--text); border: 1px solid var(--linie); }
+.app-tabelle-rahmen { background: var(--flaeche); border: 1px solid var(--linie); border-radius: 8px; overflow: hidden; }
+.v.hell .app-tabelle-rahmen, .v.hell .w-karte { box-shadow: 0 1px 1px rgba(30,28,25,.05), 0 3px 10px -2px rgba(30,28,25,.09); }
+table.app-tabelle { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.app-tabelle th { background: var(--fond); text-align: left; font-weight: 400; color: var(--text-leise); padding: 7px 10px; }
+.app-tabelle td { padding: 8px 10px; border-top: 1px solid var(--linie); }
+.app-tabelle .app-num { font-variant-numeric: tabular-nums; }
+.app-tabelle .app-zahl { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.app-tabelle tr.hover td { background: var(--fond); }
+.app-tabelle tr.gewaehlt td { background: var(--fond-gruen); }
+.app-pill { display: inline-flex; align-items: center; gap: 6px; height: 22px; padding: 0 9px; border-radius: 999px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.app-pill i { display: block; flex: none; font-style: normal; }
+.app-pill.ok { background: var(--fond-gruen); color: var(--text-gruen); }
+.app-pill.ok i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.app-pill.achtung { background: var(--fond-gelb); color: var(--text-gelb); }
+.app-pill.achtung i { width: 7px; height: 9px; border-left: 2.5px solid currentColor; border-right: 2.5px solid currentColor; }
+.app-pill.problem { background: var(--fond-rot); color: var(--text-rot); }
+.app-pill.problem i::before { content: "!"; }
+.app-pill.neutral { background: var(--flaeche); color: var(--text-leise); border: 1px dashed var(--text-leise); }
+.app-pill.neutral i { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid currentColor; }
+
+/* Auswahl AKTUELL: Balken links (template.html Z. 178f. und 205) */
+.alt .app-punkt { border-left: 3px solid transparent; }
+.alt .app-punkt.aktiv { border-left-color: var(--marke); }
+.alt .app-tabelle tr.gewaehlt td:first-child { box-shadow: inset 4px 0 0 var(--text-gruen); }
+/* Auswahl NEU: nur Fläche + fett, kein Balken. Leiste mit Kante in Leiste Linie. */
+.neu .app-seite { border-right: 1px solid var(--leiste-linie); }
+.neu .app-tabelle tr.gewaehlt td:nth-child(-n+2) { font-weight: 700; }
+
+/* Schmal (Handy): Leiste als Kopf mit aufgeklapptem Menü, Nr. und Beitrag ausgeblendet */
+@container (max-width: 520px) {
+  .app { grid-template-columns: 1fr; min-height: 0; }
+  .app-seite { padding: 12px 10px 10px; }
+  .neu .app-seite { border-right: 0; border-bottom: 1px solid var(--leiste-linie); }
+  .app-logo { margin: 0 6px 10px; }
+  .app-suche, .app-gruppe { display: none; }
+  .app-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 6px; }
+  .app-opt { display: none; }
+  .app-inhalt { padding: 12px; }
+  .alt .app-tabelle tr.gewaehlt td:nth-child(2) { box-shadow: inset 4px 0 0 var(--text-gruen); }
+}
+
+/* ---------- (b) Webseite ---------- */
+.w-kopf { background: var(--gruen-800); color: var(--kreide); display: flex; align-items: center; justify-content: space-between; gap: 10px 18px; flex-wrap: wrap; padding: 12px 18px; }
+.w-kopf img { height: 20px; width: auto; display: block; }
+.w-kopf nav { display: flex; gap: 14px; font-size: 14px; flex-wrap: wrap; }
+.w-kopf nav span:first-child { font-weight: 700; }
+.w-band { height: 8px; background: repeating-linear-gradient(-45deg, var(--marke) 0 8px, var(--gruen-900) 8px 16px); }
+.w-body { padding: 18px; position: relative; display: grid; gap: 4px; }
+.w-karten { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 12px 0 8px; }
+@container (max-width: 480px) { .w-karten { grid-template-columns: 1fr; } }
+.w-karte { background: var(--flaeche); border: 1px solid var(--linie); border-radius: 6px; padding: 12px; display: grid; gap: 6px; align-content: start; }
+.w-karte b { font-size: 16px; line-height: 1.3; }
+.w-karte .zeile { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; margin-top: 4px; }
+.w-zweit { background: var(--fond); color: var(--text); border: 1px solid var(--linie); padding: 6px 13px; border-radius: 4px; }
+.w-infos { display: grid; gap: 10px; }
+.w-fuss { background: var(--gruen-900); color: var(--kreide); padding: 12px 18px; font-size: 13px; margin-top: 10px; }
+.w-fuss a { color: var(--kreide); }
+
+/* ---------- Palette ---------- */
+.skala { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-radius: 8px; overflow: hidden; margin: 8px 0 10px; }
+.skala div { min-height: 112px; padding: 12px 14px; color: var(--pg-kreide); display: flex; flex-direction: column; justify-content: flex-end; gap: 1px; font-size: 14px; line-height: 1.35; }
+.skala b { font-size: 16px; }
+.skala .mono { font-size: 12.5px; color: #C9D3CD; }
+@media (max-width: 760px) { .skala { grid-template-columns: 1fr; } .skala div { min-height: 0; flex-direction: row; justify-content: flex-start; align-items: baseline; flex-wrap: wrap; gap: 2px 10px; } }
+
+.pal { margin: 20px 0 6px; border-top: 1px solid var(--pg-rand); }
+.pal-kopf, .pal-zeile { display: grid; grid-template-columns: minmax(150px, 1.1fr) repeat(3, minmax(0, 1fr)) minmax(170px, 1.1fr); gap: 4px 16px; padding: 10px 8px; border-bottom: 1px solid var(--pg-rand); align-items: start; }
+.pal-kopf { font-size: 13px; color: var(--pg-stein); padding-top: 8px; padding-bottom: 8px; }
+.pal-zeile.geaendert { background: var(--pg-weiss); }
+.pal-zeile .rolle b { display: block; font-size: 15px; line-height: 1.3; }
+.pal-zeile .rolle code { font-size: 12.5px; color: var(--pg-stein); }
+.pal-zeile .rolle small { display: block; font-size: 12.5px; color: var(--pg-stein); line-height: 1.35; margin-top: 2px; }
+.feld { display: flex; gap: 9px; align-items: flex-start; font-size: 14px; line-height: 1.3; min-width: 0; }
+.feld .chip { flex: none; width: 30px; height: 30px; border-radius: 4px; border: 1px solid rgba(30,28,25,.18); }
+.feld .mono { font-size: 13px; display: block; }
+.feld small { color: var(--pg-stein); font-size: 13px; }
+.feld.gleich small { font-style: italic; }
+.kontrast { font-size: 14px; line-height: 1.4; }
+.kontrast small { display: block; color: var(--pg-stein); font-size: 12.5px; }
+.tag-neu { display: inline-block; font-size: 12px; font-weight: 700; line-height: 1; padding: 4px 7px 3px 10px; border-radius: 3px; background: var(--pg-tinte); color: var(--pg-weiss); box-shadow: inset 4px 0 0 var(--pg-orange); margin-top: 4px; }
+.knapp { color: #8A5A00; font-weight: 700; }
+.pal-zwischen { padding: 14px 8px 6px; font-weight: 700; border-bottom: 1px solid var(--pg-rand); }
+.spalte-hinweis { display: none; font-size: 12px; color: var(--pg-stein); }
+@media (max-width: 860px) {
+  .pal-kopf { display: none; }
+  .pal-zeile { grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 14px 4px; }
+  .pal-zeile .rolle, .pal-zeile .kontrast { grid-column: 1 / -1; }
+  .spalte-hinweis { display: block; margin-bottom: 3px; }
+  .feld { flex-direction: column; gap: 4px; }
+}
+
+/* Optionen-Tabelle */
+.opt-tab { width: 100%; border-collapse: collapse; font-size: 14px; margin: 18px 0 8px; background: var(--pg-weiss); }
+.opt-tab th, .opt-tab td { border: 1px solid var(--pg-rand); padding: 8px 10px; text-align: left; vertical-align: top; }
+.opt-tab th { background: var(--pg-creme); font-weight: 700; }
+.opt-tab .chip { display: inline-block; width: 16px; height: 16px; border-radius: 3px; border: 1px solid rgba(30,28,25,.18); vertical-align: -3px; margin-right: 6px; }
+.opt-wrap { overflow-x: auto; max-width: 100%; }
+@media (max-width: 700px) {
+  .opt-tab, .opt-tab tbody { display: block; width: 100%; }
+  .opt-tab tr { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-bottom: 2px solid var(--pg-rand); }
+  .opt-tab tr:first-child { display: none; }
+  .opt-tab th { grid-column: 1 / -1; }
+  .opt-tab td, .opt-tab th { display: block; padding: 6px 8px; }
+  .opt-tab td[data-k]::before { content: attr(data-k); display: block; font-size: 12px; color: var(--pg-stein); }
+}
+
+/* ---------- Änderungen ---------- */
+.aenderungen { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 40px; }
+@media (max-width: 860px) { .aenderungen { grid-template-columns: minmax(0, 1fr); } }
+.aenderungen ul { margin: 6px 0 18px; padding-left: 18px; }
+.aenderungen li { margin-bottom: 6px; font-size: 15px; }
+.aenderungen li code { overflow-wrap: anywhere; }
+.pfeil-alt { color: var(--pg-stein); text-decoration: line-through; text-decoration-thickness: 1px; }
+.konflikte { margin: 6px 0 0; padding-left: 18px; max-width: 82ch; }
+.konflikte li { margin-bottom: 10px; }
+</style>
+</head>
+<body>
+
+<!-- Icons einmal definieren (aus build.py ICON), per <use> einsetzen -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-suche" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="i-haus" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></symbol>
+    <symbol id="i-leute" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6M16 4a4 4 0 0 1 0 8M22 21c0-3-1.5-5-4-5.6"/></symbol>
+    <symbol id="i-geld" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></symbol>
+    <symbol id="i-regler" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol>
+    <symbol id="i-hell" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-dunkel" viewBox="0 0 24 24"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a6.5 6.5 0 0 0 11 11z"/></symbol>
+  </defs>
+</svg>
+
+<header class="seite">
+  <div class="wrap">
+    <h1>Leiste und Dunkelmodus</h1>
+    <p>Zweite Runde: Die Seitenleiste bekommt im Hellen die Farben der Vereinssoftware und wird zu eigenen Rollen, die im Dunkeln anders sein dürfen. Für den Dunkelmodus stehen drei Leisten-Optionen und zwei Grün-Familien nebeneinander, mit Empfehlung.</p>
+    <div class="stand mono">Entwurf, 21.11.2026, Abschnitt 7 Hell &amp; Dunkel, Runde 2</div>
+  </div>
+</header>
+<div class="band"></div>
+
+<main class="wrap">
+
+  <div class="kurz">
+    <div><h3>Leiste wie in der Vereinssoftware</h3><p>Im Hellen fast schwarzes, entsättigtes Grün (#13201A). Der aktive Punkt ist eine Fläche in Markengrün mit Tinte, fett, ohne Balken.</p></div>
+    <div><h3>Dunkel in derselben Familie</h3><p>Empfehlung: Die Ebenen im Dunkeln kommen aus den Leisten-Tönen statt aus gesättigtem Grün. Markengrün bleibt dann die einzige kräftige Farbe.</p></div>
+    <div><h3>Leiste im Dunkeln: Option c</h3><p>Die Leiste bleibt in beiden Modi gleich und ist im Dunkeln so hell wie die Fläche. Eine Linie trennt sie vom Inhalt.</p></div>
+  </div>
+
+  <!-- ===================== Anwendung hell ===================== -->
+  <section class="teil" id="hell">
+    <h2>Anwendung im Hellen</h2>
+    <p class="idee">Links der heutige Stand aus dem Styleguide, rechts die Leiste mit den Werten aus <code>vereinssoftware/src/styles.css</code> (Zeile 94 bis 101). Tabelle, Kopfleiste und Status sind unverändert, die ausgewählte Zeile ist schlichter.</p>
+    <div class="vergleich">
+      <!-- gen:app-hell -->
+<figure class="vg alt"><figcaption><b>Hell, aktuell</b></figcaption>
+        <div class="v app-v hell alt t-alt-hell">
+          <div class="app">
+            <div class="app-seite">
+              <img src="../../logos/logo-h-ohne-claim-negativ.png" alt="MakerSpace Bonn" class="app-logo">
+              <span class="app-suche"><svg aria-hidden="true"><use href="#i-suche"/></svg><span>Suchen</span><kbd>⌘K</kbd></span>
+              <span class="app-gruppe">Verwaltung</span>
+              <div class="app-nav">
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-haus"/></svg><span>Start</span></span>
+                <span class="app-punkt aktiv"><svg aria-hidden="true"><use href="#i-leute"/></svg><span>Mitglieder</span></span>
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-geld"/></svg><span>Beiträge</span><span class="app-zahlmarke">3</span></span>
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-regler"/></svg><span>Einstellungen</span></span>
+              </div>
+            </div>
+            <div class="app-haupt">
+              <div class="app-kopf">
+                <span class="app-pfad">Mitglieder › Übersicht</span>
+                <span class="app-schalter" title="Darstellung"><svg aria-hidden="true"><use href="#i-hell"/></svg></span>
+                <span class="app-profil" aria-hidden="true">AB</span>
+              </div>
+              <div class="app-inhalt">
+                <div class="app-titel"><span class="app-h">Mitglieder</span>
+                  <span class="app-knoepfe"><span class="app-btn zweit">Export</span><span class="app-btn haupt">+ Mitglied</span></span></div>
+                <div class="m-feld"><svg aria-hidden="true"><use href="#i-suche"/></svg><span>Name oder Nummer</span></div>
+                <div class="app-tabelle-rahmen"><table class="app-tabelle">
+                  <tr><th class="app-opt">Nr.</th><th>Name</th><th>Status</th><th class="app-opt app-zahl">Beitrag</th></tr>
+                  <tr class=""><td class="app-opt app-num">2001</td><td>Alex Beispiel</td><td><span class="app-pill ok"><i aria-hidden="true"></i>Aktiv</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+                  <tr class="hover"><td class="app-opt app-num">2002</td><td>Kim Muster</td><td><span class="app-pill achtung"><i aria-hidden="true"></i>Ruhend</span></td><td class="app-opt app-zahl">0,00 €</td></tr>
+                  <tr class="gewaehlt"><td class="app-opt app-num">2003</td><td>Sam Probe</td><td><span class="app-pill problem"><i aria-hidden="true"></i>Lastschrift offen</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+                  <tr class=""><td class="app-opt app-num">2004</td><td>Robin Test</td><td><span class="app-pill neutral"><i aria-hidden="true"></i>Ausgetreten</span></td><td class="app-opt app-zahl">–</td></tr>
+                </table></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </figure>
+      <figure class="vg neu"><figcaption><b>Hell, neu</b><span>Leiste wie in der Vereinssoftware</span></figcaption>
+        <div class="v app-v hell neu t-neu-hell">
+          <div class="app">
+            <div class="app-seite">
+              <img src="../../logos/logo-h-ohne-claim-negativ.png" alt="MakerSpace Bonn" class="app-logo">
+              <span class="app-suche"><svg aria-hidden="true"><use href="#i-suche"/></svg><span>Suchen</span><kbd>⌘K</kbd></span>
+              <span class="app-gruppe">Verwaltung</span>
+              <div class="app-nav">
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-haus"/></svg><span>Start</span></span>
+                <span class="app-punkt aktiv"><svg aria-hidden="true"><use href="#i-leute"/></svg><span>Mitglieder</span></span>
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-geld"/></svg><span>Beiträge</span><span class="app-zahlmarke">3</span></span>
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-regler"/></svg><span>Einstellungen</span></span>
+              </div>
+            </div>
+            <div class="app-haupt">
+              <div class="app-kopf">
+                <span class="app-pfad">Mitglieder › Übersicht</span>
+                <span class="app-schalter" title="Darstellung"><svg aria-hidden="true"><use href="#i-hell"/></svg></span>
+                <span class="app-profil" aria-hidden="true">AB</span>
+              </div>
+              <div class="app-inhalt">
+                <div class="app-titel"><span class="app-h">Mitglieder</span>
+                  <span class="app-knoepfe"><span class="app-btn zweit">Export</span><span class="app-btn haupt">+ Mitglied</span></span></div>
+                <div class="m-feld"><svg aria-hidden="true"><use href="#i-suche"/></svg><span>Name oder Nummer</span></div>
+                <div class="app-tabelle-rahmen"><table class="app-tabelle">
+                  <tr><th class="app-opt">Nr.</th><th>Name</th><th>Status</th><th class="app-opt app-zahl">Beitrag</th></tr>
+                  <tr class=""><td class="app-opt app-num">2001</td><td>Alex Beispiel</td><td><span class="app-pill ok"><i aria-hidden="true"></i>Aktiv</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+                  <tr class="hover"><td class="app-opt app-num">2002</td><td>Kim Muster</td><td><span class="app-pill achtung"><i aria-hidden="true"></i>Ruhend</span></td><td class="app-opt app-zahl">0,00 €</td></tr>
+                  <tr class="gewaehlt"><td class="app-opt app-num">2003</td><td>Sam Probe</td><td><span class="app-pill problem"><i aria-hidden="true"></i>Lastschrift offen</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+                  <tr class=""><td class="app-opt app-num">2004</td><td>Robin Test</td><td><span class="app-pill neutral"><i aria-hidden="true"></i>Ausgetreten</span></td><td class="app-opt app-zahl">–</td></tr>
+                </table></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </figure>
+<!-- /gen:app-hell -->
+    </div>
+    <div class="gruende">
+      <div>
+        <h3>Tannenschwarz statt Grün 900</h3>
+        <p>#13201A ist fast schwarz, leicht ins Blaugrüne und kaum gesättigt. Dadurch ist Markengrün die einzige kräftige Farbe in der Leiste, und der aktive Punkt springt sofort ins Auge.</p>
+      </div>
+      <div>
+        <h3>Aktiv: Markengrün und fett</h3>
+        <p>Der aktive Punkt ist eine abgerundete Fläche in Markengrün mit Tinte (6,3:1) und fetter Schrift, ohne Randbalken. Die fette Schrift ist das Merkmal ohne Farbe (WCAG 1.4.1).</p>
+      </div>
+      <div>
+        <h3>Ausgewählte Zeile: Fond und fett</h3>
+        <p>Statt des 4-px-Balkens bekommt die Zeile den grünen Fond und fette Nummer und Name. Menü und Tabelle folgen damit derselben Regel: Fläche und fett.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Anwendung dunkel: Leiste ===================== -->
+  <section class="teil" id="leiste-dunkel">
+    <h2>Seitenleiste im Dunkeln</h2>
+    <p class="idee">Drei Möglichkeiten, alle mit den empfohlenen Dunkel-Ebenen in der Tannen-Familie. Zum Vergleich oben links der heutige Dunkelmodus. Aktiver Punkt, Hover und Fokus bleiben in allen Optionen Markengrün.</p>
+    <div class="vergleich">
+      <!-- gen:app-leiste -->
+<figure class="vg alt"><figcaption><b>Dunkel, aktuell</b></figcaption>
+        <div class="v app-v dunkel alt t-alt-dunkel">
+          <div class="app">
+            <div class="app-seite">
+              <img src="../../logos/logo-h-ohne-claim-negativ.png" alt="MakerSpace Bonn" class="app-logo">
+              <span class="app-suche"><svg aria-hidden="true"><use href="#i-suche"/></svg><span>Suchen</span><kbd>⌘K</kbd></span>
+              <span class="app-gruppe">Verwaltung</span>
+              <div class="app-nav">
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-haus"/></svg><span>Start</span></span>
+                <span class="app-punkt aktiv"><svg aria-hidden="true"><use href="#i-leute"/></svg><span>Mitglieder</span></span>
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-geld"/></svg><span>Beiträge</span><span class="app-zahlmarke">3</span></span>
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-regler"/></svg><span>Einstellungen</span></span>
+              </div>
+            </div>
+            <div class="app-haupt">
+              <div class="app-kopf">
+                <span class="app-pfad">Mitglieder › Übersicht</span>
+                <span class="app-schalter" title="Darstellung"><svg aria-hidden="true"><use href="#i-dunkel"/></svg></span>
+                <span class="app-profil" aria-hidden="true">AB</span>
+              </div>
+              <div class="app-inhalt">
+                <div class="app-titel"><span class="app-h">Mitglieder</span>
+                  <span class="app-knoepfe"><span class="app-btn zweit">Export</span><span class="app-btn haupt">+ Mitglied</span></span></div>
+                <div class="m-feld"><svg aria-hidden="true"><use href="#i-suche"/></svg><span>Name oder Nummer</span></div>
+                <div class="app-tabelle-rahmen"><table class="app-tabelle">
+                  <tr><th class="app-opt">Nr.</th><th>Name</th><th>Status</th><th class="app-opt app-zahl">Beitrag</th></tr>
+                  <tr class=""><td class="app-opt app-num">2001</td><td>Alex Beispiel</td><td><span class="app-pill ok"><i aria-hidden="true"></i>Aktiv</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+                  <tr class="hover"><td class="app-opt app-num">2002</td><td>Kim Muster</td><td><span class="app-pill achtung"><i aria-hidden="true"></i>Ruhend</span></td><td class="app-opt app-zahl">0,00 €</td></tr>
+                  <tr class="gewaehlt"><td class="app-opt app-num">2003</td><td>Sam Probe</td><td><span class="app-pill problem"><i aria-hidden="true"></i>Lastschrift offen</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+                  <tr class=""><td class="app-opt app-num">2004</td><td>Robin Test</td><td><span class="app-pill neutral"><i aria-hidden="true"></i>Ausgetreten</span></td><td class="app-opt app-zahl">–</td></tr>
+                </table></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </figure>
+      <figure class="vg neu"><figcaption><b>c: Leiste wie im Hellen, mit Linie</b><span class="empf">Empfehlung</span></figcaption>
+        <div class="v app-v dunkel neu t-emp-dunkel">
+          <div class="app">
+            <div class="app-seite">
+              <img src="../../logos/logo-h-ohne-claim-negativ.png" alt="MakerSpace Bonn" class="app-logo">
+              <span class="app-suche"><svg aria-hidden="true"><use href="#i-suche"/></svg><span>Suchen</span><kbd>⌘K</kbd></span>
+              <span class="app-gruppe">Verwaltung</span>
+              <div class="app-nav">
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-haus"/></svg><span>Start</span></span>
+                <span class="app-punkt aktiv"><svg aria-hidden="true"><use href="#i-leute"/></svg><span>Mitglieder</span></span>
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-geld"/></svg><span>Beiträge</span><span class="app-zahlmarke">3</span></span>
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-regler"/></svg><span>Einstellungen</span></span>
+              </div>
+            </div>
+            <div class="app-haupt">
+              <div class="app-kopf">
+                <span class="app-pfad">Mitglieder › Übersicht</span>
+                <span class="app-schalter" title="Darstellung"><svg aria-hidden="true"><use href="#i-dunkel"/></svg></span>
+                <span class="app-profil" aria-hidden="true">AB</span>
+              </div>
+              <div class="app-inhalt">
+                <div class="app-titel"><span class="app-h">Mitglieder</span>
+                  <span class="app-knoepfe"><span class="app-btn zweit">Export</span><span class="app-btn haupt">+ Mitglied</span></span></div>
+                <div class="m-feld"><svg aria-hidden="true"><use href="#i-suche"/></svg><span>Name oder Nummer</span></div>
+                <div class="app-tabelle-rahmen"><table class="app-tabelle">
+                  <tr><th class="app-opt">Nr.</th><th>Name</th><th>Status</th><th class="app-opt app-zahl">Beitrag</th></tr>
+                  <tr class=""><td class="app-opt app-num">2001</td><td>Alex Beispiel</td><td><span class="app-pill ok"><i aria-hidden="true"></i>Aktiv</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+                  <tr class="hover"><td class="app-opt app-num">2002</td><td>Kim Muster</td><td><span class="app-pill achtung"><i aria-hidden="true"></i>Ruhend</span></td><td class="app-opt app-zahl">0,00 €</td></tr>
+                  <tr class="gewaehlt"><td class="app-opt app-num">2003</td><td>Sam Probe</td><td><span class="app-pill problem"><i aria-hidden="true"></i>Lastschrift offen</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+                  <tr class=""><td class="app-opt app-num">2004</td><td>Robin Test</td><td><span class="app-pill neutral"><i aria-hidden="true"></i>Ausgetreten</span></td><td class="app-opt app-zahl">–</td></tr>
+                </table></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </figure>
+      <figure class="vg neu"><figcaption><b>a: Leiste tiefer als der Inhalt</b></figcaption>
+        <div class="v app-v dunkel neu t-a-dunkel">
+          <div class="app">
+            <div class="app-seite">
+              <img src="../../logos/logo-h-ohne-claim-negativ.png" alt="MakerSpace Bonn" class="app-logo">
+              <span class="app-suche"><svg aria-hidden="true"><use href="#i-suche"/></svg><span>Suchen</span><kbd>⌘K</kbd></span>
+              <span class="app-gruppe">Verwaltung</span>
+              <div class="app-nav">
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-haus"/></svg><span>Start</span></span>
+                <span class="app-punkt aktiv"><svg aria-hidden="true"><use href="#i-leute"/></svg><span>Mitglieder</span></span>
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-geld"/></svg><span>Beiträge</span><span class="app-zahlmarke">3</span></span>
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-regler"/></svg><span>Einstellungen</span></span>
+              </div>
+            </div>
+            <div class="app-haupt">
+              <div class="app-kopf">
+                <span class="app-pfad">Mitglieder › Übersicht</span>
+                <span class="app-schalter" title="Darstellung"><svg aria-hidden="true"><use href="#i-dunkel"/></svg></span>
+                <span class="app-profil" aria-hidden="true">AB</span>
+              </div>
+              <div class="app-inhalt">
+                <div class="app-titel"><span class="app-h">Mitglieder</span>
+                  <span class="app-knoepfe"><span class="app-btn zweit">Export</span><span class="app-btn haupt">+ Mitglied</span></span></div>
+                <div class="m-feld"><svg aria-hidden="true"><use href="#i-suche"/></svg><span>Name oder Nummer</span></div>
+                <div class="app-tabelle-rahmen"><table class="app-tabelle">
+                  <tr><th class="app-opt">Nr.</th><th>Name</th><th>Status</th><th class="app-opt app-zahl">Beitrag</th></tr>
+                  <tr class=""><td class="app-opt app-num">2001</td><td>Alex Beispiel</td><td><span class="app-pill ok"><i aria-hidden="true"></i>Aktiv</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+                  <tr class="hover"><td class="app-opt app-num">2002</td><td>Kim Muster</td><td><span class="app-pill achtung"><i aria-hidden="true"></i>Ruhend</span></td><td class="app-opt app-zahl">0,00 €</td></tr>
+                  <tr class="gewaehlt"><td class="app-opt app-num">2003</td><td>Sam Probe</td><td><span class="app-pill problem"><i aria-hidden="true"></i>Lastschrift offen</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+                  <tr class=""><td class="app-opt app-num">2004</td><td>Robin Test</td><td><span class="app-pill neutral"><i aria-hidden="true"></i>Ausgetreten</span></td><td class="app-opt app-zahl">–</td></tr>
+                </table></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </figure>
+      <figure class="vg neu"><figcaption><b>b: Leiste als hellere Ebene</b></figcaption>
+        <div class="v app-v dunkel neu t-b-dunkel">
+          <div class="app">
+            <div class="app-seite">
+              <img src="../../logos/logo-h-ohne-claim-negativ.png" alt="MakerSpace Bonn" class="app-logo">
+              <span class="app-suche"><svg aria-hidden="true"><use href="#i-suche"/></svg><span>Suchen</span><kbd>⌘K</kbd></span>
+              <span class="app-gruppe">Verwaltung</span>
+              <div class="app-nav">
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-haus"/></svg><span>Start</span></span>
+                <span class="app-punkt aktiv"><svg aria-hidden="true"><use href="#i-leute"/></svg><span>Mitglieder</span></span>
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-geld"/></svg><span>Beiträge</span><span class="app-zahlmarke">3</span></span>
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-regler"/></svg><span>Einstellungen</span></span>
+              </div>
+            </div>
+            <div class="app-haupt">
+              <div class="app-kopf">
+                <span class="app-pfad">Mitglieder › Übersicht</span>
+                <span class="app-schalter" title="Darstellung"><svg aria-hidden="true"><use href="#i-dunkel"/></svg></span>
+                <span class="app-profil" aria-hidden="true">AB</span>
+              </div>
+              <div class="app-inhalt">
+                <div class="app-titel"><span class="app-h">Mitglieder</span>
+                  <span class="app-knoepfe"><span class="app-btn zweit">Export</span><span class="app-btn haupt">+ Mitglied</span></span></div>
+                <div class="m-feld"><svg aria-hidden="true"><use href="#i-suche"/></svg><span>Name oder Nummer</span></div>
+                <div class="app-tabelle-rahmen"><table class="app-tabelle">
+                  <tr><th class="app-opt">Nr.</th><th>Name</th><th>Status</th><th class="app-opt app-zahl">Beitrag</th></tr>
+                  <tr class=""><td class="app-opt app-num">2001</td><td>Alex Beispiel</td><td><span class="app-pill ok"><i aria-hidden="true"></i>Aktiv</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+                  <tr class="hover"><td class="app-opt app-num">2002</td><td>Kim Muster</td><td><span class="app-pill achtung"><i aria-hidden="true"></i>Ruhend</span></td><td class="app-opt app-zahl">0,00 €</td></tr>
+                  <tr class="gewaehlt"><td class="app-opt app-num">2003</td><td>Sam Probe</td><td><span class="app-pill problem"><i aria-hidden="true"></i>Lastschrift offen</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+                  <tr class=""><td class="app-opt app-num">2004</td><td>Robin Test</td><td><span class="app-pill neutral"><i aria-hidden="true"></i>Ausgetreten</span></td><td class="app-opt app-zahl">–</td></tr>
+                </table></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </figure>
+<!-- /gen:app-leiste -->
+    </div>
+    <!-- gen:optionen -->
+<div class="opt-wrap"><table class="opt-tab"><tr><th>Leisten-Rolle</th><th>Hell (alle)</th><th>a: tiefer</th><th>b: heller</th><th>c: wie hell</th></tr>
+<tr><th>Leiste<br><code>--leiste</code></th><td data-k="Hell"><span class="chip" style="background:#13201A"></span><span class="mono">#13201A</span><br><small>Tannenschwarz</small></td><td data-k="a: tiefer"><span class="chip" style="background:#070E0A"></span><span class="mono">#070E0A</span><br><small>Nachtschwarz</small></td><td data-k="b: heller"><span class="chip" style="background:#213129"></span><span class="mono">#213129</span><br><small>Tanne hell</small></td><td data-k="c: wie hell"><span class="chip" style="background:#13201A"></span><span class="mono">#13201A</span><br><small>Tannenschwarz</small></td></tr>
+<tr><th>Leiste Schrift<br><code>--leiste-text</code></th><td data-k="Hell"><span class="chip" style="background:#D6E0DA"></span><span class="mono">#D6E0DA</span><br><small>Nebel</small></td><td data-k="a: tiefer"><span class="chip" style="background:#D6E0DA"></span><span class="mono">#D6E0DA</span><br><small>Nebel</small></td><td data-k="b: heller"><span class="chip" style="background:#D6E0DA"></span><span class="mono">#D6E0DA</span><br><small>Nebel</small></td><td data-k="c: wie hell"><span class="chip" style="background:#D6E0DA"></span><span class="mono">#D6E0DA</span><br><small>Nebel</small></td></tr>
+<tr><th>Leiste leise<br><code>--leiste-leise</code></th><td data-k="Hell"><span class="chip" style="background:#9BA6A0"></span><span class="mono">#9BA6A0</span><br><small>Salbei</small></td><td data-k="a: tiefer"><span class="chip" style="background:#9BA6A0"></span><span class="mono">#9BA6A0</span><br><small>Salbei</small></td><td data-k="b: heller"><span class="chip" style="background:#9BA6A0"></span><span class="mono">#9BA6A0</span><br><small>Salbei</small></td><td data-k="c: wie hell"><span class="chip" style="background:#9BA6A0"></span><span class="mono">#9BA6A0</span><br><small>Salbei</small></td></tr>
+<tr><th>Leiste Feld<br><code>--leiste-feld</code></th><td data-k="Hell"><span class="chip" style="background:#1F2B26"></span><span class="mono">#1F2B26</span><br><small>Tanne Feld</small></td><td data-k="a: tiefer"><span class="chip" style="background:#0F1914"></span><span class="mono">#0F1914</span><br><small>Nacht Feld</small></td><td data-k="b: heller"><span class="chip" style="background:#283831"></span><span class="mono">#283831</span><br><small>Tanne Feld hell</small></td><td data-k="c: wie hell"><span class="chip" style="background:#1F2B26"></span><span class="mono">#1F2B26</span><br><small>Tanne Feld</small></td></tr>
+<tr><th>Leiste Hover<br><code>--leiste-hover</code></th><td data-k="Hell"><span class="chip" style="background:#213129"></span><span class="mono">#213129</span><br><small>Tanne hell</small></td><td data-k="a: tiefer"><span class="chip" style="background:#131F19"></span><span class="mono">#131F19</span><br><small>Nacht hell</small></td><td data-k="b: heller"><span class="chip" style="background:#2C3E35"></span><span class="mono">#2C3E35</span><br><small>Tanne Hover hell</small></td><td data-k="c: wie hell"><span class="chip" style="background:#213129"></span><span class="mono">#213129</span><br><small>Tanne hell</small></td></tr>
+<tr><th>Leiste Linie<br><code>--leiste-linie</code></th><td data-k="Hell"><span class="chip" style="background:#2A3C33"></span><span class="mono">#2A3C33</span><br><small>Tanne Linie</small></td><td data-k="a: tiefer"><span class="chip" style="background:#192620"></span><span class="mono">#192620</span><br><small>Nacht Linie</small></td><td data-k="b: heller"><span class="chip" style="background:#35493F"></span><span class="mono">#35493F</span><br><small>Tanne Linie hell</small></td><td data-k="c: wie hell"><span class="chip" style="background:#2A3C33"></span><span class="mono">#2A3C33</span><br><small>Tanne Linie</small></td></tr>
+<tr><th>Leiste aktiv<br><code>--leiste-aktiv</code></th><td data-k="Hell"><span class="chip" style="background:#5EB130"></span><span class="mono">#5EB130</span><br><small>Markengrün</small></td><td data-k="a: tiefer"><span class="chip" style="background:#5EB130"></span><span class="mono">#5EB130</span><br><small>Markengrün</small></td><td data-k="b: heller"><span class="chip" style="background:#5EB130"></span><span class="mono">#5EB130</span><br><small>Markengrün</small></td><td data-k="c: wie hell"><span class="chip" style="background:#5EB130"></span><span class="mono">#5EB130</span><br><small>Markengrün</small></td></tr>
+<tr><th>Leiste aktiv Schrift<br><code>--leiste-aktiv-text</code></th><td data-k="Hell"><span class="chip" style="background:#1E1C19"></span><span class="mono">#1E1C19</span><br><small>Tinte</small></td><td data-k="a: tiefer"><span class="chip" style="background:#1E1C19"></span><span class="mono">#1E1C19</span><br><small>Tinte</small></td><td data-k="b: heller"><span class="chip" style="background:#1E1C19"></span><span class="mono">#1E1C19</span><br><small>Tinte</small></td><td data-k="c: wie hell"><span class="chip" style="background:#1E1C19"></span><span class="mono">#1E1C19</span><br><small>Tinte</small></td></tr>
+<tr><th>Leiste Fokus<br><code>--leiste-fokus</code></th><td data-k="Hell"><span class="chip" style="background:#5EB130"></span><span class="mono">#5EB130</span><br><small>Markengrün</small></td><td data-k="a: tiefer"><span class="chip" style="background:#5EB130"></span><span class="mono">#5EB130</span><br><small>Markengrün</small></td><td data-k="b: heller"><span class="chip" style="background:#5EB130"></span><span class="mono">#5EB130</span><br><small>Markengrün</small></td><td data-k="c: wie hell"><span class="chip" style="background:#5EB130"></span><span class="mono">#5EB130</span><br><small>Markengrün</small></td></tr>
+<tr><th>Kontrast Leiste Schrift<br><small>Minimum 4,5</small></th><td data-k="Hell">10,1:1<br><small>auf Leiste Hover</small></td><td data-k="a: tiefer">12,6:1<br><small>auf Leiste Hover</small></td><td data-k="b: heller">8,4:1<br><small>auf Leiste Hover</small></td><td data-k="c: wie hell">10,1:1<br><small>auf Leiste Hover</small></td></tr>
+<tr><th>Kontrast Leiste leise<br><small>Minimum 4,5</small></th><td data-k="Hell">5,8:1<br><small>auf Leiste Feld</small></td><td data-k="a: tiefer">7,1:1<br><small>auf Leiste Feld</small></td><td data-k="b: heller">4,9:1<br><small>auf Leiste Feld</small></td><td data-k="c: wie hell">5,8:1<br><small>auf Leiste Feld</small></td></tr>
+<tr><th>Kontrast Leiste aktiv Schrift<br><small>Minimum 4,5</small></th><td data-k="Hell">6,3:1<br><small>auf Leiste aktiv</small></td><td data-k="a: tiefer">6,3:1<br><small>auf Leiste aktiv</small></td><td data-k="b: heller">6,3:1<br><small>auf Leiste aktiv</small></td><td data-k="c: wie hell">6,3:1<br><small>auf Leiste aktiv</small></td></tr>
+<tr><th>Kontrast Leiste Fokus<br><small>Minimum 3,0</small></th><td data-k="Hell">6,2:1<br><small>auf Leiste</small></td><td data-k="a: tiefer">7,3:1<br><small>auf Leiste</small></td><td data-k="b: heller">5,1:1<br><small>auf Leiste</small></td><td data-k="c: wie hell">6,2:1<br><small>auf Leiste</small></td></tr>
+<tr><th>Abstand der Leiste<br><small>Helligkeit, keine Pflicht</small></th><td data-k="Hell">15,86 zum Hintergrund<br>16,81 zur Fläche</td><td data-k="a: tiefer">1,05 zum Hintergrund<br>1,16 zur Fläche</td><td data-k="b: heller">1,36 zum Hintergrund<br>1,23 zur Fläche</td><td data-k="c: wie hell">1,10 zum Hintergrund<br>1,00 zur Fläche</td></tr></table></div>
+<!-- /gen:optionen -->
+    <div class="gruende">
+      <div>
+        <h3>a: Leiste tiefer</h3>
+        <p>Die Leiste tritt fast schwarz zurück, der Inhalt liegt heller davor. Das lenkt den Blick auf die Arbeit, macht aber einen dritten Schwarzton nötig, und der Unterschied zum Hintergrund ist so klein, dass er auf vielen Bildschirmen verschwindet.</p>
+      </div>
+      <div>
+        <h3>b: Leiste als hellere Ebene</h3>
+        <p>Die Leiste ist eine Stufe heller als Karten und Kopfleiste. Sie ist deutlich abgesetzt, zieht aber im Dunkeln mehr Aufmerksamkeit als der Inhalt und braucht vier eigene Töne.</p>
+      </div>
+      <div>
+        <h3>c: Leiste wie im Hellen</h3>
+        <p>Die Leiste behält ihre Werte und ist im Dunkeln so hell wie die Fläche; die Linie in Leiste Linie trennt sie. Das ist die einfachste Lösung: keine neuen Töne, die Vereinssoftware ändert in der Leiste nichts, und die Leiste wirkt in beiden Modi gleich. Empfehlung.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Anwendung dunkel: Ebenen ===================== -->
+  <section class="teil" id="ebenen">
+    <h2>Welche Grüntöne für die Ebenen?</h2>
+    <p class="idee">Beide mit derselben Leiste (Option c). Links die Ebenen in der Tannen-Familie, rechts die gesättigten Grüntöne aus Runde 1 (Grün 950, 900, 850, 800).</p>
+    <div class="vergleich">
+      <!-- gen:app-ebenen -->
+<figure class="vg neu"><figcaption><b>Tannen-Familie, entsättigt</b><span class="empf">Empfehlung</span></figcaption>
+        <div class="v app-v dunkel neu t-emp-dunkel">
+          <div class="app">
+            <div class="app-seite">
+              <img src="../../logos/logo-h-ohne-claim-negativ.png" alt="MakerSpace Bonn" class="app-logo">
+              <span class="app-suche"><svg aria-hidden="true"><use href="#i-suche"/></svg><span>Suchen</span><kbd>⌘K</kbd></span>
+              <span class="app-gruppe">Verwaltung</span>
+              <div class="app-nav">
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-haus"/></svg><span>Start</span></span>
+                <span class="app-punkt aktiv"><svg aria-hidden="true"><use href="#i-leute"/></svg><span>Mitglieder</span></span>
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-geld"/></svg><span>Beiträge</span><span class="app-zahlmarke">3</span></span>
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-regler"/></svg><span>Einstellungen</span></span>
+              </div>
+            </div>
+            <div class="app-haupt">
+              <div class="app-kopf">
+                <span class="app-pfad">Mitglieder › Übersicht</span>
+                <span class="app-schalter" title="Darstellung"><svg aria-hidden="true"><use href="#i-dunkel"/></svg></span>
+                <span class="app-profil" aria-hidden="true">AB</span>
+              </div>
+              <div class="app-inhalt">
+                <div class="app-titel"><span class="app-h">Mitglieder</span>
+                  <span class="app-knoepfe"><span class="app-btn zweit">Export</span><span class="app-btn haupt">+ Mitglied</span></span></div>
+                <div class="m-feld"><svg aria-hidden="true"><use href="#i-suche"/></svg><span>Name oder Nummer</span></div>
+                <div class="app-tabelle-rahmen"><table class="app-tabelle">
+                  <tr><th class="app-opt">Nr.</th><th>Name</th><th>Status</th><th class="app-opt app-zahl">Beitrag</th></tr>
+                  <tr class=""><td class="app-opt app-num">2001</td><td>Alex Beispiel</td><td><span class="app-pill ok"><i aria-hidden="true"></i>Aktiv</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+                  <tr class="hover"><td class="app-opt app-num">2002</td><td>Kim Muster</td><td><span class="app-pill achtung"><i aria-hidden="true"></i>Ruhend</span></td><td class="app-opt app-zahl">0,00 €</td></tr>
+                  <tr class="gewaehlt"><td class="app-opt app-num">2003</td><td>Sam Probe</td><td><span class="app-pill problem"><i aria-hidden="true"></i>Lastschrift offen</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+                  <tr class=""><td class="app-opt app-num">2004</td><td>Robin Test</td><td><span class="app-pill neutral"><i aria-hidden="true"></i>Ausgetreten</span></td><td class="app-opt app-zahl">–</td></tr>
+                </table></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </figure>
+      <figure class="vg neu"><figcaption><b>Grün 950 bis 800, gesättigt</b><span>Vorschlag aus Runde 1</span></figcaption>
+        <div class="v app-v dunkel neu t-g-dunkel">
+          <div class="app">
+            <div class="app-seite">
+              <img src="../../logos/logo-h-ohne-claim-negativ.png" alt="MakerSpace Bonn" class="app-logo">
+              <span class="app-suche"><svg aria-hidden="true"><use href="#i-suche"/></svg><span>Suchen</span><kbd>⌘K</kbd></span>
+              <span class="app-gruppe">Verwaltung</span>
+              <div class="app-nav">
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-haus"/></svg><span>Start</span></span>
+                <span class="app-punkt aktiv"><svg aria-hidden="true"><use href="#i-leute"/></svg><span>Mitglieder</span></span>
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-geld"/></svg><span>Beiträge</span><span class="app-zahlmarke">3</span></span>
+                <span class="app-punkt"><svg aria-hidden="true"><use href="#i-regler"/></svg><span>Einstellungen</span></span>
+              </div>
+            </div>
+            <div class="app-haupt">
+              <div class="app-kopf">
+                <span class="app-pfad">Mitglieder › Übersicht</span>
+                <span class="app-schalter" title="Darstellung"><svg aria-hidden="true"><use href="#i-dunkel"/></svg></span>
+                <span class="app-profil" aria-hidden="true">AB</span>
+              </div>
+              <div class="app-inhalt">
+                <div class="app-titel"><span class="app-h">Mitglieder</span>
+                  <span class="app-knoepfe"><span class="app-btn zweit">Export</span><span class="app-btn haupt">+ Mitglied</span></span></div>
+                <div class="m-feld"><svg aria-hidden="true"><use href="#i-suche"/></svg><span>Name oder Nummer</span></div>
+                <div class="app-tabelle-rahmen"><table class="app-tabelle">
+                  <tr><th class="app-opt">Nr.</th><th>Name</th><th>Status</th><th class="app-opt app-zahl">Beitrag</th></tr>
+                  <tr class=""><td class="app-opt app-num">2001</td><td>Alex Beispiel</td><td><span class="app-pill ok"><i aria-hidden="true"></i>Aktiv</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+                  <tr class="hover"><td class="app-opt app-num">2002</td><td>Kim Muster</td><td><span class="app-pill achtung"><i aria-hidden="true"></i>Ruhend</span></td><td class="app-opt app-zahl">0,00 €</td></tr>
+                  <tr class="gewaehlt"><td class="app-opt app-num">2003</td><td>Sam Probe</td><td><span class="app-pill problem"><i aria-hidden="true"></i>Lastschrift offen</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+                  <tr class=""><td class="app-opt app-num">2004</td><td>Robin Test</td><td><span class="app-pill neutral"><i aria-hidden="true"></i>Ausgetreten</span></td><td class="app-opt app-zahl">–</td></tr>
+                </table></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </figure>
+<!-- /gen:app-ebenen -->
+    </div>
+    <!-- gen:bewertung -->
+<div class="gruende">
+      <div>
+        <h3>Gesättigt passt nicht zur Leiste</h3>
+        <p>Die Leiste liegt bei Farbton 164 und fast ohne Sättigung, Grün 950 bis 800 bei Farbton 140 und drei- bis viermal so gesättigt (OKLCH). Nebeneinander wirkt die Leiste grau-blau und der Inhalt moosig: zwei Grüns, die sich nicht entscheiden.</p>
+      </div>
+      <div>
+        <h3>Tannen-Familie braucht weniger Änderungen</h3>
+        <p>Die Ebenen übernehmen die Töne der Leiste und sind etwa so hell wie heute Kohle, Tinte, Werkbank und Linie dunkel. Deshalb bestehen Rot hell, MINT-Blau und alle Status-Fonds unverändert. Gesättigt müssten 11 Rollen neu, entsättigt nur 5.</p>
+      </div>
+      <div>
+        <h3>Grüner Status hebt sich wieder ab</h3>
+        <p>Auf den entsättigten Ebenen ist Grün 900 als grüner Fond wieder die einzige satte Fläche (1,28:1 zur Fläche, dazu der Farbton). Im gesättigten Vorschlag brauchte es dafür ein eigenes Laubgrün.</p>
+      </div>
+    </div>
+<!-- /gen:bewertung -->
+  </section>
+
+  <!-- ===================== Webseite ===================== -->
+  <section class="teil" id="webseite">
+    <h2>Webseite</h2>
+    <p class="idee">Inhaltsseite mit Markenkopf in Grün 800, Karten, Infokasten und MINT-Kasten. Kopf, Band und Fuß sind Markenflächen und in beiden Modi gleich. Die Seitenleiste kommt hier nicht vor, der Hellmodus bleibt deshalb identisch.</p>
+    <div class="vergleich">
+      <!-- gen:web -->
+<figure class="vg alt"><figcaption><b>Hell, aktuell</b></figcaption>
+        <div class="v w-v hell alt t-alt-hell">
+          <div class="w-kopf"><img src="../../logos/logo-h-ohne-claim-negativ.png" alt="MakerSpace Bonn"><nav><span>Termine</span><span>Mitmachen</span><span>Über uns</span></nav></div>
+          <div class="w-band"></div>
+          <div class="w-body">
+            <span class="m-sticker">Heute<br>offen!</span>
+            <span><span class="label m-label">Repair Café</span></span>
+            <div class="m-h">Kaputt? Wir reparieren das zusammen.</div>
+            <p>Bring mit, was nicht mehr geht. Werkzeug und Leute mit Erfahrung sind da. <a href="#webseite">Termine im Wiki</a></p>
+            <p class="m-leise">Montag ab 18 Uhr, Kennedyallee 18</p>
+            <div class="w-karten">
+              <div class="w-karte"><span><span class="m-tag-gruen">Anfänger:innen</span></span><b>Löten lernen</b><span class="m-leise">Sa 14 Uhr, noch 3 Plätze</span>
+                <span class="zeile"><span class="m-button">Anmelden</span></span></div>
+              <div class="w-karte"><span><span class="m-tag-gruen">Einweisung</span></span><b>Lasercutter</b><span class="m-leise">Do 19 Uhr, ausgebucht</span>
+                <span class="zeile"><span class="w-zweit">Auf die Warteliste</span></span></div>
+            </div>
+            <div class="w-infos">
+              <div class="m-fond"><b>Gut zu wissen:</b> Laser und CNC nur nach Einweisung. <span class="m-rot">Schutzbrille tragen.</span></div>
+              <div class="m-mint"><span class="m-violett">MINT</span> Löten für Kinder ab 10, <a href="#webseite" class="m-blau">mehr Infos</a></div>
+            </div>
+          </div>
+          <div class="w-fuss">MakerSpace Bonn e.V., Kennedyallee 18, <a href="#webseite">Impressum</a></div>
+        </div>
+      </figure>
+      <figure class="vg neu"><figcaption><b>Hell, neu</b><span>identisch mit aktuell</span></figcaption>
+        <div class="v w-v hell neu t-neu-hell">
+          <div class="w-kopf"><img src="../../logos/logo-h-ohne-claim-negativ.png" alt="MakerSpace Bonn"><nav><span>Termine</span><span>Mitmachen</span><span>Über uns</span></nav></div>
+          <div class="w-band"></div>
+          <div class="w-body">
+            <span class="m-sticker">Heute<br>offen!</span>
+            <span><span class="label m-label">Repair Café</span></span>
+            <div class="m-h">Kaputt? Wir reparieren das zusammen.</div>
+            <p>Bring mit, was nicht mehr geht. Werkzeug und Leute mit Erfahrung sind da. <a href="#webseite">Termine im Wiki</a></p>
+            <p class="m-leise">Montag ab 18 Uhr, Kennedyallee 18</p>
+            <div class="w-karten">
+              <div class="w-karte"><span><span class="m-tag-gruen">Anfänger:innen</span></span><b>Löten lernen</b><span class="m-leise">Sa 14 Uhr, noch 3 Plätze</span>
+                <span class="zeile"><span class="m-button">Anmelden</span></span></div>
+              <div class="w-karte"><span><span class="m-tag-gruen">Einweisung</span></span><b>Lasercutter</b><span class="m-leise">Do 19 Uhr, ausgebucht</span>
+                <span class="zeile"><span class="w-zweit">Auf die Warteliste</span></span></div>
+            </div>
+            <div class="w-infos">
+              <div class="m-fond"><b>Gut zu wissen:</b> Laser und CNC nur nach Einweisung. <span class="m-rot">Schutzbrille tragen.</span></div>
+              <div class="m-mint"><span class="m-violett">MINT</span> Löten für Kinder ab 10, <a href="#webseite" class="m-blau">mehr Infos</a></div>
+            </div>
+          </div>
+          <div class="w-fuss">MakerSpace Bonn e.V., Kennedyallee 18, <a href="#webseite">Impressum</a></div>
+        </div>
+      </figure>
+      <figure class="vg alt"><figcaption><b>Dunkel, aktuell</b></figcaption>
+        <div class="v w-v dunkel alt t-alt-dunkel">
+          <div class="w-kopf"><img src="../../logos/logo-h-ohne-claim-negativ.png" alt="MakerSpace Bonn"><nav><span>Termine</span><span>Mitmachen</span><span>Über uns</span></nav></div>
+          <div class="w-band"></div>
+          <div class="w-body">
+            <span class="m-sticker">Heute<br>offen!</span>
+            <span><span class="label m-label">Repair Café</span></span>
+            <div class="m-h">Kaputt? Wir reparieren das zusammen.</div>
+            <p>Bring mit, was nicht mehr geht. Werkzeug und Leute mit Erfahrung sind da. <a href="#webseite">Termine im Wiki</a></p>
+            <p class="m-leise">Montag ab 18 Uhr, Kennedyallee 18</p>
+            <div class="w-karten">
+              <div class="w-karte"><span><span class="m-tag-gruen">Anfänger:innen</span></span><b>Löten lernen</b><span class="m-leise">Sa 14 Uhr, noch 3 Plätze</span>
+                <span class="zeile"><span class="m-button">Anmelden</span></span></div>
+              <div class="w-karte"><span><span class="m-tag-gruen">Einweisung</span></span><b>Lasercutter</b><span class="m-leise">Do 19 Uhr, ausgebucht</span>
+                <span class="zeile"><span class="w-zweit">Auf die Warteliste</span></span></div>
+            </div>
+            <div class="w-infos">
+              <div class="m-fond"><b>Gut zu wissen:</b> Laser und CNC nur nach Einweisung. <span class="m-rot">Schutzbrille tragen.</span></div>
+              <div class="m-mint"><span class="m-violett">MINT</span> Löten für Kinder ab 10, <a href="#webseite" class="m-blau">mehr Infos</a></div>
+            </div>
+          </div>
+          <div class="w-fuss">MakerSpace Bonn e.V., Kennedyallee 18, <a href="#webseite">Impressum</a></div>
+        </div>
+      </figure>
+      <figure class="vg neu"><figcaption><b>Dunkel, neu: Tannen-Familie</b><span class="empf">Empfehlung</span></figcaption>
+        <div class="v w-v dunkel neu t-emp-dunkel">
+          <div class="w-kopf"><img src="../../logos/logo-h-ohne-claim-negativ.png" alt="MakerSpace Bonn"><nav><span>Termine</span><span>Mitmachen</span><span>Über uns</span></nav></div>
+          <div class="w-band"></div>
+          <div class="w-body">
+            <span class="m-sticker">Heute<br>offen!</span>
+            <span><span class="label m-label">Repair Café</span></span>
+            <div class="m-h">Kaputt? Wir reparieren das zusammen.</div>
+            <p>Bring mit, was nicht mehr geht. Werkzeug und Leute mit Erfahrung sind da. <a href="#webseite">Termine im Wiki</a></p>
+            <p class="m-leise">Montag ab 18 Uhr, Kennedyallee 18</p>
+            <div class="w-karten">
+              <div class="w-karte"><span><span class="m-tag-gruen">Anfänger:innen</span></span><b>Löten lernen</b><span class="m-leise">Sa 14 Uhr, noch 3 Plätze</span>
+                <span class="zeile"><span class="m-button">Anmelden</span></span></div>
+              <div class="w-karte"><span><span class="m-tag-gruen">Einweisung</span></span><b>Lasercutter</b><span class="m-leise">Do 19 Uhr, ausgebucht</span>
+                <span class="zeile"><span class="w-zweit">Auf die Warteliste</span></span></div>
+            </div>
+            <div class="w-infos">
+              <div class="m-fond"><b>Gut zu wissen:</b> Laser und CNC nur nach Einweisung. <span class="m-rot">Schutzbrille tragen.</span></div>
+              <div class="m-mint"><span class="m-violett">MINT</span> Löten für Kinder ab 10, <a href="#webseite" class="m-blau">mehr Infos</a></div>
+            </div>
+          </div>
+          <div class="w-fuss">MakerSpace Bonn e.V., Kennedyallee 18, <a href="#webseite">Impressum</a></div>
+        </div>
+      </figure>
+      <figure class="vg neu"><figcaption><b>Dunkel: Grün 950 bis 800</b><span>Vorschlag aus Runde 1</span></figcaption>
+        <div class="v w-v dunkel neu t-g-dunkel">
+          <div class="w-kopf"><img src="../../logos/logo-h-ohne-claim-negativ.png" alt="MakerSpace Bonn"><nav><span>Termine</span><span>Mitmachen</span><span>Über uns</span></nav></div>
+          <div class="w-band"></div>
+          <div class="w-body">
+            <span class="m-sticker">Heute<br>offen!</span>
+            <span><span class="label m-label">Repair Café</span></span>
+            <div class="m-h">Kaputt? Wir reparieren das zusammen.</div>
+            <p>Bring mit, was nicht mehr geht. Werkzeug und Leute mit Erfahrung sind da. <a href="#webseite">Termine im Wiki</a></p>
+            <p class="m-leise">Montag ab 18 Uhr, Kennedyallee 18</p>
+            <div class="w-karten">
+              <div class="w-karte"><span><span class="m-tag-gruen">Anfänger:innen</span></span><b>Löten lernen</b><span class="m-leise">Sa 14 Uhr, noch 3 Plätze</span>
+                <span class="zeile"><span class="m-button">Anmelden</span></span></div>
+              <div class="w-karte"><span><span class="m-tag-gruen">Einweisung</span></span><b>Lasercutter</b><span class="m-leise">Do 19 Uhr, ausgebucht</span>
+                <span class="zeile"><span class="w-zweit">Auf die Warteliste</span></span></div>
+            </div>
+            <div class="w-infos">
+              <div class="m-fond"><b>Gut zu wissen:</b> Laser und CNC nur nach Einweisung. <span class="m-rot">Schutzbrille tragen.</span></div>
+              <div class="m-mint"><span class="m-violett">MINT</span> Löten für Kinder ab 10, <a href="#webseite" class="m-blau">mehr Infos</a></div>
+            </div>
+          </div>
+          <div class="w-fuss">MakerSpace Bonn e.V., Kennedyallee 18, <a href="#webseite">Impressum</a></div>
+        </div>
+      </figure>
+      <div class="bewertung"><p><b>Auf Webseiten</b> wirken die gesättigten Grüntöne wärmer und näher an der Sticker-Seite. Die Tannen-Familie ist ruhiger; das Grün kommt dort aus den Markenflächen: Kopf in Grün 800, Fuß und Bühnen in Grün 900 stehen auf Tannennacht deutlicher als auf Grün 950.</p>
+      <p>Wer eine Seite bewusst grün haben will, legt Abschnitte auf Grün 900 als Markenfläche, wie die dunklen Bühnen der Sticker-Seite. Das geht in beiden Modi und braucht keine zweite Dunkel-Palette.</p></div>
+<!-- /gen:web -->
+    </div>
+  </section>
+
+  <!-- ===================== Palette ===================== -->
+  <section class="teil" id="palette">
+    <h2>Palette</h2>
+    <p class="idee">Die Ebenen im Dunkeln sind die Töne der Leiste: Fläche ist das Tannenschwarz der Leiste, Fond ihr Hover, Linie ihre Linie. Grün 900 bleibt der grüne Fond und hebt sich auf den entsättigten Ebenen wieder ab.</p>
+    <!-- gen:skala -->
+<div class="skala" role="list"><div role="listitem" style="background:#0C1511"><b>Tannennacht</b><span>Ebene 0, Hintergrund</span><span class="mono">#0C1511</span></div><div role="listitem" style="background:#13201A"><b>Tannenschwarz</b><span>Ebene 1, Fläche und Leiste</span><span class="mono">#13201A</span></div><div role="listitem" style="background:#213129"><b>Tanne hell</b><span>Ebene 2, Fond und Leiste Hover</span><span class="mono">#213129</span></div><div role="listitem" style="background:#2A3C33"><b>Tanne Linie</b><span>Linie und Leiste Linie</span><span class="mono">#2A3C33</span></div><div role="listitem" style="background:#1B3714"><b>Grün 900</b><span>Grüner Fond, unverändert</span><span class="mono">#1B3714</span></div></div>
+<!-- /gen:skala -->
+    <p class="idee" style="margin-top:18px">Kontrast min. ist die schwächste Paarung nach <code>MODI_PRUEFEN</code> plus den neuen Leisten-Paarungen: Schrift mindestens 4,5:1, Fokus 3:1. Bei Flächen steht die schwächste Schrift darauf. Gerechnet mit <code>modi_kontrast()</code> und <code>ratio()</code> aus <code>src/build.py</code>; alle Paarungen bestehen in beiden Modi.</p>
+    <!-- gen:palette -->
+<div class="pal">
+<div class="pal-kopf"><span>Rolle</span><span>Hell (bleibt)</span><span>Dunkel aktuell</span><span>Dunkel neu</span><span>Kontrast min., alt → neu</span></div>
+<div class="pal-zeile geaendert"><div class="rolle"><b>Hintergrund</b><code>--hintergrund</code><br><span class="tag-neu">geändert</span></div><div><span class="spalte-hinweis">Hell</span><div class="feld"><span class="chip" style="background:#FBF8F2"></span><span><span class="mono">#FBF8F2</span><small>Papier</small></span></div></div><div><span class="spalte-hinweis">Dunkel aktuell</span><div class="feld"><span class="chip" style="background:#141210"></span><span><span class="mono">#141210</span><small>Kohle</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu</span><div class="feld"><span class="chip" style="background:#0C1511"></span><span><span class="mono">#0C1511</span><small>Tannennacht</small></span></div></div><div class="kontrast">Hell 5,1 → 5,1<br>Dunkel 6,3 → 6,2<small>schwächste Schrift darauf: MINT-Blau Schrift</small></div></div>
+<div class="pal-zeile geaendert"><div class="rolle"><b>Fläche</b><code>--flaeche</code><br><span class="tag-neu">geändert</span></div><div><span class="spalte-hinweis">Hell</span><div class="feld"><span class="chip" style="background:#FFFFFF"></span><span><span class="mono">#FFFFFF</span><small>Weiß</small></span></div></div><div><span class="spalte-hinweis">Dunkel aktuell</span><div class="feld"><span class="chip" style="background:#1E1C19"></span><span><span class="mono">#1E1C19</span><small>Tinte</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu</span><div class="feld"><span class="chip" style="background:#13201A"></span><span><span class="mono">#13201A</span><small>Tannenschwarz</small></span></div></div><div class="kontrast">Hell 5,4 → 5,4<br>Dunkel 5,7 → 5,7<small>schwächste Schrift darauf: MINT-Blau Schrift</small></div></div>
+<div class="pal-zeile geaendert"><div class="rolle"><b>Fond</b><code>--fond</code><br><span class="tag-neu">geändert</span></div><div><span class="spalte-hinweis">Hell</span><div class="feld"><span class="chip" style="background:#FAF2E4"></span><span><span class="mono">#FAF2E4</span><small>Creme</small></span></div></div><div><span class="spalte-hinweis">Dunkel aktuell</span><div class="feld"><span class="chip" style="background:#2B2721"></span><span><span class="mono">#2B2721</span><small>Werkbank</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu</span><div class="feld"><span class="chip" style="background:#213129"></span><span><span class="mono">#213129</span><small>Tanne hell</small></span></div></div><div class="kontrast">Hell 4,9 → 4,9<br>Dunkel 5,9 → 5,4<small>schwächste Schrift darauf: Text leise</small></div></div>
+<div class="pal-zeile geaendert"><div class="rolle"><b>Linie</b><code>--linie</code><br><span class="tag-neu">geändert</span></div><div><span class="spalte-hinweis">Hell</span><div class="feld"><span class="chip" style="background:#E4DCCB"></span><span><span class="mono">#E4DCCB</span><small>Linie</small></span></div></div><div><span class="spalte-hinweis">Dunkel aktuell</span><div class="feld"><span class="chip" style="background:#3E3932"></span><span><span class="mono">#3E3932</span><small>Linie dunkel</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu</span><div class="feld"><span class="chip" style="background:#2A3C33"></span><span><span class="mono">#2A3C33</span><small>Tanne Linie</small></span></div></div><div class="kontrast">auf Fläche: 1,5 → 1,4 dunkel<small>zur Orientierung, keine Pflicht</small></div></div>
+<div class="pal-zeile"><div class="rolle"><b>Text</b><code>--text</code></div><div><span class="spalte-hinweis">Hell</span><div class="feld"><span class="chip" style="background:#1E1C19"></span><span><span class="mono">#1E1C19</span><small>Tinte</small></span></div></div><div><span class="spalte-hinweis">Dunkel aktuell</span><div class="feld"><span class="chip" style="background:#EDE8DE"></span><span><span class="mono">#EDE8DE</span><small>Kreide</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu</span><div class="feld gleich"><span class="chip" style="background:#EDE8DE"></span><span><span class="mono">#EDE8DE</span><small>unverändert</small></span></div></div><div class="kontrast">Hell 14,7 → 14,7<br>Dunkel 10,7 → 10,7<small>schwächste: auf Grüner Fond, Minimum 4,5</small></div></div>
+<div class="pal-zeile geaendert"><div class="rolle"><b>Text leise</b><code>--text-leise</code><br><span class="tag-neu">geändert</span></div><div><span class="spalte-hinweis">Hell</span><div class="feld"><span class="chip" style="background:#5F5850"></span><span><span class="mono">#5F5850</span><small>Stein</small></span></div></div><div><span class="spalte-hinweis">Dunkel aktuell</span><div class="feld"><span class="chip" style="background:#AAA297"></span><span><span class="mono">#AAA297</span><small>Stein hell</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu</span><div class="feld"><span class="chip" style="background:#9BA6A0"></span><span><span class="mono">#9BA6A0</span><small>Salbei</small></span></div></div><div class="kontrast">Hell 6,3 → 6,3<br>Dunkel 5,2 → 5,2<small>schwächste: auf Grüner Fond, Minimum 4,5</small></div></div>
+<div class="pal-zeile"><div class="rolle"><b>Grüne Schrift</b><code>--text-gruen</code></div><div><span class="spalte-hinweis">Hell</span><div class="feld"><span class="chip" style="background:#33791A"></span><span><span class="mono">#33791A</span><small>Grün 600</small></span></div></div><div><span class="spalte-hinweis">Dunkel aktuell</span><div class="feld"><span class="chip" style="background:#9CD27D"></span><span><span class="mono">#9CD27D</span><small>Grün 300</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu</span><div class="feld gleich"><span class="chip" style="background:#9CD27D"></span><span><span class="mono">#9CD27D</span><small>unverändert</small></span></div></div><div class="kontrast">Hell 4,9 → 4,9<br>Dunkel 7,4 → 7,4<small>schwächste: auf Grüner Fond, Minimum 4,5</small></div></div>
+<div class="pal-zeile"><div class="rolle"><b>Fokus</b><code>--fokus</code></div><div><span class="spalte-hinweis">Hell</span><div class="feld"><span class="chip" style="background:#33791A"></span><span><span class="mono">#33791A</span><small>Grün 600</small></span></div></div><div><span class="spalte-hinweis">Dunkel aktuell</span><div class="feld"><span class="chip" style="background:#9CD27D"></span><span><span class="mono">#9CD27D</span><small>Grün 300</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu</span><div class="feld gleich"><span class="chip" style="background:#9CD27D"></span><span><span class="mono">#9CD27D</span><small>unverändert</small></span></div></div><div class="kontrast">Hell 4,9 → 4,9<br>Dunkel 7,4 → 7,4<small>schwächste: auf Grüner Fond, Minimum 3,0</small></div></div>
+<div class="pal-zeile"><div class="rolle"><b>Button</b><code>--button</code></div><div><span class="spalte-hinweis">Hell</span><div class="feld"><span class="chip" style="background:#33791A"></span><span><span class="mono">#33791A</span><small>Grün 600</small></span></div></div><div><span class="spalte-hinweis">Dunkel aktuell</span><div class="feld"><span class="chip" style="background:#5EB130"></span><span><span class="mono">#5EB130</span><small>Grün 500</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu</span><div class="feld gleich"><span class="chip" style="background:#5EB130"></span><span><span class="mono">#5EB130</span><small>unverändert</small></span></div></div><div class="kontrast">Hell 5,4 → 5,4<br>Dunkel 6,3 → 6,3<small>schwächste Schrift darauf: Button-Schrift</small></div></div>
+<div class="pal-zeile"><div class="rolle"><b>Button Hover</b><code>--button-hover</code></div><div><span class="spalte-hinweis">Hell</span><div class="feld"><span class="chip" style="background:#325725"></span><span><span class="mono">#325725</span><small>Grün 800</small></span></div></div><div><span class="spalte-hinweis">Dunkel aktuell</span><div class="feld"><span class="chip" style="background:#9CD27D"></span><span><span class="mono">#9CD27D</span><small>Grün 300</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu</span><div class="feld gleich"><span class="chip" style="background:#9CD27D"></span><span><span class="mono">#9CD27D</span><small>unverändert</small></span></div></div><div class="kontrast">Hell 8,3 → 8,3<br>Dunkel 9,7 → 9,7<small>schwächste Schrift darauf: Button-Schrift</small></div></div>
+<div class="pal-zeile"><div class="rolle"><b>Button-Schrift</b><code>--button-text</code></div><div><span class="spalte-hinweis">Hell</span><div class="feld"><span class="chip" style="background:#FFFFFF"></span><span><span class="mono">#FFFFFF</span><small>Weiß</small></span></div></div><div><span class="spalte-hinweis">Dunkel aktuell</span><div class="feld"><span class="chip" style="background:#1E1C19"></span><span><span class="mono">#1E1C19</span><small>Tinte</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu</span><div class="feld gleich"><span class="chip" style="background:#1E1C19"></span><span><span class="mono">#1E1C19</span><small>unverändert</small></span></div></div><div class="kontrast">Hell 5,4 → 5,4<br>Dunkel 6,3 → 6,3<small>schwächste: auf Button, Minimum 4,5</small></div></div>
+<div class="pal-zeile"><div class="rolle"><b>Grüner Fond</b><code>--fond-gruen</code></div><div><span class="spalte-hinweis">Hell</span><div class="feld"><span class="chip" style="background:#F0F7EA"></span><span><span class="mono">#F0F7EA</span><small>Grün 50</small></span></div></div><div><span class="spalte-hinweis">Dunkel aktuell</span><div class="feld"><span class="chip" style="background:#1B3714"></span><span><span class="mono">#1B3714</span><small>Grün 900</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu</span><div class="feld gleich"><span class="chip" style="background:#1B3714"></span><span><span class="mono">#1B3714</span><small>unverändert</small></span></div></div><div class="kontrast">Hell 4,9 → 4,9<br>Dunkel 5,2 → 5,2<small>schwächste Schrift darauf: Text leise</small></div></div>
+<div class="pal-zeile"><div class="rolle"><b>Gelber Fond</b><code>--fond-gelb</code></div><div><span class="spalte-hinweis">Hell</span><div class="feld"><span class="chip" style="background:#FDF3D7"></span><span><span class="mono">#FDF3D7</span><small>Gelb-Fond</small></span></div></div><div><span class="spalte-hinweis">Dunkel aktuell</span><div class="feld"><span class="chip" style="background:#33280F"></span><span><span class="mono">#33280F</span><small>Gelb-Fond dunkel</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu</span><div class="feld gleich"><span class="chip" style="background:#33280F"></span><span><span class="mono">#33280F</span><small>unverändert</small></span></div></div><div class="kontrast">Hell 5,4 → 5,4<br>Dunkel 8,6 → 8,6<small>schwächste Schrift darauf: Gelbe Schrift</small></div></div>
+<div class="pal-zeile"><div class="rolle"><b>Gelbe Schrift</b><code>--text-gelb</code></div><div><span class="spalte-hinweis">Hell</span><div class="feld"><span class="chip" style="background:#8A5A00"></span><span><span class="mono">#8A5A00</span><small>Ocker</small></span></div></div><div><span class="spalte-hinweis">Dunkel aktuell</span><div class="feld"><span class="chip" style="background:#FCBD30"></span><span><span class="mono">#FCBD30</span><small>Mitglieder-Gelb</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu</span><div class="feld gleich"><span class="chip" style="background:#FCBD30"></span><span><span class="mono">#FCBD30</span><small>unverändert</small></span></div></div><div class="kontrast">Hell 5,4 → 5,4<br>Dunkel 8,6 → 8,6<small>schwächste: auf Gelber Fond, Minimum 4,5</small></div></div>
+<div class="pal-zeile"><div class="rolle"><b>Roter Fond</b><code>--fond-rot</code></div><div><span class="spalte-hinweis">Hell</span><div class="feld"><span class="chip" style="background:#FCEBE9"></span><span><span class="mono">#FCEBE9</span><small>Rot-Fond</small></span></div></div><div><span class="spalte-hinweis">Dunkel aktuell</span><div class="feld"><span class="chip" style="background:#3B1A17"></span><span><span class="mono">#3B1A17</span><small>Rot-Fond dunkel</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu</span><div class="feld gleich"><span class="chip" style="background:#3B1A17"></span><span><span class="mono">#3B1A17</span><small>unverändert</small></span></div></div><div class="kontrast">Hell 4,9 → 4,9<br>Dunkel 6,2 → 6,2<small>schwächste Schrift darauf: Warnschrift</small></div></div>
+<div class="pal-zeile"><div class="rolle"><b>Warnschrift</b><code>--text-rot</code></div><div><span class="spalte-hinweis">Hell</span><div class="feld"><span class="chip" style="background:#C62828"></span><span><span class="mono">#C62828</span><small>Sicherheitsrot</small></span></div></div><div><span class="spalte-hinweis">Dunkel aktuell</span><div class="feld"><span class="chip" style="background:#FF7B7B"></span><span><span class="mono">#FF7B7B</span><small>Rot hell</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu</span><div class="feld gleich"><span class="chip" style="background:#FF7B7B"></span><span><span class="mono">#FF7B7B</span><small>unverändert</small></span></div></div><div class="kontrast">Hell 4,9 → 4,9<br>Dunkel 5,9 → 5,4<small>schwächste: auf Fond, Minimum 4,5</small></div></div>
+<div class="pal-zeile"><div class="rolle"><b>MINT-Fond</b><code>--fond-mint</code></div><div><span class="spalte-hinweis">Hell</span><div class="feld"><span class="chip" style="background:#E6F5FC"></span><span><span class="mono">#E6F5FC</span><small>MINT-Fond</small></span></div></div><div><span class="spalte-hinweis">Dunkel aktuell</span><div class="feld"><span class="chip" style="background:#152D37"></span><span><span class="mono">#152D37</span><small>MINT-Fond dunkel</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu</span><div class="feld gleich"><span class="chip" style="background:#152D37"></span><span><span class="mono">#152D37</span><small>unverändert</small></span></div></div><div class="kontrast">Hell 4,8 → 4,8<br>Dunkel 4,8 → 4,8<small>schwächste Schrift darauf: MINT-Blau Schrift</small></div></div>
+<div class="pal-zeile"><div class="rolle"><b>MINT-Violett Schrift</b><code>--text-violett</code></div><div><span class="spalte-hinweis">Hell</span><div class="feld"><span class="chip" style="background:#6D3E91"></span><span><span class="mono">#6D3E91</span><small>MINT-Violett</small></span></div></div><div><span class="spalte-hinweis">Dunkel aktuell</span><div class="feld"><span class="chip" style="background:#BC94DB"></span><span><span class="mono">#BC94DB</span><small>Violett hell</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu</span><div class="feld gleich"><span class="chip" style="background:#BC94DB"></span><span><span class="mono">#BC94DB</span><small>unverändert</small></span></div></div><div class="kontrast">Hell 6,9 → 6,9<br>Dunkel 5,7 → 5,7<small>schwächste: auf MINT-Fond, Minimum 4,5</small></div></div>
+<div class="pal-zeile"><div class="rolle"><b>MINT-Blau Schrift</b><code>--text-blau</code></div><div><span class="spalte-hinweis">Hell</span><div class="feld"><span class="chip" style="background:#0070A8"></span><span><span class="mono">#0070A8</span><small>Textblau</small></span></div></div><div><span class="spalte-hinweis">Dunkel aktuell</span><div class="feld"><span class="chip" style="background:#009FE3"></span><span><span class="mono">#009FE3</span><small>MINT-Blau</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu</span><div class="feld gleich"><span class="chip" style="background:#009FE3"></span><span><span class="mono">#009FE3</span><small>unverändert</small></span></div></div><div class="kontrast">Hell 4,8 → 4,8<br>Dunkel 4,8 → 4,8<small>schwächste: auf MINT-Fond, Minimum 4,5</small></div></div>
+<div class="pal-zwischen">Neue Rollen: Seitenleiste (bisher Grün 900, 800, 300 und Kreide aus <code>KONSTANT</code>)</div>
+<div class="pal-kopf"><span>Rolle</span><span>Bisher, beide Modi</span><span>Hell neu</span><span>Dunkel neu (c)</span><span>Kontrast min., alt → neu</span></div>
+<div class="pal-zeile geaendert"><div class="rolle"><b>Leiste</b><code>--leiste</code><small>Seitenleiste in Anwendungen, mobile Kopf- und Tab-Leiste; shadcn --sidebar</small><span class="tag-neu">neu</span></div><div><span class="spalte-hinweis">Bisher</span><div class="feld"><span class="chip" style="background:#1B3714"></span><span><span class="mono">#1B3714</span><small>Grün 900</small></span></div></div><div><span class="spalte-hinweis">Hell neu</span><div class="feld"><span class="chip" style="background:#13201A"></span><span><span class="mono">#13201A</span><small>Tannenschwarz</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu (c)</span><div class="feld gleich"><span class="chip" style="background:#13201A"></span><span><span class="mono">#13201A</span><small>wie hell</small></span></div></div><div class="kontrast">Hell 7,4 → 6,2<br>Dunkel 7,4 → 6,2<small>schwächste Schrift darauf: Leiste Fokus</small></div></div>
+<div class="pal-zeile geaendert"><div class="rolle"><b>Leiste Schrift</b><code>--leiste-text</code><small>Menüpunkte, Icons; shadcn --sidebar-foreground</small><span class="tag-neu">neu</span></div><div><span class="spalte-hinweis">Bisher</span><div class="feld"><span class="chip" style="background:#EDE8DE"></span><span><span class="mono">#EDE8DE</span><small>Kreide</small></span></div></div><div><span class="spalte-hinweis">Hell neu</span><div class="feld"><span class="chip" style="background:#D6E0DA"></span><span><span class="mono">#D6E0DA</span><small>Nebel</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu (c)</span><div class="feld gleich"><span class="chip" style="background:#D6E0DA"></span><span><span class="mono">#D6E0DA</span><small>wie hell</small></span></div></div><div class="kontrast">Hell 6,8 → 10,1<br>Dunkel 6,8 → 10,1<small>schwächste: auf Leiste Hover, Minimum 4,5</small></div></div>
+<div class="pal-zeile geaendert"><div class="rolle"><b>Leiste leise</b><code>--leiste-leise</code><small>Gruppentitel, Tastenkürzel; shadcn –</small><span class="tag-neu">neu</span></div><div><span class="spalte-hinweis">Bisher</span><div class="feld"><span class="chip" style="background:#9CD27D"></span><span><span class="mono">#9CD27D</span><small>Grün 300</small></span></div></div><div><span class="spalte-hinweis">Hell neu</span><div class="feld"><span class="chip" style="background:#9BA6A0"></span><span><span class="mono">#9BA6A0</span><small>Salbei</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu (c)</span><div class="feld gleich"><span class="chip" style="background:#9BA6A0"></span><span><span class="mono">#9BA6A0</span><small>wie hell</small></span></div></div><div class="kontrast">Hell 7,4 → 5,8<br>Dunkel 7,4 → 5,8<small>schwächste: auf Leiste Feld, Minimum 4,5</small></div></div>
+<div class="pal-zeile geaendert"><div class="rolle"><b>Leiste Feld</b><code>--leiste-feld</code><small>Suchfeld in der Leiste; shadcn –</small><span class="tag-neu">neu</span></div><div><span class="spalte-hinweis">Bisher</span><div class="feld"><span class="chip" style="background:#1B3714"></span><span><span class="mono">#1B3714</span><small>Grün 900</small></span></div></div><div><span class="spalte-hinweis">Hell neu</span><div class="feld"><span class="chip" style="background:#1F2B26"></span><span><span class="mono">#1F2B26</span><small>Tanne Feld</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu (c)</span><div class="feld gleich"><span class="chip" style="background:#1F2B26"></span><span><span class="mono">#1F2B26</span><small>wie hell</small></span></div></div><div class="kontrast">Hell 7,4 → 5,8<br>Dunkel 7,4 → 5,8<small>schwächste Schrift darauf: Leiste leise</small></div></div>
+<div class="pal-zeile geaendert"><div class="rolle"><b>Leiste Hover</b><code>--leiste-hover</code><small>Menüpunkt unter Maus oder Finger; shadcn --sidebar-accent</small><span class="tag-neu">neu</span></div><div><span class="spalte-hinweis">Bisher</span><div class="feld"><span class="chip" style="background:#325725"></span><span><span class="mono">#325725</span><small>Grün 800</small></span></div></div><div><span class="spalte-hinweis">Hell neu</span><div class="feld"><span class="chip" style="background:#213129"></span><span><span class="mono">#213129</span><small>Tanne hell</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu (c)</span><div class="feld gleich"><span class="chip" style="background:#213129"></span><span><span class="mono">#213129</span><small>wie hell</small></span></div></div><div class="kontrast">Hell 6,8 → 10,1<br>Dunkel 6,8 → 10,1<small>schwächste Schrift darauf: Leiste Schrift</small></div></div>
+<div class="pal-zeile geaendert"><div class="rolle"><b>Leiste Linie</b><code>--leiste-linie</code><small>Rand von Suchfeld und Leiste, Trenner; shadcn --sidebar-border</small><span class="tag-neu">neu</span></div><div><span class="spalte-hinweis">Bisher</span><div class="feld"><span class="chip" style="background:#325725"></span><span><span class="mono">#325725</span><small>Grün 800</small></span></div></div><div><span class="spalte-hinweis">Hell neu</span><div class="feld"><span class="chip" style="background:#2A3C33"></span><span><span class="mono">#2A3C33</span><small>Tanne Linie</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu (c)</span><div class="feld gleich"><span class="chip" style="background:#2A3C33"></span><span><span class="mono">#2A3C33</span><small>wie hell</small></span></div></div><div class="kontrast">auf Leiste: 1,6 → 1,4 dunkel<small>zur Orientierung, keine Pflicht</small></div></div>
+<div class="pal-zeile geaendert"><div class="rolle"><b>Leiste aktiv</b><code>--leiste-aktiv</code><small>Aktiver Menüpunkt (Fläche); shadcn --sidebar-primary</small><span class="tag-neu">neu</span></div><div><span class="spalte-hinweis">Bisher</span><div class="feld"><span class="chip" style="background:#325725"></span><span><span class="mono">#325725</span><small>Grün 800</small></span></div></div><div><span class="spalte-hinweis">Hell neu</span><div class="feld"><span class="chip" style="background:#5EB130"></span><span><span class="mono">#5EB130</span><small>Markengrün</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu (c)</span><div class="feld gleich"><span class="chip" style="background:#5EB130"></span><span><span class="mono">#5EB130</span><small>wie hell</small></span></div></div><div class="kontrast">Hell 6,8 → 6,3<br>Dunkel 6,8 → 6,3<small>schwächste Schrift darauf: Leiste aktiv Schrift</small></div></div>
+<div class="pal-zeile geaendert"><div class="rolle"><b>Leiste aktiv Schrift</b><code>--leiste-aktiv-text</code><small>Schrift auf dem aktiven Punkt, fett; shadcn --sidebar-primary-foreground</small><span class="tag-neu">neu</span></div><div><span class="spalte-hinweis">Bisher</span><div class="feld"><span class="chip" style="background:#EDE8DE"></span><span><span class="mono">#EDE8DE</span><small>Kreide</small></span></div></div><div><span class="spalte-hinweis">Hell neu</span><div class="feld"><span class="chip" style="background:#1E1C19"></span><span><span class="mono">#1E1C19</span><small>Tinte</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu (c)</span><div class="feld gleich"><span class="chip" style="background:#1E1C19"></span><span><span class="mono">#1E1C19</span><small>wie hell</small></span></div></div><div class="kontrast">Hell 6,8 → 6,3<br>Dunkel 6,8 → 6,3<small>schwächste: auf Leiste aktiv, Minimum 4,5</small></div></div>
+<div class="pal-zeile geaendert"><div class="rolle"><b>Leiste Fokus</b><code>--leiste-fokus</code><small>Fokusring in der Leiste: 2 px, 2 px Abstand; shadcn --sidebar-ring</small><span class="tag-neu">neu</span></div><div><span class="spalte-hinweis">Bisher</span><div class="feld"><span class="chip" style="background:#9CD27D"></span><span><span class="mono">#9CD27D</span><small>Grün 300</small></span></div></div><div><span class="spalte-hinweis">Hell neu</span><div class="feld"><span class="chip" style="background:#5EB130"></span><span><span class="mono">#5EB130</span><small>Markengrün</small></span></div></div><div><span class="spalte-hinweis">Dunkel neu (c)</span><div class="feld gleich"><span class="chip" style="background:#5EB130"></span><span><span class="mono">#5EB130</span><small>wie hell</small></span></div></div><div class="kontrast">Hell 7,4 → 6,2<br>Dunkel 7,4 → 6,2<small>schwächste: auf Leiste, Minimum 3,0</small></div></div>
+<div class="pal-zwischen">In beiden Modi gleich (<code>KONSTANT</code>), ohne Grün 300</div><div style="padding:10px 8px 4px"><span class="feld" style="display:inline-flex;margin:4px 14px 4px 0"><span class="chip" style="background:#5EB130"></span><span><span class="mono">#5EB130</span><small>Markengrün</small></span></span><span class="feld" style="display:inline-flex;margin:4px 14px 4px 0"><span class="chip" style="background:#1E1C19"></span><span><span class="mono">#1E1C19</span><small>Tinte</small></span></span><span class="feld" style="display:inline-flex;margin:4px 14px 4px 0"><span class="chip" style="background:#EDE8DE"></span><span><span class="mono">#EDE8DE</span><small>Kreide</small></span></span><span class="feld" style="display:inline-flex;margin:4px 14px 4px 0"><span class="chip" style="background:#325725"></span><span><span class="mono">#325725</span><small>Grün 800</small></span></span><span class="feld" style="display:inline-flex;margin:4px 14px 4px 0"><span class="chip" style="background:#1B3714"></span><span><span class="mono">#1B3714</span><small>Grün 900</small></span></span><span class="feld" style="display:inline-flex;margin:4px 14px 4px 0"><span class="chip" style="background:#6D3E91"></span><span><span class="mono">#6D3E91</span><small>MINT-Violett</small></span></span><span class="feld" style="display:inline-flex;margin:4px 14px 4px 0"><span class="chip" style="background:#FCBD30"></span><span><span class="mono">#FCBD30</span><small>Mitglieder-Gelb</small></span></span><span class="feld" style="display:inline-flex;margin:4px 14px 4px 0"><span class="chip" style="background:#F2711C"></span><span><span class="mono">#F2711C</span><small>Maker-Orange</small></span></span><span class="feld" style="display:inline-flex;margin:4px 14px 4px 0"><span class="chip" style="background:#C62828"></span><span><span class="mono">#C62828</span><small>Sicherheitsrot</small></span></span></div>
+</div>
+<!-- /gen:palette -->
+  </section>
+
+  <!-- ===================== Änderungen ===================== -->
+  <section class="teil" id="aenderungen">
+    <h2>Was sich in build.py und template.html ändern würde</h2>
+    <p class="idee">Für die Empfehlung: Tannen-Familie im Dunkeln und Leiste nach Option c.</p>
+    <!-- gen:aenderungen -->
+<div class="aenderungen">
+      <div>
+        <h3><code>MODI</code>, Spalte Dunkel (5 von 19 Rollen)</h3>
+        <ul><li><code>hintergrund</code>: <span class="pfeil-alt">#141210 Kohle</span> → <b>#0C1511</b> Tannennacht</li><li><code>flaeche</code>: <span class="pfeil-alt">#1E1C19 Tinte</span> → <b>#13201A</b> Tannenschwarz</li><li><code>fond</code>: <span class="pfeil-alt">#2B2721 Werkbank</span> → <b>#213129</b> Tanne hell</li><li><code>linie</code>: <span class="pfeil-alt">#3E3932 Linie dunkel</span> → <b>#2A3C33</b> Tanne Linie</li><li><code>text-leise</code>: <span class="pfeil-alt">#AAA297 Stein hell</span> → <b>#9BA6A0</b> Salbei</li></ul>
+        <h3><code>MODI</code>, neue Zeilen für die Leiste (Hell, Dunkel)</h3>
+        <ul><li><code>('leiste', 'Leiste', ('#13201A', 'Tannenschwarz'), ('#13201A', 'Tannenschwarz'), …)</code></li><li><code>('leiste-text', 'Leiste Schrift', ('#D6E0DA', 'Nebel'), ('#D6E0DA', 'Nebel'), …)</code></li><li><code>('leiste-leise', 'Leiste leise', ('#9BA6A0', 'Salbei'), ('#9BA6A0', 'Salbei'), …)</code></li><li><code>('leiste-feld', 'Leiste Feld', ('#1F2B26', 'Tanne Feld'), ('#1F2B26', 'Tanne Feld'), …)</code></li><li><code>('leiste-hover', 'Leiste Hover', ('#213129', 'Tanne hell'), ('#213129', 'Tanne hell'), …)</code></li><li><code>('leiste-linie', 'Leiste Linie', ('#2A3C33', 'Tanne Linie'), ('#2A3C33', 'Tanne Linie'), …)</code></li><li><code>('leiste-aktiv', 'Leiste aktiv', ('#5EB130', 'Markengrün'), ('#5EB130', 'Markengrün'), …)</code></li><li><code>('leiste-aktiv-text', 'Leiste aktiv Schrift', ('#1E1C19', 'Tinte'), ('#1E1C19', 'Tinte'), …)</code></li><li><code>('leiste-fokus', 'Leiste Fokus', ('#5EB130', 'Markengrün'), ('#5EB130', 'Markengrün'), …)</code></li></ul>
+        <h3><code>MODI_PRUEFEN</code>, neu</h3>
+        <ul><li><code>'leiste-text': (['leiste', 'leiste-hover', 'leiste-feld'], 4.5)</code></li><li><code>'leiste-leise': (['leiste', 'leiste-feld'], 4.5)</code></li><li><code>'leiste-aktiv-text': (['leiste-aktiv'], 4.5)</code></li><li><code>'leiste-fokus': (['leiste'], 3)</code></li></ul>
+      </div>
+      <div>
+        <h3><code>KONSTANT</code> und <code>KONSTANT_PRUEFEN</code></h3>
+        <ul>
+          <li><code>gruen-300</code> entfällt: war nur für Gruppentitel und Fokus in der Leiste. Der Wert bleibt als Grüne Schrift und Fokus im Dunkeln.</li>
+          <li><code>gruen-800</code>, <code>gruen-900</code>: bleiben, Wofür ohne Leiste („Markenflächen, Kopf, Fuß, Schilder“).</li>
+          <li><code>('gruen-300', 'gruen-900', 4.5)</code> entfällt, ersetzt durch <code>leiste-leise</code> in <code>MODI_PRUEFEN</code>.</li>
+          <li><code>('marke', 'gruen-900', 3)</code> bleibt für das Logo auf Markenflächen; der Fokus in der Leiste wird über <code>leiste-fokus</code> geprüft.</li>
+        </ul>
+        <h3>Weitere Stellen in build.py</h3>
+        <ul>
+          <li><code>NEU</code>: neue Namen Nebel, Salbei, Tanne Feld, Tanne Linie, Tanne hell, Tannennacht, Tannenschwarz; entfallen dort: Kohle, Linie dunkel, Stein hell, Werkbank.</li>
+          <li><code>MODI_SHADCN</code>: <code>--sidebar*</code> zeigen auf <code>--leiste*</code> statt auf <code>gruen-900</code>, <code>kreide</code>, <code>marke</code>, <code>gruen-800</code>, <code>gruen-300</code>; <code>--sidebar-accent-foreground</code> auf <code>--leiste-text</code>.</li>
+          <li><code>modi_meta()</code>: <code>theme-color</code> dunkel wird automatisch #0C1511.</li>
+        </ul>
+        <h3>template.html</h3>
+        <ul>
+          <li>Z. 172 bis 177: <code>.app-seite</code>, <code>.app-suche</code>, <code>.app-gruppe</code> lesen <code>--leiste*</code>; <code>.app-seite</code> bekommt <code>border-right: 1px solid var(--leiste-linie)</code>.</li>
+          <li>Z. 178f.: kein <code>border-left</code>; <code>.app-punkt.aktiv{background:var(--leiste-aktiv);color:var(--leiste-aktiv-text);font-weight:700}</code></li>
+          <li>Z. 205: Balken ersetzen durch <code>tr.gewaehlt td:nth-child(-n+2){font-weight:700}</code></li>
+          <li>Texte: Z. 532 („Neutraltöne bleiben warm“ wird „Dunkel in den Tönen der Leiste“), 548, 558, 577 bis 580 (Seitenleiste, Zustände), 594, 599, 601 und 609 („Kohle“).</li>
+        </ul>
+      </div>
+    </div>
+<!-- /gen:aenderungen -->
+  </section>
+
+  <section class="teil" id="konflikte">
+    <h2>Offene Zielkonflikte</h2>
+    <!-- gen:konflikte -->
+<ul class="konflikte">
+      <li><b>Webseiten werden im Dunkeln weniger grün.</b> Die Sticker-Seite hat gefallen, weil ihr Grund Grün 900 ist. In der Tannen-Familie ist der Grund fast schwarz; das Grün muss über Markenflächen (Kopf, Fuß, Abschnitte in Grün 900) kommen. Wer das nicht will, nimmt für Webseiten Grün 900 als Abschnittsfläche, nicht als Palette.</li>
+      <li><b>Zwei Off-Whites.</b> Die Leiste schreibt in Nebel #D6E0DA (kühl, aus der Vereinssoftware), der Inhalt im Dunkeln in Kreide #EDE8DE (warm). Nebeneinander fällt das kaum auf; eins von beiden könnte später das andere ersetzen.</li>
+      <li><b>Tinte statt #1A1A1A.</b> Die Vereinssoftware schreibt auf Markengrün in #1A1A1A, der Styleguide in Tinte #1E1C19 (6,32:1 statt 6,47:1). Sichtbar ist das nicht; für eine Quelle sollte die Vereinssoftware Tinte übernehmen.</li>
+      <li><b>Hover- und ausgewählte Zeile gleich hell.</b> Fond (Tanne hell) und grüner Fond (Grün 900) liegen bei 1,04:1 und unterscheiden sich nur über die Sättigung. Die fette Schrift trennt sie. Ein helleres Grün ginge bis etwa Luminanz 0,043, dann fällt Text leise unter 4,5:1.</li>
+      <li><b>Leiste und Kopfleiste verschmelzen im Dunkeln.</b> Bei Option c haben Leiste, Kopfleiste und Karten dieselbe Farbe. Die Linie trennt die Leiste (1,43:1); ohne sie wäre es ein durchgehender Rahmen.</li>
+      <li><b>Hintergrund der Vereinssoftware.</b> Der Inhalt dort ist im Hellen neutral grau (#F4F5F3), der Styleguide nimmt warmes Papier (#FBF8F2). Nicht Teil dieser Runde, sollte aber einmal entschieden werden.</li>
+    </ul>
+<!-- /gen:konflikte -->
+  </section>
+</main>
+</body>
+</html>
