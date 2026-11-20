@@ -1,5 +1,11 @@
 [
   {
+    "version": "2026-11.8",
+    "zeit": "2026-11-20T23:13:54Z",
+    "was": "Dunkelmodus in Tanne: dunkle Ebenen und Seitenleiste im gedeckten Grün-Schwarz der Vereinssoftware, Seitenleiste mit eigenen Rollen je Modus, aktiver Menüpunkt als Markengrün-Fläche statt Balken, ausgewählte Tabellenzeile fett statt Balken",
+    "fingerabdruck": "cdbb0265015e"
+  },
+  {
     "version": "2026-11.7",
     "zeit": "2026-11-20T20:27:51Z",
     "was": "Version und Stand bei jeder Änderung: Nummer Jahr-Monat.N mit Datum und Uhrzeit, immer sichtbar auf dem Titel, in der Navigation und im Fuß; Änderungsprotokoll mit allen Versionen. Code-Kästen eingeklappt, mit Kopieren-Knopf",

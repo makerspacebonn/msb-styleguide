@@ -169,14 +169,15 @@ pre.code{background:var(--ink);color:#EDE8DE;border-radius:6px;padding:16px 18px
 .modus.app-modus{container-type:inline-size;font-size:14px;line-height:1.45}
 .app{display:grid;grid-template-columns:190px 1fr;min-height:330px}
 .app svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
-.app-seite{background:var(--gruen-900);color:var(--kreide);padding:14px 10px;display:flex;flex-direction:column;gap:2px}
+.app-seite{background:var(--leiste);color:var(--leiste-text);border-right:1px solid var(--leiste-linie);padding:14px 10px;display:flex;flex-direction:column;gap:2px}
 .app-logo{height:20px;width:auto;margin:2px 6px 14px;align-self:flex-start}
 .app-burger{display:none}
-.app-suche{display:flex;align-items:center;gap:8px;border:1px solid var(--gruen-800);border-radius:6px;padding:6px 8px;margin-bottom:12px}
-.app-suche kbd{margin-left:auto;font:500 11px "IBM Plex Mono",monospace;color:var(--gruen-300)}
-.app-gruppe{font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--gruen-300);padding:6px 8px}
-.app-punkt{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:6px;border-left:3px solid transparent}
-.app-punkt.aktiv{background:var(--gruen-800);border-left-color:var(--marke);font-weight:700}
+.app-suche{display:flex;align-items:center;gap:8px;background:var(--leiste-feld);border:1px solid var(--leiste-linie);border-radius:6px;padding:6px 8px;margin-bottom:12px}
+.app-suche kbd{margin-left:auto;font:500 11px "IBM Plex Mono",monospace;color:var(--leiste-leise)}
+.app-gruppe{font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--leiste-leise);padding:6px 8px}
+.app-punkt{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:6px}
+.app-punkt:hover{background:var(--leiste-hover)}
+.app-punkt.aktiv{background:var(--leiste-aktiv);color:var(--leiste-aktiv-text);font-weight:700}
 .app-zahlmarke{margin-left:auto;background:var(--gelb);color:var(--tinte);font-size:11px;font-weight:700;border-radius:999px;padding:0 7px}
 .app-haupt{min-width:0;display:flex;flex-direction:column}
 .app-kopf{display:flex;align-items:center;gap:6px;background:var(--flaeche);border-bottom:1px solid var(--linie);padding:4px 10px 4px 16px}
@@ -202,7 +203,7 @@ table.app-tabelle{width:100%;border-collapse:collapse;font-size:13.5px}
 .app-tabelle .app-zahl{text-align:right;font-variant-numeric:tabular-nums}
 .app-tabelle tr.hover td{background:var(--fond)}
 .app-tabelle tr.gewaehlt td{background:var(--fond-gruen)}
-.app-tabelle tr.gewaehlt td:first-child{box-shadow:inset 4px 0 0 var(--text-gruen)}
+.app-tabelle tr.gewaehlt td:nth-child(-n+2){font-weight:700}
 .app-pill{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
 .app-pill i{display:block;flex:none;font-style:normal}
 .app-pill.ok{background:var(--fond-gruen);color:var(--text-gruen)}
@@ -215,7 +216,7 @@ table.app-tabelle{width:100%;border-collapse:collapse;font-size:13.5px}
 .app-pill.neutral i{width:8px;height:8px;border-radius:50%;border:1.5px solid currentColor}
 @container (max-width:620px){
   .app{grid-template-columns:1fr;min-height:0}
-  .app-seite{flex-direction:row;align-items:center;justify-content:space-between;padding:10px 12px}
+  .app-seite{flex-direction:row;align-items:center;justify-content:space-between;padding:10px 12px;border-right:0;border-bottom:1px solid var(--leiste-linie)}
   .app-logo{margin:0}
   .app-burger{display:block}
   .app-suche,.app-gruppe,.app-punkt{display:none}
@@ -529,7 +530,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
   <h3>Das Prinzip</h3>
   <div class="grid g2">
     <div class="card"><h4>Die Marke bleibt gleich</h4>Markengrün, Gelb, Orange und MINT-Violett sehen als große Flächen in beiden Modi gleich aus, die Schrift darauf auch. Daran erkennt man uns, auch im Dunkeln.</div>
-    <div class="card"><h4>Neutraltöne bleiben warm</h4>Die dunklen Töne haben denselben warmen Farbton wie Tinte und Stein: Kohle, Werkbank, Kreide. Kein kaltes Blaugrau, kein reines Schwarz.</div>
+    <div class="card"><h4>Dunkel heißt Tanne</h4>Die dunklen Ebenen kommen aus dem Ton der Seitenleiste: Tannennacht, Tannenschwarz, Tanne hell. Ein gedecktes Grün-Schwarz statt reinem Schwarz, ruhig genug, dass Markengrün und Statusfarben darauf leuchten.</div>
     <div class="card"><h4>Schrift wird heller, nicht bunter</h4>Grüne Schrift wechselt von Grün 600 auf Grün 300. Violett, Blau und Rot bekommen hellere Varianten für Schrift, schmale Balken und Icons. Die Flächen dahinter bleiben ruhig.</div>
     <div class="card"><h4>Kreide statt Weiß</h4>Text im Dunkelmodus ist Kreide, ein warmes Off-White. Das blendet weniger als reines Weiß und ist auf allen dunklen Flächen trotzdem gut lesbar.</div>
   </div>
@@ -545,7 +546,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
     <li><b>Ebene 0 · Hintergrund:</b> die Seite selbst. Eine ruhige, einfarbige Fläche, nie reines Weiß oder Schwarz, kein Muster.</li>
     <li><b>Ebene 1 · Fläche:</b> Karten, Tabellen, Kopfleiste, Eingabefelder. Immer mit Linie.</li>
     <li><b>Ebene 2 · Fond:</b> Hover, Tabellenkopf, Zweitbuttons, Infokästen in einer Karte. Braucht keinen Rahmen.</li>
-    <li><b>Markenflächen</b> wie Kopf und Fuß in Grün 800/900 bleiben in beiden Modi gleich. Auf Kohle bekommen sie eine Linie, weil sich Grün 800 dort nur schwach abhebt.</li>
+    <li><b>Markenflächen</b> wie Kopf und Fuß in Grün 800/900 bleiben in beiden Modi gleich. Im Dunkeln tragen sie das Grün der Seite, weil die Ebenen selbst fast schwarz sind.</li>
     <li>Feste Farbwerte, keine Transparenz.</li>
   </ul>
 
@@ -555,12 +556,12 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
   <p class="small">Probier den Umschalter oben rechts aus: Jeder Klick schaltet weiter, Auto → Hell → Dunkel. Auto folgt der Einstellung des Geräts. Im Druck stehen beide Modi untereinander.</p>
   <h4>Aufbau</h4>
   <ul>
-    <li><b>Seitenleiste</b> in Grün 900, in beiden Modi gleich. Schrift Kreide, Gruppentitel Grün 300, Logo in der Negativ-Version. Aktiver Punkt: Grün 800 mit Balken in Markengrün und fetter Schrift.</li>
+    <li><b>Seitenleiste</b> in Tannenschwarz, wie in der Vereinssoftware, mit Linie zum Inhalt. Schrift Nebel, Gruppentitel Salbei, Logo in der Negativ-Version. Aktiver Punkt: volle Fläche in Markengrün, Schrift Tinte und fett. Kein Balken. Die Leiste hat eigene Rollen (<code>--leiste-*</code>) und kann je Modus anders sein; im Moment ist sie in beiden gleich.</li>
     <li><b>Kopfleiste</b> auf Fläche mit Linie unten: links der Pfad, rechts der Umschalter und das Profil.</li>
     <li><b>Inhalt</b> auf dem Hintergrund. Tabellen und Formulare liegen auf Fläche mit Linie, der Tabellenkopf auf Fond.</li>
     <li>Ein Hauptbutton pro Ansicht. Weitere Buttons auf Fond mit Linie.</li>
     <li>Mitgliedsnummern, Beträge und Daten mit gleich breiten Ziffern (<code>font-variant-numeric: tabular-nums</code>), Beträge rechtsbündig.</li>
-    <li>Auf dem Handy wird die Seitenleiste zur Kopfleiste in Grün 900 mit Menü-Symbol.</li>
+    <li>Auf dem Handy wird die Seitenleiste zur Kopfleiste in Tannenschwarz mit Menü-Symbol.</li>
   </ul>
   <h4>Status</h4>
   <p>In Anwendungen bedeuten Grün, Gelb und Rot einen Status, keine Bereichsfarbe. Jeder Status hat ein Wort und eine eigene Form, damit er auch ohne Farbsehen klar ist.</p>
@@ -574,10 +575,10 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
   <h4>Zustände</h4>
   <div class="tablewrap"><table class="t">
     <tr><th>Zustand</th><th>Seitenleiste</th><th>Tabelle und Listen</th><th>Zweites Merkmal</th></tr>
-    <tr><td>Hover</td><td>Grün 800</td><td>Fond</td><td>–</td></tr>
-    <tr><td>Fokus</td><td>Ring in Grün 300</td><td>Ring in Fokus</td><td>3 px Ring, 2 px Abstand</td></tr>
-    <tr><td>Aktiv, ausgewählt</td><td>Grün 800, Balken Markengrün</td><td>Grüner Fond, Balken Grüne Schrift</td><td>Balken links, im Menü fett</td></tr>
-    <tr><td>Deaktiviert</td><td>Schrift Stein hell</td><td>Text leise auf Fond</td><td>Grund dazuschreiben („Ausgebucht“)</td></tr>
+    <tr><td>Hover</td><td>Tanne hell</td><td>Fond</td><td>–</td></tr>
+    <tr><td>Fokus</td><td>Ring in Markengrün</td><td>Ring in Fokus</td><td>3 px Ring, 2 px Abstand</td></tr>
+    <tr><td>Aktiv, ausgewählt</td><td>Fläche Markengrün, Schrift Tinte</td><td>Grüner Fond</td><td>Fette Schrift (Menü; Nr. und Name in der Tabelle)</td></tr>
+    <tr><td>Deaktiviert</td><td>Schrift Salbei</td><td>Text leise auf Fond</td><td>Grund dazuschreiben („Ausgebucht“)</td></tr>
   </table></div>
   <p class="small">Eingabefelder bekommen einen Rahmen in Text leise, nicht in Linie: Ein Feld muss als Feld erkennbar sein (mindestens 3:1).</p>
   <h4>Umschalter</h4>
@@ -591,14 +592,14 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
 
   <h3>MINT im Dunkeln</h3>
   <div class="modi">{{vorschau_mint}}</div>
-  <p>Große violette Flächen mit weißer Schrift bleiben MINT-Violett. Schmale Balken, Linien, Icons und Schrift werden im Dunkeln Violett hell, sonst verschwinden sie auf Kohle.</p>
+  <p>Große violette Flächen mit weißer Schrift bleiben MINT-Violett. Schmale Balken, Linien, Icons und Schrift werden im Dunkeln Violett hell, sonst verschwinden sie auf dem dunklen Grund.</p>
 
   <h3>Beim Umschalten</h3>
   <div class="grid g2">
     <div class="do"><b>So</b>Im Dunkelmodus das Logo in der Negativ-Version.</div>
-    <div class="dont"><b>Nicht so</b>Das Farb-Logo auf Kohle: Der dunkle Schriftzug verschwindet.</div>
+    <div class="dont"><b>Nicht so</b>Das Farb-Logo auf dunklem Grund: Der dunkle Schriftzug verschwindet.</div>
     <div class="do"><b>So</b>Tiefe über Ebenen und Linien, wie oben gezeigt.</div>
-    <div class="dont"><b>Nicht so</b>Weiche Schatten im Dunkelmodus. Auf Kohle sind sie unsichtbar und machen Flächen schmutzig.</div>
+    <div class="dont"><b>Nicht so</b>Weiche Schatten im Dunkelmodus. Auf Tannennacht sind sie unsichtbar und machen Flächen schmutzig.</div>
     <div class="do"><b>So</b>Harte Kanten umdrehen: Sticker-Schatten, Labelstreifen und KI-Label im Dunkeln in Kreide statt Tinte oder Weiß.</div>
     <div class="dont"><b>Nicht so</b>Farben per Filter oder „Invertieren“ umrechnen lassen.</div>
     <div class="do"><b>So</b>Links immer unterstreichen. Grün 300 hebt sich von Kreide kaum ab.</div>
@@ -606,7 +607,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
     <div class="do"><b>So</b>Icons mit Bedeutung in Grüne Schrift. Deko-Icons gerne in Markengrün.</div>
     <div class="dont"><b>Nicht so</b>Markengrün für den Dunkelmodus aufhellen oder abdunkeln.</div>
     <div class="do"><b>So</b>Fotos unverändert lassen. Die weiße Logo-Fahne auf Fotos bleibt weiß.</div>
-    <div class="dont"><b>Nicht so</b>Kohle, Werkbank und Kreide für Druck oder Social-Media-Posts. Dort gelten die <a href="#farben">Farben</a> aus Abschnitt 5, dunkle Posts in Grün 900 oder Tinte.</div>
+    <div class="dont"><b>Nicht so</b>Tannennacht, Tanne hell und Kreide für Druck oder Social-Media-Posts. Dort gelten die <a href="#farben">Farben</a> aus Abschnitt 5, dunkle Posts in Grün 900 oder Tinte.</div>
   </div>
 
   <h3>Zum Kopieren</h3>

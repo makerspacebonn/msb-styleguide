@@ -63,12 +63,12 @@ def matrix():
 # Hell/Dunkel: eine Quelle für Rollentabelle, Vorschauen und Code zum Kopieren.
 # (Token, Rolle, (HEX hell, Name hell), (HEX dunkel, Name dunkel), Wofür)
 MODI = [
-    ('hintergrund', 'Hintergrund', ('#FBF8F2', 'Papier'), ('#141210', 'Kohle'), 'Ebene 0: Seitenhintergrund'),
-    ('flaeche', 'Fläche', ('#FFFFFF', 'Weiß'), ('#1E1C19', 'Tinte'), 'Ebene 1: Karten, Tabellen, Kopfleiste, Eingabefelder'),
-    ('fond', 'Fond', ('#FAF2E4', 'Creme'), ('#2B2721', 'Werkbank'), 'Ebene 2: Hover, Tabellenkopf, Zweitbuttons, Infokästen'),
-    ('linie', 'Linie', ('#E4DCCB', 'Linie'), ('#3E3932', 'Linie dunkel'), 'Rahmen um Karten und Tabellen, Trenner. Nicht für Eingabefelder'),
+    ('hintergrund', 'Hintergrund', ('#FBF8F2', 'Papier'), ('#0C1511', 'Tannennacht'), 'Ebene 0: Seitenhintergrund'),
+    ('flaeche', 'Fläche', ('#FFFFFF', 'Weiß'), ('#13201A', 'Tannenschwarz'), 'Ebene 1: Karten, Tabellen, Kopfleiste, Eingabefelder'),
+    ('fond', 'Fond', ('#FAF2E4', 'Creme'), ('#213129', 'Tanne hell'), 'Ebene 2: Hover, Tabellenkopf, Zweitbuttons, Infokästen'),
+    ('linie', 'Linie', ('#E4DCCB', 'Linie'), ('#2A3C33', 'Tanne Linie'), 'Rahmen um Karten und Tabellen, Trenner. Nicht für Eingabefelder'),
     ('text', 'Text', ('#1E1C19', 'Tinte'), ('#EDE8DE', 'Kreide'), 'Fließtext, Überschriften, harter Sticker-Schatten'),
-    ('text-leise', 'Text leise', ('#5F5850', 'Stein'), ('#AAA297', 'Stein hell'), 'Metadaten, Deaktiviertes, Rahmen von Eingabefeldern'),
+    ('text-leise', 'Text leise', ('#5F5850', 'Stein'), ('#9BA6A0', 'Salbei'), 'Metadaten, Deaktiviertes, Rahmen von Eingabefeldern'),
     ('text-gruen', 'Grüne Schrift', ('#33791A', 'Grün 600'), ('#9CD27D', 'Grün 300'), 'Links (immer unterstrichen), Status OK, Icons mit Bedeutung'),
     ('fokus', 'Fokus', ('#33791A', 'Grün 600'), ('#9CD27D', 'Grün 300'), 'Fokusring (Tastatur): 3 px, 2 px Abstand'),
     ('button', 'Button', ('#33791A', 'Grün 600'), ('#5EB130', 'Grün 500'), 'Hauptbutton, einer pro Ansicht'),
@@ -82,22 +82,30 @@ MODI = [
     ('fond-mint', 'MINT-Fond', ('#E6F5FC', 'MINT-Fond'), ('#152D37', 'MINT-Fond dunkel'), 'Infokästen in MINT-Medien'),
     ('text-violett', 'MINT-Violett Schrift', ('#6D3E91', 'MINT-Violett'), ('#BC94DB', 'Violett hell'), 'Violette Überschriften, schmale Balken, Icons'),
     ('text-blau', 'MINT-Blau Schrift', ('#0070A8', 'Textblau'), ('#009FE3', 'MINT-Blau'), 'Blaue Überschriften, Links in MINT-Medien'),
+    ('leiste', 'Leiste', ('#13201A', 'Tannenschwarz'), ('#13201A', 'Tannenschwarz'), 'Seitenleiste in Anwendungen, auf dem Handy Kopfleiste'),
+    ('leiste-text', 'Leiste Schrift', ('#D6E0DA', 'Nebel'), ('#D6E0DA', 'Nebel'), 'Menüpunkte und Icons in der Leiste'),
+    ('leiste-leise', 'Leiste leise', ('#9BA6A0', 'Salbei'), ('#9BA6A0', 'Salbei'), 'Gruppentitel, Tastenkürzel in der Leiste'),
+    ('leiste-feld', 'Leiste Feld', ('#1F2B26', 'Tanne Feld'), ('#1F2B26', 'Tanne Feld'), 'Suchfeld in der Leiste'),
+    ('leiste-hover', 'Leiste Hover', ('#213129', 'Tanne hell'), ('#213129', 'Tanne hell'), 'Menüpunkt unter Maus oder Finger'),
+    ('leiste-linie', 'Leiste Linie', ('#2A3C33', 'Tanne Linie'), ('#2A3C33', 'Tanne Linie'), 'Rand des Suchfelds, Trennlinie zum Inhalt'),
+    ('leiste-aktiv', 'Leiste aktiv', ('#5EB130', 'Markengrün'), ('#5EB130', 'Markengrün'), 'Aktiver Menüpunkt: volle Fläche, kein Balken'),
+    ('leiste-aktiv-text', 'Leiste aktiv Schrift', ('#1E1C19', 'Tinte'), ('#1E1C19', 'Tinte'), 'Schrift auf dem aktiven Punkt, fett'),
+    ('leiste-fokus', 'Leiste Fokus', ('#5EB130', 'Markengrün'), ('#5EB130', 'Markengrün'), 'Fokusring in der Leiste'),
 ]
 # In beiden Modi gleich: (Token, HEX, Name, Wofür)
 KONSTANT = [
     ('marke', '#5EB130', 'Markengrün', 'Logo, Balken, Deko-Icons, Flächen. Schrift darauf Tinte'),
     ('tinte', '#1E1C19', 'Tinte', 'Schrift auf Markengrün, Gelb, Orange, auch im Dunkelmodus'),
     ('kreide', '#EDE8DE', 'Kreide', 'Schrift auf Grün 800/900, auch im Hellmodus'),
-    ('gruen-300', '#9CD27D', 'Grün 300', 'Gruppentitel und Fokusring in der Seitenleiste'),
-    ('gruen-800', '#325725', 'Grün 800', 'Aktiver Punkt und Hover in der Seitenleiste, Schilder'),
-    ('gruen-900', '#1B3714', 'Grün 900', 'Seitenleiste in Anwendungen, dunkle Markenflächen'),
+    ('gruen-800', '#325725', 'Grün 800', 'Markenflächen: Kopf, Fuß, Schilder'),
+    ('gruen-900', '#1B3714', 'Grün 900', 'Dunkle Markenflächen, dunkle Posts'),
     ('violett', '#6D3E91', 'MINT-Violett', 'Große Flächen mit weißer Schrift'),
     ('gelb', '#FCBD30', 'Mitglieder-Gelb', 'Mitglieder-Fahne, Schrift darauf Tinte'),
     ('orange', '#F2711C', 'Maker-Orange', 'Sticker, Events, Schrift darauf Tinte'),
     ('rot', '#C62828', 'Sicherheitsrot', 'Warnflächen mit weißer Schrift'),
 ]
-NEU = {'Kohle', 'Werkbank', 'Linie dunkel', 'Kreide', 'Stein hell', 'MINT-Fond dunkel', 'Violett hell', 'Rot hell',
-       'Gelb-Fond', 'Gelb-Fond dunkel', 'Ocker', 'Rot-Fond', 'Rot-Fond dunkel'}
+NEU = {'Tannennacht', 'Tannenschwarz', 'Tanne hell', 'Tanne Linie', 'Tanne Feld', 'Salbei', 'Nebel', 'Kreide',
+       'MINT-Fond dunkel', 'Violett hell', 'Rot hell', 'Gelb-Fond', 'Gelb-Fond dunkel', 'Ocker', 'Rot-Fond', 'Rot-Fond dunkel'}
 # Rolle -> (Flächen, Mindestkontrast). Schrift braucht 4,5:1, Fokus 3:1 (WCAG 1.4.3 / 1.4.11).
 # Gilt für beide Modi; der Build bricht ab, wenn eine Paarung durchfällt.
 MODI_PRUEFEN = {
@@ -110,10 +118,14 @@ MODI_PRUEFEN = {
     'text-violett': (['hintergrund', 'flaeche', 'fond-mint'], 4.5),
     'text-blau': (['hintergrund', 'flaeche', 'fond-mint'], 4.5),
     'fokus': (['hintergrund', 'flaeche', 'fond', 'fond-gruen'], 3),
+    'leiste-text': (['leiste', 'leiste-hover', 'leiste-feld'], 4.5),
+    'leiste-leise': (['leiste', 'leiste-feld'], 4.5),
+    'leiste-aktiv-text': (['leiste-aktiv'], 4.5),
+    'leiste-fokus': (['leiste'], 3),
 }
 # Feste Paarungen (Schrift, Fläche, Minimum): Token oder HEX
 KONSTANT_PRUEFEN = [
-    ('kreide', 'gruen-900', 4.5), ('kreide', 'gruen-800', 4.5), ('gruen-300', 'gruen-900', 4.5),
+    ('kreide', 'gruen-900', 4.5), ('kreide', 'gruen-800', 4.5),
     ('tinte', 'marke', 4.5), ('tinte', 'gelb', 4.5), ('tinte', 'orange', 4.5),
     ('#FFFFFF', 'violett', 4.5), ('#FFFFFF', 'rot', 4.5), ('marke', 'gruen-900', 3),
 ]
@@ -280,14 +292,14 @@ MODI_SHADCN = '''/* shadcn/ui, z. B. Vereinssoftware: nach den Farben oben einf�
   --border: var(--linie);
   --input: var(--text-leise);
   --ring: var(--fokus);
-  --sidebar: var(--gruen-900);
-  --sidebar-foreground: var(--kreide);
-  --sidebar-primary: var(--marke);
-  --sidebar-primary-foreground: var(--tinte);
-  --sidebar-accent: var(--gruen-800);
-  --sidebar-accent-foreground: var(--kreide);
-  --sidebar-border: var(--gruen-800);
-  --sidebar-ring: var(--gruen-300);
+  --sidebar: var(--leiste);
+  --sidebar-foreground: var(--leiste-text);
+  --sidebar-primary: var(--leiste-aktiv);
+  --sidebar-primary-foreground: var(--leiste-aktiv-text);
+  --sidebar-accent: var(--leiste-hover);
+  --sidebar-accent-foreground: var(--leiste-text);
+  --sidebar-border: var(--leiste-linie);
+  --sidebar-ring: var(--leiste-fokus);
   /* Status-Pills der Vereinssoftware */
   --success: var(--text-gruen);
   --success-strong: var(--text-gruen);
