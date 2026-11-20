@@ -69,7 +69,7 @@ li{margin:.2em 0}
 
 /* Karten / Raster */
 .grid{display:grid;gap:16px}
-.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(max(280px,calc(50% - 8px)),1fr))}
 .g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 .g4{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
 .card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:18px}
@@ -128,6 +128,100 @@ table.matrix td.ok{} table.matrix td.big{} table.matrix td.no{color:var(--stone)
 .cheat a{color:#fff}
 .cheat .grid > div{border-top:1px solid rgba(255,255,255,.2);padding-top:12px}
 
+/* Hell & Dunkel: Vorschau-Panels bekommen ihre Tokens per style-Attribut aus build.py */
+.modi{display:grid;grid-template-columns:repeat(auto-fit,minmax(max(300px,calc(50% - 8px)),1fr));gap:16px;margin:20px 0 8px}
+.modus{background:var(--hintergrund);color:var(--text);border:1px solid var(--linie);border-radius:8px;overflow:hidden;font-size:15px;line-height:1.55;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.m-modus{display:block;padding:7px 14px 6px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-leise);border-bottom:1px solid var(--linie)}
+.m-body{padding:18px;position:relative}
+.m-h{font-size:22px;font-weight:700;line-height:1.2;margin:12px 0 6px;max-width:calc(100% - 84px)}
+.modus p{margin:0 0 8px}
+.modus a{color:var(--text-gruen);text-decoration:underline;text-underline-offset:2px}
+.m-leise{color:var(--text-leise);font-size:14px}
+.label.m-label{background:var(--text);color:var(--flaeche);font-size:12px;padding:6px 9px 5px;box-shadow:none}
+.m-sticker{position:absolute;top:14px;right:16px;width:72px;height:72px;border-radius:50%;background:var(--orange);color:var(--tinte);display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;font-size:13px;line-height:1.1;transform:rotate(-8deg);box-shadow:3px 3px 0 var(--text)}
+.m-karte{background:var(--flaeche);border:1px solid var(--linie);border-radius:6px;padding:12px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin:14px 0 10px}
+.m-tag-gruen{background:var(--fond-gruen);color:var(--text);font-size:13px;font-weight:500;padding:3px 8px;border-radius:3px}
+.m-button{background:var(--button);color:var(--button-text);padding:7px 14px;border-radius:4px;font-weight:500}
+.m-fond{background:var(--fond);border-radius:6px;padding:10px 12px;font-size:14px}
+.m-rot{color:var(--text-rot);font-weight:700}
+.m-ebene0{padding:12px 14px 16px}
+.m-ebene1{background:var(--flaeche);border:1px solid var(--linie);border-radius:6px;padding:12px;margin-top:10px}
+.m-ebene2{background:var(--fond);border-radius:4px;padding:12px;margin-top:10px}
+.modus.hell .m-ebene1,.modus.hell .app-tabelle-rahmen{box-shadow:0 1px 1px rgba(30,28,25,.05),0 3px 10px -2px rgba(30,28,25,.09)}
+.m-eb{font:500 12px/1.45 "IBM Plex Mono",monospace;color:var(--text-leise)}
+.m-feld{display:flex;align-items:center;gap:8px;background:var(--flaeche);border:1px solid var(--text-leise);border-radius:6px;padding:7px 10px;color:var(--text-leise);font-size:14px}
+.m-feld svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.m-mint-body{display:grid;gap:10px}
+.m-mint{background:var(--fond-mint);border-left:4px solid var(--text-violett);border-radius:0 6px 6px 0;padding:10px 12px;font-size:14px}
+.m-violett{color:var(--text-violett);font-weight:700}
+.modus a.m-blau{color:var(--text-blau)}
+.m-violett-flaeche{background:var(--violett);color:#fff;padding:10px 12px;border-radius:6px;font-weight:500;font-size:14px}
+.m-chip{display:inline-block;width:18px;height:18px;border-radius:3px;border:1px solid rgba(30,28,25,.2);vertical-align:-4px;margin-right:6px}
+table.modi-t td{white-space:nowrap} table.modi-t td:last-child{white-space:normal}
+@media (max-width:600px){table.modi-t td{white-space:normal}}
+pre.code{background:var(--ink);color:#EDE8DE;border-radius:6px;padding:16px 18px;overflow-x:auto;font:13px/1.55 "IBM Plex Mono",monospace;max-width:820px}
+
+/* Anwendung (Muster wie die Vereinssoftware). Am Bildschirm ist nur der Modus sichtbar, den der Umschalter zeigt;
+   ohne JS und im Druck stehen beide untereinander. */
+.modi.app-demo{grid-template-columns:1fr}
+.app-demo[data-zeigt="hell"] .modus.dunkel,.app-demo[data-zeigt="dunkel"] .modus.hell{display:none}
+.app-demo[data-modus="auto"] .m-modus::after{content:" · Auto, wie Gerät"}
+.modus.app-modus{container-type:inline-size;font-size:14px;line-height:1.45}
+.app{display:grid;grid-template-columns:190px 1fr;min-height:330px}
+.app svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.app-seite{background:var(--gruen-900);color:var(--kreide);padding:14px 10px;display:flex;flex-direction:column;gap:2px}
+.app-logo{height:20px;width:auto;margin:2px 6px 14px;align-self:flex-start}
+.app-burger{display:none}
+.app-suche{display:flex;align-items:center;gap:8px;border:1px solid var(--gruen-800);border-radius:6px;padding:6px 8px;margin-bottom:12px}
+.app-suche kbd{margin-left:auto;font:500 11px "IBM Plex Mono",monospace;color:var(--gruen-300)}
+.app-gruppe{font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--gruen-300);padding:6px 8px}
+.app-punkt{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:6px;border-left:3px solid transparent}
+.app-punkt.aktiv{background:var(--gruen-800);border-left-color:var(--marke);font-weight:700}
+.app-zahlmarke{margin-left:auto;background:var(--gelb);color:var(--tinte);font-size:11px;font-weight:700;border-radius:999px;padding:0 7px}
+.app-haupt{min-width:0;display:flex;flex-direction:column}
+.app-kopf{display:flex;align-items:center;gap:6px;background:var(--flaeche);border-bottom:1px solid var(--linie);padding:4px 10px 4px 16px}
+.app-pfad{flex:1;color:var(--text-leise);font-size:13px}
+.app-schalter{width:44px;height:44px;display:grid;place-items:center;border:0;border-radius:8px;background:none;color:var(--text);cursor:pointer;padding:0}
+.app-schalter:hover{background:var(--fond)}
+.app-schalter:focus-visible{outline:3px solid var(--fokus);outline-offset:2px}
+.app-schalter svg{display:none;width:20px;height:20px}
+.app-schalter[data-modus="auto"] .i-auto,.app-schalter[data-modus="light"] .i-light,.app-schalter[data-modus="dark"] .i-dark{display:block}
+.app-profil{width:30px;height:30px;border-radius:50%;background:var(--fond-gruen);color:var(--text-gruen);display:grid;place-items:center;font-size:12px;font-weight:700}
+.app-inhalt{padding:16px;display:grid;gap:12px;align-content:start}
+.app-titel{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.app-h{font-size:20px;font-weight:700}
+.app-knoepfe{display:flex;gap:8px}
+.app-btn{padding:6px 12px;border-radius:6px;font-weight:500}
+.app-btn.haupt{background:var(--button);color:var(--button-text)}
+.app-btn.zweit{background:var(--fond);color:var(--text);border:1px solid var(--linie)}
+.app-tabelle-rahmen{background:var(--flaeche);border:1px solid var(--linie);border-radius:8px;overflow:hidden}
+table.app-tabelle{width:100%;border-collapse:collapse;font-size:13.5px}
+.app-tabelle th{background:var(--fond);text-align:left;font-weight:500;color:var(--text-leise);padding:7px 12px}
+.app-tabelle td{padding:8px 12px;border-top:1px solid var(--linie)}
+.app-tabelle .app-num{font-variant-numeric:tabular-nums}
+.app-tabelle .app-zahl{text-align:right;font-variant-numeric:tabular-nums}
+.app-tabelle tr.hover td{background:var(--fond)}
+.app-tabelle tr.gewaehlt td{background:var(--fond-gruen)}
+.app-tabelle tr.gewaehlt td:first-child{box-shadow:inset 4px 0 0 var(--text-gruen)}
+.app-pill{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.app-pill i{display:block;flex:none;font-style:normal}
+.app-pill.ok{background:var(--fond-gruen);color:var(--text-gruen)}
+.app-pill.ok i{width:7px;height:7px;border-radius:50%;background:currentColor}
+.app-pill.achtung{background:var(--fond-gelb);color:var(--text-gelb)}
+.app-pill.achtung i{width:7px;height:9px;border-left:2.5px solid currentColor;border-right:2.5px solid currentColor}
+.app-pill.problem{background:var(--fond-rot);color:var(--text-rot)}
+.app-pill.problem i::before{content:"!"}
+.app-pill.neutral{background:var(--flaeche);color:var(--text-leise);border:1px dashed var(--text-leise)}
+.app-pill.neutral i{width:8px;height:8px;border-radius:50%;border:1.5px solid currentColor}
+@container (max-width:620px){
+  .app{grid-template-columns:1fr;min-height:0}
+  .app-seite{flex-direction:row;align-items:center;justify-content:space-between;padding:10px 12px}
+  .app-logo{margin:0}
+  .app-burger{display:block}
+  .app-suche,.app-gruppe,.app-punkt{display:none}
+  .app-opt{display:none}
+}
+
 /* Typo-Muster */
 .typo-row{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:baseline;border-top:1px solid var(--line);padding:14px 0}
 @media (max-width:600px){.typo-row{grid-template-columns:1fr;gap:4px}}
@@ -146,7 +240,9 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
 @media print{
   nav.toc{display:none}
   section{break-before:page;padding-top:24px}
-  .card,.swatch,.diff,.do,.dont{break-inside:avoid}
+  .card,.swatch,.diff,.do,.dont,.modus{break-inside:avoid}
+  pre.code{white-space:pre-wrap;font-size:10px}
+  .app-demo .modus{display:block!important}
   body{background:#fff}
   .tablewrap{overflow:visible}
   table.t{min-width:0;width:100%;font-size:11px}
@@ -170,7 +266,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
 
 <nav class="toc" aria-label="Inhalt"><div class="wrap">
   <label class="switch"><input type="checkbox" id="chgToggle"> Änderungen zeigen</label>
-  <a href="#aenderungen" class="chg-block">Änderungen</a><a href="#schnellstart">Schnellstart</a><a href="#einleitung">Einleitung</a><a href="#marke">Marke</a><a href="#logo">Logo</a><a href="#claim">Claim & Name</a><a href="#farben">Farben</a><a href="#kombinationen">Kombinationen</a><a href="#material">Material</a><a href="#typo">Schrift</a><a href="#elemente">Maker-Elemente</a><a href="#schilder">Schilder</a><a href="#bilder">Bilder</a><a href="#sprache">Sprache</a><a href="#vorlagen">Vorlagen</a><a href="#pflege">Pflege</a>
+  <a href="#aenderungen" class="chg-block">Änderungen</a><a href="#schnellstart">Schnellstart</a><a href="#einleitung">Einleitung</a><a href="#marke">Marke</a><a href="#logo">Logo</a><a href="#claim">Claim & Name</a><a href="#farben">Farben</a><a href="#kombinationen">Kombinationen</a><a href="#modi">Hell &amp; Dunkel</a><a href="#material">Material</a><a href="#typo">Schrift</a><a href="#elemente">Maker-Elemente</a><a href="#schilder">Schilder</a><a href="#bilder">Bilder</a><a href="#sprache">Sprache</a><a href="#vorlagen">Vorlagen</a><a href="#pflege">Pflege</a>
 </div></nav>
 
 <main class="wrap">
@@ -194,6 +290,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
     <tr><td><a href="#farben">Farben</a></td><td><span class="chg mod">Geändert</span></td><td>Fond-Farben als feste Werte statt Transparenz (50 % / 10 %)</td><td>Transparenz lässt sich in Druck, Office und Canva nicht verlässlich nachbauen</td></tr>
     <tr><td><a href="#farben">Farben</a></td><td><span class="chg new">Neu</span></td><td>Grünskala, warme Neutraltöne (Tinte, Stein, Papier), Text-Blau, Maker-Orange, Sicherheitsrot</td><td>Volunteers brauchten bisher eigene Abstufungen; Fließtext hatte keine definierte Farbe</td></tr>
     <tr><td><a href="#kombinationen">Kombinationen</a></td><td><span class="chg new">Neu</span></td><td>Tabelle „welche Schrift auf welcher Farbe“ mit Kontrastwerten</td><td>Weiße Schrift auf Markengrün (z. B. die Download-Buttons im alten Guide) hat nur 2,69:1</td></tr>
+    <tr><td><a href="#modi">Hell &amp; Dunkel</a></td><td><span class="chg new">Neu</span></td><td>Farbrollen für Hell- und Dunkelmodus mit festen Gegenstücken, Ebenen, Muster für Anwendungen mit Status und Umschalter, Code zum Kopieren (CSS, Umschalter, shadcn/ui)</td><td>Viele Geräte stehen auf Dunkelmodus; dunkle Versionen von Webseite und Linkseite mussten bisher geraten werden</td></tr>
     <tr><td><a href="#logo">Logo</a></td><td><span class="chg new">Neu</span></td><td>Negativ-, Weiß- und Schwarz-Version, Hintergrundregeln, Logo-Don'ts</td><td>Für dunkle Flächen, Fotos, Laser, Stempel, Stick und Schwarz-Weiß-Druck gab es keine Vorgabe</td></tr>
     <tr><td><a href="#claim">Claim</a></td><td><span class="chg fix">Korrigiert</span></td><td>Einheitlich „Eine offene Werkstatt <b>für</b> Bonn. Für alle.“</td><td>Logo und Claim-Seite sagen „für“, die Beispielflyer „in“</td></tr>
     <tr><td><a href="#material">Material</a></td><td><span class="chg new">Neu</span></td><td>Farben und Logo auf Folie, Filament, Holz, Acryl, Stoff</td><td>Wir stellen viel selbst her; dafür gab es keine Regeln</td></tr>
@@ -427,9 +524,404 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
   </div>
 </section>
 
+<!-- ================= HELL & DUNKEL ================= -->
+<section id="modi">
+  <h2><span class="num">7</span>Hell &amp; Dunkel <span class="chg new">Neu</span></h2>
+  <p class="lead">Für Bildschirme, die zwischen Hell und Dunkel umschalten: Webseite, Linkseite und Anwendungen wie die Vereinssoftware. Jede Farbe hat ein festes Gegenstück im Dunkelmodus. So sieht eine Seite abends genauso nach MakerSpace aus wie tagsüber.</p>
+  <div class="diff new"><strong class="t">Warum neu?</strong>Viele Handys und Rechner stehen auf Dunkelmodus. Bisher gab es dafür keine Werte, wer eine dunkle Version gebaut hat, musste raten. Automatisches Invertieren macht aus Textgrün ein Lila und aus Creme ein kaltes Blauschwarz.</div>
+  <div class="modi"><div class="modus hell " style="--hintergrund:#FBF8F2;--flaeche:#FFFFFF;--fond:#FAF2E4;--linie:#E4DCCB;--text:#1E1C19;--text-leise:#5F5850;--text-gruen:#33791A;--fokus:#33791A;--button:#33791A;--button-hover:#325725;--button-text:#FFFFFF;--fond-gruen:#F0F7EA;--fond-gelb:#FDF3D7;--text-gelb:#8A5A00;--fond-rot:#FCEBE9;--text-rot:#C62828;--fond-mint:#E6F5FC;--text-violett:#6D3E91;--text-blau:#0070A8;--marke:#5EB130;--tinte:#1E1C19;--kreide:#EDE8DE;--gruen-300:#9CD27D;--gruen-800:#325725;--gruen-900:#1B3714;--violett:#6D3E91;--gelb:#FCBD30;--orange:#F2711C;--rot:#C62828"><span class="m-modus mono">Hell</span><div class="tape" style="height:8px"></div>
+      <div class="m-body">
+        <span class="m-sticker">Heute<br>offen!</span>
+        <span class="label m-label">Repair Café</span>
+        <div class="m-h">Kaputt? Wir reparieren das zusammen.</div>
+        <p>Bring mit, was nicht mehr geht. Werkzeug und Leute mit Erfahrung sind da. <a href="#modi">Termine im Wiki</a></p>
+        <p class="m-leise">Montag ab 18 Uhr · Kennedyallee 18</p>
+        <div class="m-karte"><span class="m-tag-gruen">Anfänger:innen</span><span class="m-button">→ Anmelden</span></div>
+        <div class="m-fond"><b>Gut zu wissen:</b> Laser und CNC nur nach Einweisung.<br><span class="m-rot">Schutzbrille tragen.</span></div>
+      </div></div><div class="modus dunkel " style="--hintergrund:#141210;--flaeche:#1E1C19;--fond:#2B2721;--linie:#3E3932;--text:#EDE8DE;--text-leise:#AAA297;--text-gruen:#9CD27D;--fokus:#9CD27D;--button:#5EB130;--button-hover:#9CD27D;--button-text:#1E1C19;--fond-gruen:#1B3714;--fond-gelb:#33280F;--text-gelb:#FCBD30;--fond-rot:#3B1A17;--text-rot:#FF7B7B;--fond-mint:#152D37;--text-violett:#BC94DB;--text-blau:#009FE3;--marke:#5EB130;--tinte:#1E1C19;--kreide:#EDE8DE;--gruen-300:#9CD27D;--gruen-800:#325725;--gruen-900:#1B3714;--violett:#6D3E91;--gelb:#FCBD30;--orange:#F2711C;--rot:#C62828"><span class="m-modus mono">Dunkel</span><div class="tape" style="height:8px"></div>
+      <div class="m-body">
+        <span class="m-sticker">Heute<br>offen!</span>
+        <span class="label m-label">Repair Café</span>
+        <div class="m-h">Kaputt? Wir reparieren das zusammen.</div>
+        <p>Bring mit, was nicht mehr geht. Werkzeug und Leute mit Erfahrung sind da. <a href="#modi">Termine im Wiki</a></p>
+        <p class="m-leise">Montag ab 18 Uhr · Kennedyallee 18</p>
+        <div class="m-karte"><span class="m-tag-gruen">Anfänger:innen</span><span class="m-button">→ Anmelden</span></div>
+        <div class="m-fond"><b>Gut zu wissen:</b> Laser und CNC nur nach Einweisung.<br><span class="m-rot">Schutzbrille tragen.</span></div>
+      </div></div></div>
+  <p class="small">Beide Seiten nutzen dasselbe HTML. Nur die Farb-Tokens aus der Tabelle unten wechseln.</p>
+
+  <h3>Das Prinzip</h3>
+  <div class="grid g2">
+    <div class="card"><h4>Die Marke bleibt gleich</h4>Markengrün, Gelb, Orange und MINT-Violett sehen als große Flächen in beiden Modi gleich aus, die Schrift darauf auch. Daran erkennt man uns, auch im Dunkeln.</div>
+    <div class="card"><h4>Neutraltöne bleiben warm</h4>Die dunklen Töne haben denselben warmen Farbton wie Tinte und Stein: Kohle, Werkbank, Kreide. Kein kaltes Blaugrau, kein reines Schwarz.</div>
+    <div class="card"><h4>Schrift wird heller, nicht bunter</h4>Grüne Schrift wechselt von Grün 600 auf Grün 300. Violett, Blau und Rot bekommen hellere Varianten für Schrift, schmale Balken und Icons. Die Flächen dahinter bleiben ruhig.</div>
+    <div class="card"><h4>Kreide statt Weiß</h4>Text im Dunkelmodus ist Kreide, ein warmes Off-White. Das blendet weniger als reines Weiß und ist auf allen dunklen Flächen trotzdem gut lesbar.</div>
+  </div>
+
+  <h3>Farben nach Rolle</h3>
+  <p>Gestaltet wird mit Rollen statt Farbnamen: „Text“ statt „Tinte“. Dann wechselt beim Umschalten alles von selbst. <b>Kontrast min.</b> ist die schwächste Paarung einer Rolle mit ihren Flächen: Schrift braucht mindestens 4,5:1, der Fokusring 3:1 (WCAG AA). Der Build bricht ab, wenn eine Paarung durchfällt.</p>
+  <div class="tablewrap"><table class="t modi-t"><tr><th>Rolle · Token</th><th>Hell</th><th>Dunkel</th><th>Kontrast min.<br>hell · dunkel</th><th>Wofür</th></tr>
+<tr><td><b>Hintergrund</b><br><code>--hintergrund</code></td><td><span class="m-chip" style="background:#FBF8F2"></span><span class="mono">#FBF8F2</span><br><span class="small">Papier</span></td><td><span class="m-chip" style="background:#141210"></span><span class="mono">#141210</span><br><span class="small">Kohle</span> <span class="chg new" style="margin-left:4px">Neu</span></td><td>–</td><td>Ebene 0: Seitenhintergrund</td></tr>
+<tr><td><b>Fläche</b><br><code>--flaeche</code></td><td><span class="m-chip" style="background:#FFFFFF"></span><span class="mono">#FFFFFF</span><br><span class="small">Weiß</span></td><td><span class="m-chip" style="background:#1E1C19"></span><span class="mono">#1E1C19</span><br><span class="small">Tinte</span></td><td>–</td><td>Ebene 1: Karten, Tabellen, Kopfleiste, Eingabefelder</td></tr>
+<tr><td><b>Fond</b><br><code>--fond</code></td><td><span class="m-chip" style="background:#FAF2E4"></span><span class="mono">#FAF2E4</span><br><span class="small">Creme</span></td><td><span class="m-chip" style="background:#2B2721"></span><span class="mono">#2B2721</span><br><span class="small">Werkbank</span> <span class="chg new" style="margin-left:4px">Neu</span></td><td>–</td><td>Ebene 2: Hover, Tabellenkopf, Zweitbuttons, Infokästen</td></tr>
+<tr><td><b>Linie</b><br><code>--linie</code></td><td><span class="m-chip" style="background:#E4DCCB"></span><span class="mono">#E4DCCB</span><br><span class="small">Linie</span></td><td><span class="m-chip" style="background:#3E3932"></span><span class="mono">#3E3932</span><br><span class="small">Linie dunkel</span> <span class="chg new" style="margin-left:4px">Neu</span></td><td>–</td><td>Rahmen um Karten und Tabellen, Trenner. Nicht für Eingabefelder</td></tr>
+<tr><td><b>Text</b><br><code>--text</code></td><td><span class="m-chip" style="background:#1E1C19"></span><span class="mono">#1E1C19</span><br><span class="small">Tinte</span></td><td><span class="m-chip" style="background:#EDE8DE"></span><span class="mono">#EDE8DE</span><br><span class="small">Kreide</span> <span class="chg new" style="margin-left:4px">Neu</span></td><td>14,7 · 10,7</td><td>Fließtext, Überschriften, harter Sticker-Schatten</td></tr>
+<tr><td><b>Text leise</b><br><code>--text-leise</code></td><td><span class="m-chip" style="background:#5F5850"></span><span class="mono">#5F5850</span><br><span class="small">Stein</span></td><td><span class="m-chip" style="background:#AAA297"></span><span class="mono">#AAA297</span><br><span class="small">Stein hell</span> <span class="chg new" style="margin-left:4px">Neu</span></td><td>6,3 · 5,2</td><td>Metadaten, Deaktiviertes, Rahmen von Eingabefeldern</td></tr>
+<tr><td><b>Grüne Schrift</b><br><code>--text-gruen</code></td><td><span class="m-chip" style="background:#33791A"></span><span class="mono">#33791A</span><br><span class="small">Grün 600</span></td><td><span class="m-chip" style="background:#9CD27D"></span><span class="mono">#9CD27D</span><br><span class="small">Grün 300</span></td><td>4,9 · 7,4</td><td>Links (immer unterstrichen), Status OK, Icons mit Bedeutung</td></tr>
+<tr><td><b>Fokus</b><br><code>--fokus</code></td><td><span class="m-chip" style="background:#33791A"></span><span class="mono">#33791A</span><br><span class="small">Grün 600</span></td><td><span class="m-chip" style="background:#9CD27D"></span><span class="mono">#9CD27D</span><br><span class="small">Grün 300</span></td><td>4,9 · 7,4</td><td>Fokusring (Tastatur): 3 px, 2 px Abstand</td></tr>
+<tr><td><b>Button</b><br><code>--button</code></td><td><span class="m-chip" style="background:#33791A"></span><span class="mono">#33791A</span><br><span class="small">Grün 600</span></td><td><span class="m-chip" style="background:#5EB130"></span><span class="mono">#5EB130</span><br><span class="small">Grün 500</span></td><td>–</td><td>Hauptbutton, einer pro Ansicht</td></tr>
+<tr><td><b>Button Hover</b><br><code>--button-hover</code></td><td><span class="m-chip" style="background:#325725"></span><span class="mono">#325725</span><br><span class="small">Grün 800</span></td><td><span class="m-chip" style="background:#9CD27D"></span><span class="mono">#9CD27D</span><br><span class="small">Grün 300</span></td><td>–</td><td>Hauptbutton unter Maus oder Finger</td></tr>
+<tr><td><b>Button-Schrift</b><br><code>--button-text</code></td><td><span class="m-chip" style="background:#FFFFFF"></span><span class="mono">#FFFFFF</span><br><span class="small">Weiß</span></td><td><span class="m-chip" style="background:#1E1C19"></span><span class="mono">#1E1C19</span><br><span class="small">Tinte</span></td><td>5,4 · 6,3</td><td>Schrift auf dem Hauptbutton</td></tr>
+<tr><td><b>Grüner Fond</b><br><code>--fond-gruen</code></td><td><span class="m-chip" style="background:#F0F7EA"></span><span class="mono">#F0F7EA</span><br><span class="small">Grün 50</span></td><td><span class="m-chip" style="background:#1B3714"></span><span class="mono">#1B3714</span><br><span class="small">Grün 900</span></td><td>–</td><td>Status OK, ausgewählte Zeile, Tags, Icon-Kacheln</td></tr>
+<tr><td><b>Gelber Fond</b><br><code>--fond-gelb</code></td><td><span class="m-chip" style="background:#FDF3D7"></span><span class="mono">#FDF3D7</span><br><span class="small">Gelb-Fond</span> <span class="chg new" style="margin-left:4px">Neu</span></td><td><span class="m-chip" style="background:#33280F"></span><span class="mono">#33280F</span><br><span class="small">Gelb-Fond dunkel</span> <span class="chg new" style="margin-left:4px">Neu</span></td><td>–</td><td>Status Achtung (z. B. ruhend, Entscheidung nötig)</td></tr>
+<tr><td><b>Gelbe Schrift</b><br><code>--text-gelb</code></td><td><span class="m-chip" style="background:#8A5A00"></span><span class="mono">#8A5A00</span><br><span class="small">Ocker</span> <span class="chg new" style="margin-left:4px">Neu</span></td><td><span class="m-chip" style="background:#FCBD30"></span><span class="mono">#FCBD30</span><br><span class="small">Mitglieder-Gelb</span></td><td>5,4 · 8,6</td><td>Schrift auf gelbem Fond</td></tr>
+<tr><td><b>Roter Fond</b><br><code>--fond-rot</code></td><td><span class="m-chip" style="background:#FCEBE9"></span><span class="mono">#FCEBE9</span><br><span class="small">Rot-Fond</span> <span class="chg new" style="margin-left:4px">Neu</span></td><td><span class="m-chip" style="background:#3B1A17"></span><span class="mono">#3B1A17</span><br><span class="small">Rot-Fond dunkel</span> <span class="chg new" style="margin-left:4px">Neu</span></td><td>–</td><td>Status Problem (z. B. Lastschrift fehlgeschlagen)</td></tr>
+<tr><td><b>Warnschrift</b><br><code>--text-rot</code></td><td><span class="m-chip" style="background:#C62828"></span><span class="mono">#C62828</span><br><span class="small">Sicherheitsrot</span></td><td><span class="m-chip" style="background:#FF7B7B"></span><span class="mono">#FF7B7B</span><br><span class="small">Rot hell</span> <span class="chg new" style="margin-left:4px">Neu</span></td><td>4,9 · 5,9</td><td>Fehler, Warnungen, Schrift auf rotem Fond</td></tr>
+<tr><td><b>MINT-Fond</b><br><code>--fond-mint</code></td><td><span class="m-chip" style="background:#E6F5FC"></span><span class="mono">#E6F5FC</span><br><span class="small">MINT-Fond</span></td><td><span class="m-chip" style="background:#152D37"></span><span class="mono">#152D37</span><br><span class="small">MINT-Fond dunkel</span> <span class="chg new" style="margin-left:4px">Neu</span></td><td>–</td><td>Infokästen in MINT-Medien</td></tr>
+<tr><td><b>MINT-Violett Schrift</b><br><code>--text-violett</code></td><td><span class="m-chip" style="background:#6D3E91"></span><span class="mono">#6D3E91</span><br><span class="small">MINT-Violett</span></td><td><span class="m-chip" style="background:#BC94DB"></span><span class="mono">#BC94DB</span><br><span class="small">Violett hell</span> <span class="chg new" style="margin-left:4px">Neu</span></td><td>6,9 · 5,7</td><td>Violette Überschriften, schmale Balken, Icons</td></tr>
+<tr><td><b>MINT-Blau Schrift</b><br><code>--text-blau</code></td><td><span class="m-chip" style="background:#0070A8"></span><span class="mono">#0070A8</span><br><span class="small">Textblau</span></td><td><span class="m-chip" style="background:#009FE3"></span><span class="mono">#009FE3</span><br><span class="small">MINT-Blau</span></td><td>4,8 · 4,8</td><td>Blaue Überschriften, Links in MINT-Medien</td></tr>
+<tr><th colspan="5">In beiden Modi gleich</th></tr>
+<tr><td><b>Markengrün</b><br><code>--marke</code></td><td colspan="2"><span class="m-chip" style="background:#5EB130"></span><span class="mono">#5EB130</span><br><span class="small">hell und dunkel</span></td><td>–</td><td>Logo, Balken, Deko-Icons, Flächen. Schrift darauf Tinte</td></tr>
+<tr><td><b>Tinte</b><br><code>--tinte</code></td><td colspan="2"><span class="m-chip" style="background:#1E1C19"></span><span class="mono">#1E1C19</span><br><span class="small">hell und dunkel</span></td><td>–</td><td>Schrift auf Markengrün, Gelb, Orange, auch im Dunkelmodus</td></tr>
+<tr><td><b>Kreide</b><br><code>--kreide</code></td><td colspan="2"><span class="m-chip" style="background:#EDE8DE"></span><span class="mono">#EDE8DE</span><br><span class="small">hell und dunkel</span></td><td>–</td><td>Schrift auf Grün 800/900, auch im Hellmodus</td></tr>
+<tr><td><b>Grün 300</b><br><code>--gruen-300</code></td><td colspan="2"><span class="m-chip" style="background:#9CD27D"></span><span class="mono">#9CD27D</span><br><span class="small">hell und dunkel</span></td><td>–</td><td>Gruppentitel und Fokusring in der Seitenleiste</td></tr>
+<tr><td><b>Grün 800</b><br><code>--gruen-800</code></td><td colspan="2"><span class="m-chip" style="background:#325725"></span><span class="mono">#325725</span><br><span class="small">hell und dunkel</span></td><td>–</td><td>Aktiver Punkt und Hover in der Seitenleiste, Schilder</td></tr>
+<tr><td><b>Grün 900</b><br><code>--gruen-900</code></td><td colspan="2"><span class="m-chip" style="background:#1B3714"></span><span class="mono">#1B3714</span><br><span class="small">hell und dunkel</span></td><td>–</td><td>Seitenleiste in Anwendungen, dunkle Markenflächen</td></tr>
+<tr><td><b>MINT-Violett</b><br><code>--violett</code></td><td colspan="2"><span class="m-chip" style="background:#6D3E91"></span><span class="mono">#6D3E91</span><br><span class="small">hell und dunkel</span></td><td>–</td><td>Große Flächen mit weißer Schrift</td></tr>
+<tr><td><b>Mitglieder-Gelb</b><br><code>--gelb</code></td><td colspan="2"><span class="m-chip" style="background:#FCBD30"></span><span class="mono">#FCBD30</span><br><span class="small">hell und dunkel</span></td><td>–</td><td>Mitglieder-Fahne, Schrift darauf Tinte</td></tr>
+<tr><td><b>Maker-Orange</b><br><code>--orange</code></td><td colspan="2"><span class="m-chip" style="background:#F2711C"></span><span class="mono">#F2711C</span><br><span class="small">hell und dunkel</span></td><td>–</td><td>Sticker, Events, Schrift darauf Tinte</td></tr>
+<tr><td><b>Sicherheitsrot</b><br><code>--rot</code></td><td colspan="2"><span class="m-chip" style="background:#C62828"></span><span class="mono">#C62828</span><br><span class="small">hell und dunkel</span></td><td>–</td><td>Warnflächen mit weißer Schrift</td></tr>
+</table></div>
+
+  <h3>Hintergrund &amp; Ebenen</h3>
+  <p>Drei Ebenen reichen für fast alles. Was weiter vorne liegt, hebt sich ab: im Hellen durch Linie und weichen Schatten, im Dunkeln durch Linie und Helligkeit. Im Dunkeln gilt: je weiter vorne, desto heller.</p>
+  <div class="modi"><div class="modus hell " style="--hintergrund:#FBF8F2;--flaeche:#FFFFFF;--fond:#FAF2E4;--linie:#E4DCCB;--text:#1E1C19;--text-leise:#5F5850;--text-gruen:#33791A;--fokus:#33791A;--button:#33791A;--button-hover:#325725;--button-text:#FFFFFF;--fond-gruen:#F0F7EA;--fond-gelb:#FDF3D7;--text-gelb:#8A5A00;--fond-rot:#FCEBE9;--text-rot:#C62828;--fond-mint:#E6F5FC;--text-violett:#6D3E91;--text-blau:#0070A8;--marke:#5EB130;--tinte:#1E1C19;--kreide:#EDE8DE;--gruen-300:#9CD27D;--gruen-800:#325725;--gruen-900:#1B3714;--violett:#6D3E91;--gelb:#FCBD30;--orange:#F2711C;--rot:#C62828"><span class="m-modus mono">Hell</span><div class="m-ebene0"><span class="m-eb">0 · Hintergrund · Papier</span>
+        <div class="m-ebene1"><span class="m-eb">1 · Fläche · Weiß · Linie · Linie</span>
+          <div class="m-ebene2"><span class="m-eb">2 · Fond · Creme</span></div>
+        </div>
+      </div></div><div class="modus dunkel " style="--hintergrund:#141210;--flaeche:#1E1C19;--fond:#2B2721;--linie:#3E3932;--text:#EDE8DE;--text-leise:#AAA297;--text-gruen:#9CD27D;--fokus:#9CD27D;--button:#5EB130;--button-hover:#9CD27D;--button-text:#1E1C19;--fond-gruen:#1B3714;--fond-gelb:#33280F;--text-gelb:#FCBD30;--fond-rot:#3B1A17;--text-rot:#FF7B7B;--fond-mint:#152D37;--text-violett:#BC94DB;--text-blau:#009FE3;--marke:#5EB130;--tinte:#1E1C19;--kreide:#EDE8DE;--gruen-300:#9CD27D;--gruen-800:#325725;--gruen-900:#1B3714;--violett:#6D3E91;--gelb:#FCBD30;--orange:#F2711C;--rot:#C62828"><span class="m-modus mono">Dunkel</span><div class="m-ebene0"><span class="m-eb">0 · Hintergrund · Kohle</span>
+        <div class="m-ebene1"><span class="m-eb">1 · Fläche · Tinte · Linie · Linie dunkel</span>
+          <div class="m-ebene2"><span class="m-eb">2 · Fond · Werkbank</span></div>
+        </div>
+      </div></div></div>
+  <ul>
+    <li><b>Ebene 0 · Hintergrund:</b> die Seite selbst. Eine ruhige, einfarbige Fläche, nie reines Weiß oder Schwarz, kein Muster.</li>
+    <li><b>Ebene 1 · Fläche:</b> Karten, Tabellen, Kopfleiste, Eingabefelder. Immer mit Linie.</li>
+    <li><b>Ebene 2 · Fond:</b> Hover, Tabellenkopf, Zweitbuttons, Infokästen in einer Karte. Braucht keinen Rahmen.</li>
+    <li><b>Markenflächen</b> wie Kopf und Fuß in Grün 800/900 bleiben in beiden Modi gleich. Auf Kohle bekommen sie eine Linie, weil sich Grün 800 dort nur schwach abhebt.</li>
+    <li>Feste Farbwerte, keine Transparenz.</li>
+  </ul>
+
+  <h3>Anwendungen</h3>
+  <p>Für Programme wie die Vereinssoftware oder das Inventar: viel Information, wenig Deko. Die Seitenleiste trägt die Marke, der Inhalt bleibt ruhig.</p>
+  <div class="modi app-demo"><div class="modus hell app-modus" style="--hintergrund:#FBF8F2;--flaeche:#FFFFFF;--fond:#FAF2E4;--linie:#E4DCCB;--text:#1E1C19;--text-leise:#5F5850;--text-gruen:#33791A;--fokus:#33791A;--button:#33791A;--button-hover:#325725;--button-text:#FFFFFF;--fond-gruen:#F0F7EA;--fond-gelb:#FDF3D7;--text-gelb:#8A5A00;--fond-rot:#FCEBE9;--text-rot:#C62828;--fond-mint:#E6F5FC;--text-violett:#6D3E91;--text-blau:#0070A8;--marke:#5EB130;--tinte:#1E1C19;--kreide:#EDE8DE;--gruen-300:#9CD27D;--gruen-800:#325725;--gruen-900:#1B3714;--violett:#6D3E91;--gelb:#FCBD30;--orange:#F2711C;--rot:#C62828"><span class="m-modus mono">Hell</span><div class="app">
+        <aside class="app-seite">
+          <img src="data:image/png;base64,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" alt="" class="app-logo">
+          <span class="app-burger"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span>
+          <span class="app-suche"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span class="app-l">Suchen</span><kbd class="app-l">⌘K</kbd></span>
+          <span class="app-gruppe">Verwaltung</span>
+          <span class="app-punkt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></svg><span class="app-l">Start</span></span>
+          <span class="app-punkt aktiv"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6M16 4a4 4 0 0 1 0 8M22 21c0-3-1.5-5-4-5.6"/></svg><span class="app-l">Mitglieder</span></span>
+          <span class="app-punkt"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg><span class="app-l">Beiträge</span><span class="app-zahlmarke">3</span></span>
+          <span class="app-punkt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg><span class="app-l">Einstellungen</span></span>
+        </aside>
+        <div class="app-haupt">
+          <div class="app-kopf">
+            <span class="app-pfad">Mitglieder <span aria-hidden="true">›</span> Übersicht</span>
+            <button type="button" class="app-schalter" data-modus="light" aria-label="Darstellung: Hell" title="Darstellung: Hell"><svg viewBox="0 0 24 24" aria-hidden="true" class="i-auto"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg><svg viewBox="0 0 24 24" aria-hidden="true" class="i-light"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg viewBox="0 0 24 24" aria-hidden="true" class="i-dark"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a6.5 6.5 0 0 0 11 11z"/></svg></button>
+            <span class="app-profil" aria-hidden="true">AB</span>
+          </div>
+          <div class="app-inhalt">
+            <div class="app-titel"><span class="app-h">Mitglieder</span>
+              <span class="app-knoepfe"><span class="app-btn zweit">Export</span><span class="app-btn haupt">+ Mitglied</span></span></div>
+            <div class="m-feld"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>Name oder Nummer</span></div>
+            <div class="app-tabelle-rahmen"><table class="app-tabelle">
+              <tr><th class="app-opt">Nr.</th><th>Name</th><th>Status</th><th class="app-opt app-zahl">Beitrag</th></tr>
+              <tr class=""><td class="app-opt app-num">2001</td><td>Alex Beispiel</td><td><span class="app-pill ok"><i aria-hidden="true"></i>Aktiv</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+              <tr class="hover"><td class="app-opt app-num">2002</td><td>Kim Muster</td><td><span class="app-pill achtung"><i aria-hidden="true"></i>Ruhend</span></td><td class="app-opt app-zahl">0,00 €</td></tr>
+              <tr class="gewaehlt"><td class="app-opt app-num">2003</td><td>Sam Probe</td><td><span class="app-pill problem"><i aria-hidden="true"></i>Lastschrift offen</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+              <tr class=""><td class="app-opt app-num">2004</td><td>Robin Test</td><td><span class="app-pill neutral"><i aria-hidden="true"></i>Ausgetreten</span></td><td class="app-opt app-zahl">–</td></tr>
+            </table></div>
+          </div>
+        </div>
+      </div></div><div class="modus dunkel app-modus" style="--hintergrund:#141210;--flaeche:#1E1C19;--fond:#2B2721;--linie:#3E3932;--text:#EDE8DE;--text-leise:#AAA297;--text-gruen:#9CD27D;--fokus:#9CD27D;--button:#5EB130;--button-hover:#9CD27D;--button-text:#1E1C19;--fond-gruen:#1B3714;--fond-gelb:#33280F;--text-gelb:#FCBD30;--fond-rot:#3B1A17;--text-rot:#FF7B7B;--fond-mint:#152D37;--text-violett:#BC94DB;--text-blau:#009FE3;--marke:#5EB130;--tinte:#1E1C19;--kreide:#EDE8DE;--gruen-300:#9CD27D;--gruen-800:#325725;--gruen-900:#1B3714;--violett:#6D3E91;--gelb:#FCBD30;--orange:#F2711C;--rot:#C62828"><span class="m-modus mono">Dunkel</span><div class="app">
+        <aside class="app-seite">
+          <img src="data:image/png;base64,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" alt="" class="app-logo">
+          <span class="app-burger"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span>
+          <span class="app-suche"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span class="app-l">Suchen</span><kbd class="app-l">⌘K</kbd></span>
+          <span class="app-gruppe">Verwaltung</span>
+          <span class="app-punkt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></svg><span class="app-l">Start</span></span>
+          <span class="app-punkt aktiv"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6M16 4a4 4 0 0 1 0 8M22 21c0-3-1.5-5-4-5.6"/></svg><span class="app-l">Mitglieder</span></span>
+          <span class="app-punkt"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg><span class="app-l">Beiträge</span><span class="app-zahlmarke">3</span></span>
+          <span class="app-punkt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg><span class="app-l">Einstellungen</span></span>
+        </aside>
+        <div class="app-haupt">
+          <div class="app-kopf">
+            <span class="app-pfad">Mitglieder <span aria-hidden="true">›</span> Übersicht</span>
+            <button type="button" class="app-schalter" data-modus="dark" aria-label="Darstellung: Dunkel" title="Darstellung: Dunkel"><svg viewBox="0 0 24 24" aria-hidden="true" class="i-auto"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg><svg viewBox="0 0 24 24" aria-hidden="true" class="i-light"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg viewBox="0 0 24 24" aria-hidden="true" class="i-dark"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a6.5 6.5 0 0 0 11 11z"/></svg></button>
+            <span class="app-profil" aria-hidden="true">AB</span>
+          </div>
+          <div class="app-inhalt">
+            <div class="app-titel"><span class="app-h">Mitglieder</span>
+              <span class="app-knoepfe"><span class="app-btn zweit">Export</span><span class="app-btn haupt">+ Mitglied</span></span></div>
+            <div class="m-feld"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>Name oder Nummer</span></div>
+            <div class="app-tabelle-rahmen"><table class="app-tabelle">
+              <tr><th class="app-opt">Nr.</th><th>Name</th><th>Status</th><th class="app-opt app-zahl">Beitrag</th></tr>
+              <tr class=""><td class="app-opt app-num">2001</td><td>Alex Beispiel</td><td><span class="app-pill ok"><i aria-hidden="true"></i>Aktiv</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+              <tr class="hover"><td class="app-opt app-num">2002</td><td>Kim Muster</td><td><span class="app-pill achtung"><i aria-hidden="true"></i>Ruhend</span></td><td class="app-opt app-zahl">0,00 €</td></tr>
+              <tr class="gewaehlt"><td class="app-opt app-num">2003</td><td>Sam Probe</td><td><span class="app-pill problem"><i aria-hidden="true"></i>Lastschrift offen</span></td><td class="app-opt app-zahl">20,00 €</td></tr>
+              <tr class=""><td class="app-opt app-num">2004</td><td>Robin Test</td><td><span class="app-pill neutral"><i aria-hidden="true"></i>Ausgetreten</span></td><td class="app-opt app-zahl">–</td></tr>
+            </table></div>
+          </div>
+        </div>
+      </div></div></div>
+  <p class="small">Probier den Umschalter oben rechts aus: Jeder Klick schaltet weiter, Auto → Hell → Dunkel. Auto folgt der Einstellung des Geräts. Im Druck stehen beide Modi untereinander.</p>
+  <h4>Aufbau</h4>
+  <ul>
+    <li><b>Seitenleiste</b> in Grün 900, in beiden Modi gleich. Schrift Kreide, Gruppentitel Grün 300, Logo in der Negativ-Version. Aktiver Punkt: Grün 800 mit Balken in Markengrün und fetter Schrift.</li>
+    <li><b>Kopfleiste</b> auf Fläche mit Linie unten: links der Pfad, rechts der Umschalter und das Profil.</li>
+    <li><b>Inhalt</b> auf dem Hintergrund. Tabellen und Formulare liegen auf Fläche mit Linie, der Tabellenkopf auf Fond.</li>
+    <li>Ein Hauptbutton pro Ansicht. Weitere Buttons auf Fond mit Linie.</li>
+    <li>Mitgliedsnummern, Beträge und Daten mit gleich breiten Ziffern (<code>font-variant-numeric: tabular-nums</code>), Beträge rechtsbündig.</li>
+    <li>Auf dem Handy wird die Seitenleiste zur Kopfleiste in Grün 900 mit Menü-Symbol.</li>
+  </ul>
+  <h4>Status</h4>
+  <p>In Anwendungen bedeuten Grün, Gelb und Rot einen Status, keine Bereichsfarbe. Jeder Status hat ein Wort und eine eigene Form, damit er auch ohne Farbsehen klar ist.</p>
+  <div class="tablewrap"><table class="t">
+    <tr><th>Status</th><th>Fond</th><th>Schrift</th><th>Form</th><th>Beispiele</th></tr>
+    <tr><td>OK</td><td>Grüner Fond</td><td>Grüne Schrift</td><td>gefüllter Punkt</td><td>aktiv, bezahlt</td></tr>
+    <tr><td>Achtung</td><td>Gelber Fond</td><td>Gelbe Schrift</td><td>zwei Striche</td><td>ruhend, Entscheidung nötig</td></tr>
+    <tr><td>Problem</td><td>Roter Fond</td><td>Warnschrift</td><td>Ausrufezeichen</td><td>Lastschrift fehlgeschlagen</td></tr>
+    <tr><td>Neutral</td><td>Fläche, gestrichelter Rahmen</td><td>Text leise</td><td>Ring</td><td>ausgetreten, Entwurf</td></tr>
+  </table></div>
+  <h4>Zustände</h4>
+  <div class="tablewrap"><table class="t">
+    <tr><th>Zustand</th><th>Seitenleiste</th><th>Tabelle und Listen</th><th>Zweites Merkmal</th></tr>
+    <tr><td>Hover</td><td>Grün 800</td><td>Fond</td><td>–</td></tr>
+    <tr><td>Fokus</td><td>Ring in Grün 300</td><td>Ring in Fokus</td><td>3 px Ring, 2 px Abstand</td></tr>
+    <tr><td>Aktiv, ausgewählt</td><td>Grün 800, Balken Markengrün</td><td>Grüner Fond, Balken Grüne Schrift</td><td>Balken links, im Menü fett</td></tr>
+    <tr><td>Deaktiviert</td><td>Schrift Stein hell</td><td>Text leise auf Fond</td><td>Grund dazuschreiben („Ausgebucht“)</td></tr>
+  </table></div>
+  <p class="small">Eingabefelder bekommen einen Rahmen in Text leise, nicht in Linie: Ein Feld muss als Feld erkennbar sein (mindestens 3:1).</p>
+  <h4>Umschalter</h4>
+  <ul>
+    <li>Ein Icon-Button oben rechts in der Kopfleiste, kein Menü und kein Schieberegler. Klickfläche mindestens 44 × 44 px.</li>
+    <li>Das Icon zeigt den <b>aktuellen</b> Zustand: halber Kreis = Auto (wie Gerät), Sonne = Hell, Mond = Dunkel.</li>
+    <li>Jeder Klick schaltet weiter: Auto → Hell → Dunkel → Auto. Auto ist der Standard.</li>
+    <li>Tooltip und Screenreader nennen den Zustand, z. B. „Darstellung: Dunkel“.</li>
+    <li>Die Wahl im Browser merken und schon im <code>&lt;head&gt;</code> setzen, sonst blitzt die Seite beim Laden hell auf. Code unten.</li>
+  </ul>
+
+  <h3>MINT im Dunkeln</h3>
+  <div class="modi"><div class="modus hell kompakt" style="--hintergrund:#FBF8F2;--flaeche:#FFFFFF;--fond:#FAF2E4;--linie:#E4DCCB;--text:#1E1C19;--text-leise:#5F5850;--text-gruen:#33791A;--fokus:#33791A;--button:#33791A;--button-hover:#325725;--button-text:#FFFFFF;--fond-gruen:#F0F7EA;--fond-gelb:#FDF3D7;--text-gelb:#8A5A00;--fond-rot:#FCEBE9;--text-rot:#C62828;--fond-mint:#E6F5FC;--text-violett:#6D3E91;--text-blau:#0070A8;--marke:#5EB130;--tinte:#1E1C19;--kreide:#EDE8DE;--gruen-300:#9CD27D;--gruen-800:#325725;--gruen-900:#1B3714;--violett:#6D3E91;--gelb:#FCBD30;--orange:#F2711C;--rot:#C62828"><span class="m-modus mono">Hell</span><div class="m-body m-mint-body">
+        <div class="m-mint"><span class="m-violett">MINT</span> Löten für Kinder ab 10 · <a href="#modi" class="m-blau">mehr Infos</a></div>
+        <div class="m-violett-flaeche">MINT-Violett als Fläche bleibt gleich</div>
+      </div></div><div class="modus dunkel kompakt" style="--hintergrund:#141210;--flaeche:#1E1C19;--fond:#2B2721;--linie:#3E3932;--text:#EDE8DE;--text-leise:#AAA297;--text-gruen:#9CD27D;--fokus:#9CD27D;--button:#5EB130;--button-hover:#9CD27D;--button-text:#1E1C19;--fond-gruen:#1B3714;--fond-gelb:#33280F;--text-gelb:#FCBD30;--fond-rot:#3B1A17;--text-rot:#FF7B7B;--fond-mint:#152D37;--text-violett:#BC94DB;--text-blau:#009FE3;--marke:#5EB130;--tinte:#1E1C19;--kreide:#EDE8DE;--gruen-300:#9CD27D;--gruen-800:#325725;--gruen-900:#1B3714;--violett:#6D3E91;--gelb:#FCBD30;--orange:#F2711C;--rot:#C62828"><span class="m-modus mono">Dunkel</span><div class="m-body m-mint-body">
+        <div class="m-mint"><span class="m-violett">MINT</span> Löten für Kinder ab 10 · <a href="#modi" class="m-blau">mehr Infos</a></div>
+        <div class="m-violett-flaeche">MINT-Violett als Fläche bleibt gleich</div>
+      </div></div></div>
+  <p>Große violette Flächen mit weißer Schrift bleiben MINT-Violett. Schmale Balken, Linien, Icons und Schrift werden im Dunkeln Violett hell, sonst verschwinden sie auf Kohle.</p>
+
+  <h3>Beim Umschalten</h3>
+  <div class="grid g2">
+    <div class="do"><b>So</b>Im Dunkelmodus das Logo in der Negativ-Version.</div>
+    <div class="dont"><b>Nicht so</b>Das Farb-Logo auf Kohle: Der dunkle Schriftzug verschwindet.</div>
+    <div class="do"><b>So</b>Tiefe über Ebenen und Linien, wie oben gezeigt.</div>
+    <div class="dont"><b>Nicht so</b>Weiche Schatten im Dunkelmodus. Auf Kohle sind sie unsichtbar und machen Flächen schmutzig.</div>
+    <div class="do"><b>So</b>Harte Kanten umdrehen: Sticker-Schatten, Labelstreifen und KI-Label im Dunkeln in Kreide statt Tinte oder Weiß.</div>
+    <div class="dont"><b>Nicht so</b>Farben per Filter oder „Invertieren“ umrechnen lassen.</div>
+    <div class="do"><b>So</b>Links immer unterstreichen. Grün 300 hebt sich von Kreide kaum ab.</div>
+    <div class="dont"><b>Nicht so</b>Links nur an der Farbe erkennbar machen.</div>
+    <div class="do"><b>So</b>Icons mit Bedeutung in Grüne Schrift. Deko-Icons gerne in Markengrün.</div>
+    <div class="dont"><b>Nicht so</b>Markengrün für den Dunkelmodus aufhellen oder abdunkeln.</div>
+    <div class="do"><b>So</b>Fotos unverändert lassen. Die weiße Logo-Fahne auf Fotos bleibt weiß.</div>
+    <div class="dont"><b>Nicht so</b>Kohle, Werkbank und Kreide für Druck oder Social-Media-Posts. Dort gelten die <a href="#farben">Farben</a> aus Abschnitt 5, dunkle Posts in Grün 900 oder Tinte.</div>
+  </div>
+
+  <h3>Zum Kopieren</h3>
+  <h4>Farben (CSS)</h4>
+  <p>Für Webseiten und Anwendungen. Folgt der Systemeinstellung. Mit <code>data-theme="light"</code> oder <code>data-theme="dark"</code> am <code>&lt;html&gt;</code>-Element lässt sich ein Modus erzwingen, z. B. über den Umschalter.</p>
+  <pre class="code">/* MakerSpace Bonn · Farben hell/dunkel · Styleguide 2026-11 */
+
+/* In beiden Modi gleich */
+:root {
+  --marke: #5EB130;  /* Markengrün */
+  --tinte: #1E1C19;  /* Tinte */
+  --kreide: #EDE8DE;  /* Kreide */
+  --gruen-300: #9CD27D;  /* Grün 300 */
+  --gruen-800: #325725;  /* Grün 800 */
+  --gruen-900: #1B3714;  /* Grün 900 */
+  --violett: #6D3E91;  /* MINT-Violett */
+  --gelb: #FCBD30;  /* Mitglieder-Gelb */
+  --orange: #F2711C;  /* Maker-Orange */
+  --rot: #C62828;  /* Sicherheitsrot */
+}
+
+/* Hell (Standard) */
+:root {
+  color-scheme: light;
+  --hintergrund: #FBF8F2;  /* Papier */
+  --flaeche: #FFFFFF;  /* Weiß */
+  --fond: #FAF2E4;  /* Creme */
+  --linie: #E4DCCB;  /* Linie */
+  --text: #1E1C19;  /* Tinte */
+  --text-leise: #5F5850;  /* Stein */
+  --text-gruen: #33791A;  /* Grün 600 */
+  --fokus: #33791A;  /* Grün 600 */
+  --button: #33791A;  /* Grün 600 */
+  --button-hover: #325725;  /* Grün 800 */
+  --button-text: #FFFFFF;  /* Weiß */
+  --fond-gruen: #F0F7EA;  /* Grün 50 */
+  --fond-gelb: #FDF3D7;  /* Gelb-Fond */
+  --text-gelb: #8A5A00;  /* Ocker */
+  --fond-rot: #FCEBE9;  /* Rot-Fond */
+  --text-rot: #C62828;  /* Sicherheitsrot */
+  --fond-mint: #E6F5FC;  /* MINT-Fond */
+  --text-violett: #6D3E91;  /* MINT-Violett */
+  --text-blau: #0070A8;  /* Textblau */
+}
+
+/* Dunkel: folgt dem System, außer data-theme="light" erzwingt Hell */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --hintergrund: #141210;  /* Kohle */
+    --flaeche: #1E1C19;  /* Tinte */
+    --fond: #2B2721;  /* Werkbank */
+    --linie: #3E3932;  /* Linie dunkel */
+    --text: #EDE8DE;  /* Kreide */
+    --text-leise: #AAA297;  /* Stein hell */
+    --text-gruen: #9CD27D;  /* Grün 300 */
+    --fokus: #9CD27D;  /* Grün 300 */
+    --button: #5EB130;  /* Grün 500 */
+    --button-hover: #9CD27D;  /* Grün 300 */
+    --button-text: #1E1C19;  /* Tinte */
+    --fond-gruen: #1B3714;  /* Grün 900 */
+    --fond-gelb: #33280F;  /* Gelb-Fond dunkel */
+    --text-gelb: #FCBD30;  /* Mitglieder-Gelb */
+    --fond-rot: #3B1A17;  /* Rot-Fond dunkel */
+    --text-rot: #FF7B7B;  /* Rot hell */
+    --fond-mint: #152D37;  /* MINT-Fond dunkel */
+    --text-violett: #BC94DB;  /* Violett hell */
+    --text-blau: #009FE3;  /* MINT-Blau */
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --hintergrund: #141210;  /* Kohle */
+  --flaeche: #1E1C19;  /* Tinte */
+  --fond: #2B2721;  /* Werkbank */
+  --linie: #3E3932;  /* Linie dunkel */
+  --text: #EDE8DE;  /* Kreide */
+  --text-leise: #AAA297;  /* Stein hell */
+  --text-gruen: #9CD27D;  /* Grün 300 */
+  --fokus: #9CD27D;  /* Grün 300 */
+  --button: #5EB130;  /* Grün 500 */
+  --button-hover: #9CD27D;  /* Grün 300 */
+  --button-text: #1E1C19;  /* Tinte */
+  --fond-gruen: #1B3714;  /* Grün 900 */
+  --fond-gelb: #33280F;  /* Gelb-Fond dunkel */
+  --text-gelb: #FCBD30;  /* Mitglieder-Gelb */
+  --fond-rot: #3B1A17;  /* Rot-Fond dunkel */
+  --text-rot: #FF7B7B;  /* Rot hell */
+  --fond-mint: #152D37;  /* MINT-Fond dunkel */
+  --text-violett: #BC94DB;  /* Violett hell */
+  --text-blau: #009FE3;  /* MINT-Blau */
+}
+
+/* Anwenden */
+body { background: var(--hintergrund); color: var(--text); }
+a { color: var(--text-gruen); text-decoration: underline; }
+:focus-visible { outline: 3px solid var(--fokus); outline-offset: 2px; }
+
+/* Logo tauschen: &lt;img class="logo-hell" …&gt; und &lt;img class="logo-dunkel" …&gt; */
+.logo-dunkel { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .logo-hell { display: none; }
+  :root:not([data-theme="light"]) .logo-dunkel { display: block; }
+}
+:root[data-theme="dark"] .logo-hell { display: none; }
+:root[data-theme="dark"] .logo-dunkel { display: block; }</pre>
+  <p>Für die Browserleiste auf dem Handy zusätzlich im <code>&lt;head&gt;</code>:</p>
+  <pre class="code">&lt;meta name="theme-color" content="#FBF8F2" media="(prefers-color-scheme: light)"&gt;
+&lt;meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)"&gt;</pre>
+  <h4>Umschalter</h4>
+  <pre class="code">&lt;!-- 1. Im &lt;head&gt;, vor dem CSS: gemerkte Wahl sofort setzen, sonst blitzt die Seite hell auf --&gt;
+&lt;script&gt;try{var m=localStorage.getItem('darstellung');if(m==='light'||m==='dark')document.documentElement.dataset.theme=m}catch(e){}&lt;/script&gt;
+
+&lt;!-- 2. Der Knopf: drei Icons, z. B. Lucide "contrast", "sun", "moon" --&gt;
+&lt;button type="button" class="modus-schalter" data-modus="auto" aria-label="Darstellung: Auto (wie Gerät)"&gt;
+  &lt;svg class="i-auto"&gt;…&lt;/svg&gt;&lt;svg class="i-light"&gt;…&lt;/svg&gt;&lt;svg class="i-dark"&gt;…&lt;/svg&gt;
+&lt;/button&gt;
+
+/* 3. CSS: nur das Icon für den aktuellen Zustand zeigen */
+.modus-schalter { width: 44px; height: 44px; display: grid; place-items: center;
+  border: 0; border-radius: 8px; background: none; color: var(--text); }
+.modus-schalter:hover { background: var(--fond); }
+.modus-schalter svg { display: none; width: 20px; height: 20px; }
+.modus-schalter[data-modus="auto"] .i-auto,
+.modus-schalter[data-modus="light"] .i-light,
+.modus-schalter[data-modus="dark"] .i-dark { display: block; }
+
+// 4. JS: jeder Klick schaltet weiter, Auto → Hell → Dunkel → Auto
+const MODI = ['auto', 'light', 'dark'];
+const NAME = { auto: 'Auto (wie Gerät)', light: 'Hell', dark: 'Dunkel' };
+const knopf = document.querySelector('.modus-schalter');
+function setze(m) {
+  if (m === 'auto') delete document.documentElement.dataset.theme;
+  else document.documentElement.dataset.theme = m;
+  knopf.dataset.modus = m;
+  knopf.title = `Darstellung: ${NAME[m]}`;
+  knopf.setAttribute('aria-label', knopf.title);
+  try { localStorage.setItem('darstellung', m); } catch {}
+}
+knopf.addEventListener('click', () =&gt; setze(MODI[(MODI.indexOf(knopf.dataset.modus) + 1) % 3]));
+let gemerkt = 'auto';
+try { gemerkt = localStorage.getItem('darstellung') ?? 'auto'; } catch {}
+setze(MODI.includes(gemerkt) ? gemerkt : 'auto');</pre>
+  <h4>shadcn/ui (Vereinssoftware)</h4>
+  <p>Ordnet die Rollen den Variablen von shadcn/ui zu. Ersetzt dort die festen Farbwerte im <code>:root</code>-Block.</p>
+  <pre class="code">/* shadcn/ui, z. B. Vereinssoftware: nach den Farben oben einfügen.
+   Gilt für beide Modi, weil jede Zeile auf eine Rolle zeigt. */
+:root {
+  --background: var(--hintergrund);
+  --foreground: var(--text);
+  --card: var(--flaeche);
+  --card-foreground: var(--text);
+  --popover: var(--flaeche);
+  --popover-foreground: var(--text);
+  --primary: var(--button);
+  --primary-foreground: var(--button-text);
+  --secondary: var(--fond);
+  --secondary-foreground: var(--text);
+  --muted: var(--fond);
+  --muted-foreground: var(--text-leise);
+  --accent: var(--fond);
+  --accent-foreground: var(--text);
+  --destructive: var(--text-rot);
+  --border: var(--linie);
+  --input: var(--text-leise);
+  --ring: var(--fokus);
+  --sidebar: var(--gruen-900);
+  --sidebar-foreground: var(--kreide);
+  --sidebar-primary: var(--marke);
+  --sidebar-primary-foreground: var(--tinte);
+  --sidebar-accent: var(--gruen-800);
+  --sidebar-accent-foreground: var(--kreide);
+  --sidebar-border: var(--gruen-800);
+  --sidebar-ring: var(--gruen-300);
+  /* Status-Pills der Vereinssoftware */
+  --success: var(--text-gruen);
+  --success-strong: var(--text-gruen);
+  --success-surface: var(--fond-gruen);
+  --warning: var(--text-gelb);
+  --warning-surface: var(--fond-gelb);
+}</pre>
+</section>
+
 <!-- ================= MATERIAL ================= -->
 <section id="material">
-  <h2><span class="num">7</span>Farbe &amp; Logo auf echtem Material <span class="chg new">Neu</span></h2>
+  <h2><span class="num">8</span>Farbe &amp; Logo auf echtem Material <span class="chg new">Neu</span></h2>
   <p class="lead">Wir drucken nicht nur Flyer, wir plotten, lasern, sticken und drucken in 3D. Hier steht, wie die Marke auf Material aussieht.</p>
   <div class="diff new"><strong class="t">Status</strong>Die Werte unten sind Näherungen und <b>Vorschläge</b>. Bitte einmal mit Farbfächer bzw. Musterbuch abgleichen und die gefundenen Produktnummern hier eintragen. Das ist ein gutes Mitmach-Projekt.</div>
   <div class="tablewrap"><table class="t">
@@ -446,7 +938,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
 
 <!-- ================= TYPO ================= -->
 <section id="typo">
-  <h2><span class="num">8</span>Schrift</h2>
+  <h2><span class="num">9</span>Schrift</h2>
   <div class="diff mod"><strong class="t">Was ist anders?</strong>
     <ul><li><b>Neu:</b> Größenskala und Mindestgrößen. Bisher gab es nur die Schnitte.</li>
     <li><b>Geändert:</b> Fließtext in <b>IBM Plex Sans Regular</b> statt Light. Light bleibt erlaubt für große Einleitungstexte, ist aber bei kleinen Größen, auf Creme und im Kopierer zu dünn.</li>
@@ -472,7 +964,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
 
 <!-- ================= MAKER-ELEMENTE ================= -->
 <section id="elemente">
-  <h2><span class="num">9</span>Maker-Elemente <span class="chg new">Neu</span></h2>
+  <h2><span class="num">10</span>Maker-Elemente <span class="chg new">Neu</span></h2>
   <p class="lead">Wir sind eine Werkstatt, kein Konzern. Diese Elemente bringen Werkstatt-Charakter in die Gestaltung. Logo, Grün und Schrift bleiben dabei fest; nur die Elemente drumherum dürfen spielen.</p>
   <div class="grid g2">
     <div class="card">
@@ -510,7 +1002,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
 
 <!-- ================= SCHILDER ================= -->
 <section id="schilder">
-  <h2><span class="num">10</span>Schilder &amp; Leitsystem <span class="chg new">Neu</span></h2>
+  <h2><span class="num">11</span>Schilder &amp; Leitsystem <span class="chg new">Neu</span></h2>
   <p class="lead">Raumgestaltung und Leitsysteme standen im Geltungsbereich, waren aber nicht geregelt. Vorschlag: so einfach wie möglich.</p>
   <div class="grid g3">
     <div class="card" style="background:var(--gruen-800);color:#fff;border:0">
@@ -545,7 +1037,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
 
 <!-- ================= BILDER ================= -->
 <section id="bilder">
-  <h2><span class="num">11</span>Bildsprache <span class="chg mod">Geändert</span></h2>
+  <h2><span class="num">12</span>Bildsprache <span class="chg mod">Geändert</span></h2>
   <div class="diff"><strong class="t">Was ist anders?</strong>Inhalt übernommen und zusammengefasst, Tippfehler korrigiert. Die Beispielfotos stehen im Original-Guide (S. 24–30). <span class="chg mod">Geändert</span> KI-Bilder sind nicht mehr ausgeschlossen, echte Fotos haben aber Vorrang (siehe unten).</div>
   <p class="lead">Unsere Fotos zeigen echte Menschen beim Machen, inklusive Fehlversuchen. Dokumentarisch, warm, nahbar.</p>
   <h3>Die 4 P's als Checkliste</h3>
@@ -585,7 +1077,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
 
 <!-- ================= SPRACHE ================= -->
 <section id="sprache">
-  <h2><span class="num">12</span>Sprache <span class="chg mod">Geändert</span></h2>
+  <h2><span class="num">13</span>Sprache <span class="chg mod">Geändert</span></h2>
   <div class="diff mod"><strong class="t">Was ist anders?</strong>Inhalt übernommen, gekürzt und um Vorher/Nachher-Beispiele ergänzt <span class="chg new">Neu</span>. Beispiele erklären schneller als Regeln.</div>
   <p class="lead">Wir schreiben, wie wir miteinander reden: klar, nahbar, auf Augenhöhe. Nicht bürokratisch, nicht werblich überhöht, nicht exklusiv.</p>
   <ul>
@@ -617,7 +1109,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
 
 <!-- ================= VORLAGEN ================= -->
 <section id="vorlagen">
-  <h2><span class="num">13</span>Vorlagen &amp; Downloads <span class="chg new">Neu</span></h2>
+  <h2><span class="num">14</span>Vorlagen &amp; Downloads <span class="chg new">Neu</span></h2>
   <p class="lead">Die meisten Leute gestalten nicht nach Regeln, sondern ändern eine Vorlage. Gute Vorlagen sind darum der wichtigste Teil dieses Guides.</p>
   <div class="diff new"><strong class="t">Status</strong>Die Logo-Dateien liegen im Ordner <code>logos/</code> neben diesem Dokument (als PNG aus dem alten PDF extrahiert, für den Druck bitte durch die Vektor-Originale ersetzen). Die Vorlagen unten sind <b>geplant</b> und noch zu erstellen.</div>
   <div class="tablewrap"><table class="t">
@@ -631,13 +1123,13 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
     <tr><td>Geräte- und Bereichsschild</td><td>A5, A4</td><td>Canva, Inkscape (auch für Laser)</td><td>geplant</td></tr>
     <tr><td>Briefpapier, Beitrittserklärung</td><td>A4, DIN 5008</td><td>Word/LibreOffice</td><td>vorhanden (Original S. 34–35)</td></tr>
     <tr><td>Visitenkarte</td><td>85×55 mm</td><td>Canva, InDesign</td><td>vorhanden (Original S. 34)</td></tr>
-    <tr><td>Farbpalette</td><td>ASE, Canva Brand Kit, CSS</td><td>–</td><td>geplant</td></tr>
+    <tr><td>Farbpalette</td><td>ASE, Canva Brand Kit, CSS</td><td>–</td><td>CSS hell/dunkel vorhanden (<a href="#modi">Hell &amp; Dunkel</a>), ASE und Canva geplant</td></tr>
   </table></div>
 </section>
 
 <!-- ================= PFLEGE ================= -->
 <section id="pflege">
-  <h2><span class="num">14</span>Pflege &amp; Mitmachen <span class="chg new">Neu</span></h2>
+  <h2><span class="num">15</span>Pflege &amp; Mitmachen <span class="chg new">Neu</span></h2>
   <p class="lead">Der Guide ist ein lebendes Dokument. Damit das klappt, braucht er eine zuständige Stelle und einen Ort für Vorschläge.</p>
   <ul>
     <li><b>Zuständig:</b> Medienteam. Kontakt: <i>[Ansprechperson / Kanal eintragen]</i></li>
@@ -650,7 +1142,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
   <div class="tablewrap"><table class="t">
     <tr><th>Version</th><th>Was</th></tr>
     <tr><td>2026-02-15</td><td>Erste veröffentlichte Fassung (Medienteam)</td></tr>
-    <tr><td>2026-11 (Entwurf)</td><td>Farbkorrekturen, neues Textgrün, feste Fond-Werte, Kombinationstabelle, Logo-Varianten und Don'ts, Material, Schriftgrößen, Maker-Elemente, Schilder, KI-Bild-Regel, Vorlagenliste, Kürzungen. Siehe <a href="#aenderungen">Übersicht</a>.</td></tr>
+    <tr><td>2026-11 (Entwurf)</td><td>Farbkorrekturen, neues Textgrün, feste Fond-Werte, Kombinationstabelle, Logo-Varianten und Don'ts, Hell/Dunkel-Palette, Material, Schriftgrößen, Maker-Elemente, Schilder, KI-Bild-Regel, Vorlagenliste, Kürzungen. Siehe <a href="#aenderungen">Übersicht</a>.</td></tr>
   </table></div>
 
   <h3 class="chg-block">Korrekturliste <span class="chg fix">Korrigiert</span></h3>
@@ -686,6 +1178,26 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
   function apply(on){document.body.classList.toggle('clean',!on);t.checked=on}
   try{var v=localStorage.getItem(k);if(v!==null)apply(v==='1')}catch(e){}
   t.addEventListener('change',function(){apply(t.checked);try{localStorage.setItem(k,t.checked?'1':'0')}catch(e){}});
+})();
+(function(){
+  // Vorschau „Anwendungen“: Umschalter Auto → Hell → Dunkel, Auto folgt dem Gerät
+  var demo=document.querySelector('.app-demo');if(!demo)return;
+  var reihe=['auto','light','dark'],name={auto:'Auto (wie Gerät)',light:'Hell',dark:'Dunkel'};
+  var mq=window.matchMedia('(prefers-color-scheme: dark)');
+  function zeige(m){
+    demo.dataset.modus=m;
+    demo.dataset.zeigt=(m==='dark'||(m==='auto'&&mq.matches))?'dunkel':'hell';
+    demo.querySelectorAll('.app-schalter').forEach(function(b){
+      b.dataset.modus=m;b.title='Darstellung: '+name[m];b.setAttribute('aria-label',b.title);
+    });
+  }
+  demo.addEventListener('click',function(e){
+    if(!e.target.closest('.app-schalter'))return;
+    zeige(reihe[(reihe.indexOf(demo.dataset.modus)+1)%3]);
+    demo.querySelector('.modus.'+demo.dataset.zeigt+' .app-schalter').focus();
+  });
+  mq.addEventListener('change',function(){if(demo.dataset.modus==='auto')zeige('auto')});
+  zeige('auto');
 })();
 </script>
 </body>

@@ -4,6 +4,7 @@ Usage: python3 src/build.py
 """
 import base64
 import pathlib
+from html import escape
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
@@ -49,7 +50,352 @@ def matrix():
     return '\n'.join(rows)
 
 
+# Hell/Dunkel: eine Quelle für Rollentabelle, Vorschauen und Code zum Kopieren.
+# (Token, Rolle, (HEX hell, Name hell), (HEX dunkel, Name dunkel), Wofür)
+MODI = [
+    ('hintergrund', 'Hintergrund', ('#FBF8F2', 'Papier'), ('#141210', 'Kohle'), 'Ebene 0: Seitenhintergrund'),
+    ('flaeche', 'Fläche', ('#FFFFFF', 'Weiß'), ('#1E1C19', 'Tinte'), 'Ebene 1: Karten, Tabellen, Kopfleiste, Eingabefelder'),
+    ('fond', 'Fond', ('#FAF2E4', 'Creme'), ('#2B2721', 'Werkbank'), 'Ebene 2: Hover, Tabellenkopf, Zweitbuttons, Infokästen'),
+    ('linie', 'Linie', ('#E4DCCB', 'Linie'), ('#3E3932', 'Linie dunkel'), 'Rahmen um Karten und Tabellen, Trenner. Nicht für Eingabefelder'),
+    ('text', 'Text', ('#1E1C19', 'Tinte'), ('#EDE8DE', 'Kreide'), 'Fließtext, Überschriften, harter Sticker-Schatten'),
+    ('text-leise', 'Text leise', ('#5F5850', 'Stein'), ('#AAA297', 'Stein hell'), 'Metadaten, Deaktiviertes, Rahmen von Eingabefeldern'),
+    ('text-gruen', 'Grüne Schrift', ('#33791A', 'Grün 600'), ('#9CD27D', 'Grün 300'), 'Links (immer unterstrichen), Status OK, Icons mit Bedeutung'),
+    ('fokus', 'Fokus', ('#33791A', 'Grün 600'), ('#9CD27D', 'Grün 300'), 'Fokusring (Tastatur): 3 px, 2 px Abstand'),
+    ('button', 'Button', ('#33791A', 'Grün 600'), ('#5EB130', 'Grün 500'), 'Hauptbutton, einer pro Ansicht'),
+    ('button-hover', 'Button Hover', ('#325725', 'Grün 800'), ('#9CD27D', 'Grün 300'), 'Hauptbutton unter Maus oder Finger'),
+    ('button-text', 'Button-Schrift', ('#FFFFFF', 'Weiß'), ('#1E1C19', 'Tinte'), 'Schrift auf dem Hauptbutton'),
+    ('fond-gruen', 'Grüner Fond', ('#F0F7EA', 'Grün 50'), ('#1B3714', 'Grün 900'), 'Status OK, ausgewählte Zeile, Tags, Icon-Kacheln'),
+    ('fond-gelb', 'Gelber Fond', ('#FDF3D7', 'Gelb-Fond'), ('#33280F', 'Gelb-Fond dunkel'), 'Status Achtung (z. B. ruhend, Entscheidung nötig)'),
+    ('text-gelb', 'Gelbe Schrift', ('#8A5A00', 'Ocker'), ('#FCBD30', 'Mitglieder-Gelb'), 'Schrift auf gelbem Fond'),
+    ('fond-rot', 'Roter Fond', ('#FCEBE9', 'Rot-Fond'), ('#3B1A17', 'Rot-Fond dunkel'), 'Status Problem (z. B. Lastschrift fehlgeschlagen)'),
+    ('text-rot', 'Warnschrift', ('#C62828', 'Sicherheitsrot'), ('#FF7B7B', 'Rot hell'), 'Fehler, Warnungen, Schrift auf rotem Fond'),
+    ('fond-mint', 'MINT-Fond', ('#E6F5FC', 'MINT-Fond'), ('#152D37', 'MINT-Fond dunkel'), 'Infokästen in MINT-Medien'),
+    ('text-violett', 'MINT-Violett Schrift', ('#6D3E91', 'MINT-Violett'), ('#BC94DB', 'Violett hell'), 'Violette Überschriften, schmale Balken, Icons'),
+    ('text-blau', 'MINT-Blau Schrift', ('#0070A8', 'Textblau'), ('#009FE3', 'MINT-Blau'), 'Blaue Überschriften, Links in MINT-Medien'),
+]
+# In beiden Modi gleich: (Token, HEX, Name, Wofür)
+KONSTANT = [
+    ('marke', '#5EB130', 'Markengrün', 'Logo, Balken, Deko-Icons, Flächen. Schrift darauf Tinte'),
+    ('tinte', '#1E1C19', 'Tinte', 'Schrift auf Markengrün, Gelb, Orange, auch im Dunkelmodus'),
+    ('kreide', '#EDE8DE', 'Kreide', 'Schrift auf Grün 800/900, auch im Hellmodus'),
+    ('gruen-300', '#9CD27D', 'Grün 300', 'Gruppentitel und Fokusring in der Seitenleiste'),
+    ('gruen-800', '#325725', 'Grün 800', 'Aktiver Punkt und Hover in der Seitenleiste, Schilder'),
+    ('gruen-900', '#1B3714', 'Grün 900', 'Seitenleiste in Anwendungen, dunkle Markenflächen'),
+    ('violett', '#6D3E91', 'MINT-Violett', 'Große Flächen mit weißer Schrift'),
+    ('gelb', '#FCBD30', 'Mitglieder-Gelb', 'Mitglieder-Fahne, Schrift darauf Tinte'),
+    ('orange', '#F2711C', 'Maker-Orange', 'Sticker, Events, Schrift darauf Tinte'),
+    ('rot', '#C62828', 'Sicherheitsrot', 'Warnflächen mit weißer Schrift'),
+]
+NEU = {'Kohle', 'Werkbank', 'Linie dunkel', 'Kreide', 'Stein hell', 'MINT-Fond dunkel', 'Violett hell', 'Rot hell',
+       'Gelb-Fond', 'Gelb-Fond dunkel', 'Ocker', 'Rot-Fond', 'Rot-Fond dunkel'}
+# Rolle -> (Flächen, Mindestkontrast). Schrift braucht 4,5:1, Fokus 3:1 (WCAG 1.4.3 / 1.4.11).
+# Gilt für beide Modi; der Build bricht ab, wenn eine Paarung durchfällt.
+MODI_PRUEFEN = {
+    'text': (['hintergrund', 'flaeche', 'fond', 'fond-gruen', 'fond-gelb', 'fond-rot', 'fond-mint'], 4.5),
+    'text-leise': (['hintergrund', 'flaeche', 'fond', 'fond-gruen', 'fond-mint'], 4.5),
+    'text-gruen': (['hintergrund', 'flaeche', 'fond', 'fond-gruen'], 4.5),
+    'button-text': (['button', 'button-hover'], 4.5),
+    'text-gelb': (['hintergrund', 'flaeche', 'fond-gelb'], 4.5),
+    'text-rot': (['hintergrund', 'flaeche', 'fond', 'fond-rot'], 4.5),
+    'text-violett': (['hintergrund', 'flaeche', 'fond-mint'], 4.5),
+    'text-blau': (['hintergrund', 'flaeche', 'fond-mint'], 4.5),
+    'fokus': (['hintergrund', 'flaeche', 'fond', 'fond-gruen'], 3),
+}
+# Feste Paarungen (Schrift, Fläche, Minimum): Token oder HEX
+KONSTANT_PRUEFEN = [
+    ('kreide', 'gruen-900', 4.5), ('kreide', 'gruen-800', 4.5), ('gruen-300', 'gruen-900', 4.5),
+    ('tinte', 'marke', 4.5), ('tinte', 'gelb', 4.5), ('tinte', 'orange', 4.5),
+    ('#FFFFFF', 'violett', 4.5), ('#FFFFFF', 'rot', 4.5), ('marke', 'gruen-900', 3),
+]
+
+
+def modi_werte(i):
+    w = {tok: farben[i][0] for tok, _, *farben, _ in MODI}
+    w.update({tok: wert for tok, wert, _, _ in KONSTANT})
+    return w
+
+
+def modi_namen(i):
+    return {tok: farben[i][1] for tok, _, *farben, _ in MODI}
+
+
+def modi_kontrast():
+    """Kleinster Kontrast je geprüfter Rolle und Modus; Abbruch, wenn eine Paarung unter ihrem Minimum liegt."""
+    out, fehler = {}, []
+    for i, modus in ((0, 'hell'), (1, 'dunkel')):
+        w = modi_werte(i)
+        for tok, (flaechen, minimum) in MODI_PRUEFEN.items():
+            werte = [(ratio(w[tok], w[f]), f) for f in flaechen]
+            out[tok, i] = min(werte)[0]
+            fehler += [f'{tok} auf {f} ({modus}): {v:.2f}:1 < {minimum}' for v, f in werte if v < minimum]
+    w = modi_werte(0)
+    for vorn, hinten, minimum in KONSTANT_PRUEFEN:
+        v = ratio(w.get(vorn, vorn), w[hinten])
+        if v < minimum:
+            fehler.append(f'{vorn} auf {hinten}: {v:.2f}:1 < {minimum}')
+    if fehler:
+        raise SystemExit('Hell/Dunkel-Palette zu kontrastarm: ' + '; '.join(fehler))
+    return out
+
+
+def chip(hexwert, name, neu=False):
+    tag = ' <span class="chg new" style="margin-left:4px">Neu</span>' if neu else ''
+    return (f'<span class="m-chip" style="background:{hexwert}"></span>'
+            f'<span class="mono">{hexwert}</span><br><span class="small">{name}</span>{tag}')
+
+
+def modi_tabelle():
+    k = modi_kontrast()
+    zahl = lambda v: f'{v:.1f}'.replace('.', ',')
+    rows = ['<table class="t modi-t"><tr><th>Rolle · Token</th><th>Hell</th><th>Dunkel</th>'
+            '<th>Kontrast min.<br>hell · dunkel</th><th>Wofür</th></tr>']
+    for tok, rolle, (hh, hn), (dh, dn), wofuer in MODI:
+        kontrast = f'{zahl(k[tok, 0])} · {zahl(k[tok, 1])}' if (tok, 0) in k else '–'
+        rows.append(f'<tr><td><b>{rolle}</b><br><code>--{tok}</code></td><td>{chip(hh, hn, hn in NEU)}</td>'
+                    f'<td>{chip(dh, dn, dn in NEU)}</td><td>{kontrast}</td><td>{wofuer}</td></tr>')
+    rows.append('<tr><th colspan="5">In beiden Modi gleich</th></tr>')
+    for tok, wert, name, wofuer in KONSTANT:
+        rows.append(f'<tr><td><b>{name}</b><br><code>--{tok}</code></td><td colspan="2">{chip(wert, "hell und dunkel")}</td>'
+                    f'<td>–</td><td>{wofuer}</td></tr>')
+    rows.append('</table>')
+    return '\n'.join(rows)
+
+
+# ---- Code zum Kopieren (roh; wird beim Einsetzen HTML-maskiert) ----
+def css_block(paare, einzug):
+    return '\n'.join(f'{einzug}--{tok}: {wert};  /* {name} */' for tok, wert, name in paare)
+
+
+def modi_css():
+    konst = [(tok, wert, name) for tok, wert, name, _ in KONSTANT]
+    hell = [(tok, farben[0][0], farben[0][1]) for tok, _, *farben, _ in MODI]
+    dunkel = [(tok, farben[1][0], farben[1][1]) for tok, _, *farben, _ in MODI]
+    return f'''/* MakerSpace Bonn · Farben hell/dunkel · Styleguide 2026-11 */
+
+/* In beiden Modi gleich */
+:root {{
+{css_block(konst, '  ')}
+}}
+
+/* Hell (Standard) */
+:root {{
+  color-scheme: light;
+{css_block(hell, '  ')}
+}}
+
+/* Dunkel: folgt dem System, außer data-theme="light" erzwingt Hell */
+@media (prefers-color-scheme: dark) {{
+  :root:not([data-theme="light"]) {{
+    color-scheme: dark;
+{css_block(dunkel, '    ')}
+  }}
+}}
+:root[data-theme="dark"] {{
+  color-scheme: dark;
+{css_block(dunkel, '  ')}
+}}
+
+/* Anwenden */
+body {{ background: var(--hintergrund); color: var(--text); }}
+a {{ color: var(--text-gruen); text-decoration: underline; }}
+:focus-visible {{ outline: 3px solid var(--fokus); outline-offset: 2px; }}
+
+/* Logo tauschen: <img class="logo-hell" …> und <img class="logo-dunkel" …> */
+.logo-dunkel {{ display: none; }}
+@media (prefers-color-scheme: dark) {{
+  :root:not([data-theme="light"]) .logo-hell {{ display: none; }}
+  :root:not([data-theme="light"]) .logo-dunkel {{ display: block; }}
+}}
+:root[data-theme="dark"] .logo-hell {{ display: none; }}
+:root[data-theme="dark"] .logo-dunkel {{ display: block; }}'''
+
+
+def modi_meta():
+    return (f'<meta name="theme-color" content="{MODI[0][2][0]}" media="(prefers-color-scheme: light)">\n'
+            f'<meta name="theme-color" content="{MODI[0][3][0]}" media="(prefers-color-scheme: dark)">')
+
+
+MODI_UMSCHALTER = '''<!-- 1. Im <head>, vor dem CSS: gemerkte Wahl sofort setzen, sonst blitzt die Seite hell auf -->
+<script>try{var m=localStorage.getItem('darstellung');if(m==='light'||m==='dark')document.documentElement.dataset.theme=m}catch(e){}</script>
+
+<!-- 2. Der Knopf: drei Icons, z. B. Lucide "contrast", "sun", "moon" -->
+<button type="button" class="modus-schalter" data-modus="auto" aria-label="Darstellung: Auto (wie Gerät)">
+  <svg class="i-auto">…</svg><svg class="i-light">…</svg><svg class="i-dark">…</svg>
+</button>
+
+/* 3. CSS: nur das Icon für den aktuellen Zustand zeigen */
+.modus-schalter { width: 44px; height: 44px; display: grid; place-items: center;
+  border: 0; border-radius: 8px; background: none; color: var(--text); }
+.modus-schalter:hover { background: var(--fond); }
+.modus-schalter svg { display: none; width: 20px; height: 20px; }
+.modus-schalter[data-modus="auto"] .i-auto,
+.modus-schalter[data-modus="light"] .i-light,
+.modus-schalter[data-modus="dark"] .i-dark { display: block; }
+
+// 4. JS: jeder Klick schaltet weiter, Auto → Hell → Dunkel → Auto
+const MODI = ['auto', 'light', 'dark'];
+const NAME = { auto: 'Auto (wie Gerät)', light: 'Hell', dark: 'Dunkel' };
+const knopf = document.querySelector('.modus-schalter');
+function setze(m) {
+  if (m === 'auto') delete document.documentElement.dataset.theme;
+  else document.documentElement.dataset.theme = m;
+  knopf.dataset.modus = m;
+  knopf.title = `Darstellung: ${NAME[m]}`;
+  knopf.setAttribute('aria-label', knopf.title);
+  try { localStorage.setItem('darstellung', m); } catch {}
+}
+knopf.addEventListener('click', () => setze(MODI[(MODI.indexOf(knopf.dataset.modus) + 1) % 3]));
+let gemerkt = 'auto';
+try { gemerkt = localStorage.getItem('darstellung') ?? 'auto'; } catch {}
+setze(MODI.includes(gemerkt) ? gemerkt : 'auto');'''
+
+MODI_SHADCN = '''/* shadcn/ui, z. B. Vereinssoftware: nach den Farben oben einfügen.
+   Gilt für beide Modi, weil jede Zeile auf eine Rolle zeigt. */
+:root {
+  --background: var(--hintergrund);
+  --foreground: var(--text);
+  --card: var(--flaeche);
+  --card-foreground: var(--text);
+  --popover: var(--flaeche);
+  --popover-foreground: var(--text);
+  --primary: var(--button);
+  --primary-foreground: var(--button-text);
+  --secondary: var(--fond);
+  --secondary-foreground: var(--text);
+  --muted: var(--fond);
+  --muted-foreground: var(--text-leise);
+  --accent: var(--fond);
+  --accent-foreground: var(--text);
+  --destructive: var(--text-rot);
+  --border: var(--linie);
+  --input: var(--text-leise);
+  --ring: var(--fokus);
+  --sidebar: var(--gruen-900);
+  --sidebar-foreground: var(--kreide);
+  --sidebar-primary: var(--marke);
+  --sidebar-primary-foreground: var(--tinte);
+  --sidebar-accent: var(--gruen-800);
+  --sidebar-accent-foreground: var(--kreide);
+  --sidebar-border: var(--gruen-800);
+  --sidebar-ring: var(--gruen-300);
+  /* Status-Pills der Vereinssoftware */
+  --success: var(--text-gruen);
+  --success-strong: var(--text-gruen);
+  --success-surface: var(--fond-gruen);
+  --warning: var(--text-gelb);
+  --warning-surface: var(--fond-gelb);
+}'''
+
+
+# ---- Vorschauen: gleiches HTML, nur die Tokens wechseln ----
+LOGO = ('logo-h-ohne-claim-farbe', 'logo-h-ohne-claim-negativ')
+MODUS = ('Hell', 'Dunkel')
+ICON = {
+    'suche': '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
+    'haus': '<path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/>',
+    'leute': '<circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6M16 4a4 4 0 0 1 0 8M22 21c0-3-1.5-5-4-5.6"/>',
+    'geld': '<rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/>',
+    'regler': '<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>',
+    'menue': '<path d="M4 6h16M4 12h16M4 18h16"/>',
+    'auto': '<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/>',
+    'hell': '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+    'dunkel': '<path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a6.5 6.5 0 0 0 11 11z"/>',
+}
+
+
+def icon(name, klasse=''):
+    k = f' class="{klasse}"' if klasse else ''
+    return f'<svg viewBox="0 0 24 24" aria-hidden="true"{k}>{ICON[name]}</svg>'
+
+
+def paar(inhalt, klasse=''):
+    return ''.join(f'<div class="modus {MODUS[i].lower()} {klasse}" style="{";".join(f"--{t}:{v}" for t, v in modi_werte(i).items())}">'
+                   f'<span class="m-modus mono">{MODUS[i]}</span>{inhalt(i)}</div>' for i in (0, 1))
+
+
+def vorschau_inhalt(i):
+    return '''<div class="tape" style="height:8px"></div>
+      <div class="m-body">
+        <span class="m-sticker">Heute<br>offen!</span>
+        <span class="label m-label">Repair Café</span>
+        <div class="m-h">Kaputt? Wir reparieren das zusammen.</div>
+        <p>Bring mit, was nicht mehr geht. Werkzeug und Leute mit Erfahrung sind da. <a href="#modi">Termine im Wiki</a></p>
+        <p class="m-leise">Montag ab 18 Uhr · Kennedyallee 18</p>
+        <div class="m-karte"><span class="m-tag-gruen">Anfänger:innen</span><span class="m-button">→ Anmelden</span></div>
+        <div class="m-fond"><b>Gut zu wissen:</b> Laser und CNC nur nach Einweisung.<br><span class="m-rot">Schutzbrille tragen.</span></div>
+      </div>'''
+
+
+def vorschau_ebenen(i):
+    n = modi_namen(i)
+    return f'''<div class="m-ebene0"><span class="m-eb">0 · Hintergrund · {n['hintergrund']}</span>
+        <div class="m-ebene1"><span class="m-eb">1 · Fläche · {n['flaeche']} · Linie · {n['linie']}</span>
+          <div class="m-ebene2"><span class="m-eb">2 · Fond · {n['fond']}</span></div>
+        </div>
+      </div>'''
+
+
+def vorschau_app(i):
+    def punkt(ic, text, extra='', aktiv=False):
+        return (f'<span class="app-punkt{" aktiv" if aktiv else ""}">{icon(ic)}<span class="app-l">{text}</span>{extra}</span>')
+
+    def zeile(nr, name, status, beitrag, zustand=''):
+        return (f'<tr class="{zustand}"><td class="app-opt app-num">{nr}</td><td>{name}</td><td>{status}</td>'
+                f'<td class="app-opt app-zahl">{beitrag}</td></tr>')
+
+    def pill(art, text):
+        return f'<span class="app-pill {art}"><i aria-hidden="true"></i>{text}</span>'
+
+    modus = ('light', 'dark')[i]
+    return f'''<div class="app">
+        <aside class="app-seite">
+          <img src="{{{{{LOGO[1]}}}}}" alt="" class="app-logo">
+          <span class="app-burger">{icon('menue')}</span>
+          <span class="app-suche">{icon('suche')}<span class="app-l">Suchen</span><kbd class="app-l">⌘K</kbd></span>
+          <span class="app-gruppe">Verwaltung</span>
+          {punkt('haus', 'Start')}
+          {punkt('leute', 'Mitglieder', aktiv=True)}
+          {punkt('geld', 'Beiträge', '<span class="app-zahlmarke">3</span>')}
+          {punkt('regler', 'Einstellungen')}
+        </aside>
+        <div class="app-haupt">
+          <div class="app-kopf">
+            <span class="app-pfad">Mitglieder <span aria-hidden="true">›</span> Übersicht</span>
+            <button type="button" class="app-schalter" data-modus="{modus}" aria-label="Darstellung: {MODUS[i]}" title="Darstellung: {MODUS[i]}">{icon('auto', 'i-auto')}{icon('hell', 'i-light')}{icon('dunkel', 'i-dark')}</button>
+            <span class="app-profil" aria-hidden="true">AB</span>
+          </div>
+          <div class="app-inhalt">
+            <div class="app-titel"><span class="app-h">Mitglieder</span>
+              <span class="app-knoepfe"><span class="app-btn zweit">Export</span><span class="app-btn haupt">+ Mitglied</span></span></div>
+            <div class="m-feld">{icon('suche')}<span>Name oder Nummer</span></div>
+            <div class="app-tabelle-rahmen"><table class="app-tabelle">
+              <tr><th class="app-opt">Nr.</th><th>Name</th><th>Status</th><th class="app-opt app-zahl">Beitrag</th></tr>
+              {zeile('2001', 'Alex Beispiel', pill('ok', 'Aktiv'), '20,00 €')}
+              {zeile('2002', 'Kim Muster', pill('achtung', 'Ruhend'), '0,00 €', 'hover')}
+              {zeile('2003', 'Sam Probe', pill('problem', 'Lastschrift offen'), '20,00 €', 'gewaehlt')}
+              {zeile('2004', 'Robin Test', pill('neutral', 'Ausgetreten'), '–')}
+            </table></div>
+          </div>
+        </div>
+      </div>'''
+
+
+def vorschau_mint(i):
+    return '''<div class="m-body m-mint-body">
+        <div class="m-mint"><span class="m-violett">MINT</span> Löten für Kinder ab 10 · <a href="#modi" class="m-blau">mehr Infos</a></div>
+        <div class="m-violett-flaeche">MINT-Violett als Fläche bleibt gleich</div>
+      </div>'''
+
+
 html = (ROOT / 'src' / 'template.html').read_text().replace('{{matrix}}', matrix())
+for platzhalter, wert in {
+    'modi_tabelle': modi_tabelle(),
+    'modi_css': escape(modi_css(), quote=False), 'modi_meta': escape(modi_meta(), quote=False),
+    'modi_umschalter': escape(MODI_UMSCHALTER, quote=False), 'modi_shadcn': escape(MODI_SHADCN, quote=False),
+    'vorschau_inhalt': paar(vorschau_inhalt), 'vorschau_ebenen': paar(vorschau_ebenen),
+    'vorschau_app': paar(vorschau_app, 'app-modus'), 'vorschau_mint': paar(vorschau_mint, 'kompakt'),
+}.items():
+    html = html.replace('{{' + platzhalter + '}}', wert)
 for p in (ROOT / 'logos').glob('*.png'):
     html = html.replace('{{' + p.stem + '}}', 'data:image/png;base64,' + base64.b64encode(p.read_bytes()).decode())
 missing = [line.strip() for line in html.splitlines() if '{{' in line]

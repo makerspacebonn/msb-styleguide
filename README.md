@@ -14,7 +14,7 @@ Oben in der Navigation blendet der Schalter „Änderungen zeigen“ alle Hinwei
 | `styleguide-2026-11-entwurf.pdf` | Druckfassung (A4) |
 | `logos/` | Logo horizontal, vertikal, Cube – jeweils Farbe, Negativ, Weiß, Schwarz (PNG) |
 | `src/template.html` | Quelle des Styleguides – **hier bearbeiten** |
-| `src/build.py` | Baut `index.html` (Logos einbetten, Kontrasttabelle berechnen) |
+| `src/build.py` | Baut `index.html` (Logos einbetten, Kontrasttabelle berechnen, Hell/Dunkel-Palette erzeugen und prüfen; bricht ab, wenn eine Farbrolle unter den WCAG-Kontrast fällt) |
 | `src/extract_logos.py` | Schneidet die Logo-PNGs aus dem Original-PDF |
 
 ## Ändern

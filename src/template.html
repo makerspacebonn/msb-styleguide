@@ -69,7 +69,7 @@ li{margin:.2em 0}
 
 /* Karten / Raster */
 .grid{display:grid;gap:16px}
-.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(max(280px,calc(50% - 8px)),1fr))}
 .g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 .g4{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
 .card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:18px}
@@ -128,6 +128,100 @@ table.matrix td.ok{} table.matrix td.big{} table.matrix td.no{color:var(--stone)
 .cheat a{color:#fff}
 .cheat .grid > div{border-top:1px solid rgba(255,255,255,.2);padding-top:12px}
 
+/* Hell & Dunkel: Vorschau-Panels bekommen ihre Tokens per style-Attribut aus build.py */
+.modi{display:grid;grid-template-columns:repeat(auto-fit,minmax(max(300px,calc(50% - 8px)),1fr));gap:16px;margin:20px 0 8px}
+.modus{background:var(--hintergrund);color:var(--text);border:1px solid var(--linie);border-radius:8px;overflow:hidden;font-size:15px;line-height:1.55;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.m-modus{display:block;padding:7px 14px 6px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-leise);border-bottom:1px solid var(--linie)}
+.m-body{padding:18px;position:relative}
+.m-h{font-size:22px;font-weight:700;line-height:1.2;margin:12px 0 6px;max-width:calc(100% - 84px)}
+.modus p{margin:0 0 8px}
+.modus a{color:var(--text-gruen);text-decoration:underline;text-underline-offset:2px}
+.m-leise{color:var(--text-leise);font-size:14px}
+.label.m-label{background:var(--text);color:var(--flaeche);font-size:12px;padding:6px 9px 5px;box-shadow:none}
+.m-sticker{position:absolute;top:14px;right:16px;width:72px;height:72px;border-radius:50%;background:var(--orange);color:var(--tinte);display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;font-size:13px;line-height:1.1;transform:rotate(-8deg);box-shadow:3px 3px 0 var(--text)}
+.m-karte{background:var(--flaeche);border:1px solid var(--linie);border-radius:6px;padding:12px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin:14px 0 10px}
+.m-tag-gruen{background:var(--fond-gruen);color:var(--text);font-size:13px;font-weight:500;padding:3px 8px;border-radius:3px}
+.m-button{background:var(--button);color:var(--button-text);padding:7px 14px;border-radius:4px;font-weight:500}
+.m-fond{background:var(--fond);border-radius:6px;padding:10px 12px;font-size:14px}
+.m-rot{color:var(--text-rot);font-weight:700}
+.m-ebene0{padding:12px 14px 16px}
+.m-ebene1{background:var(--flaeche);border:1px solid var(--linie);border-radius:6px;padding:12px;margin-top:10px}
+.m-ebene2{background:var(--fond);border-radius:4px;padding:12px;margin-top:10px}
+.modus.hell .m-ebene1,.modus.hell .app-tabelle-rahmen{box-shadow:0 1px 1px rgba(30,28,25,.05),0 3px 10px -2px rgba(30,28,25,.09)}
+.m-eb{font:500 12px/1.45 "IBM Plex Mono",monospace;color:var(--text-leise)}
+.m-feld{display:flex;align-items:center;gap:8px;background:var(--flaeche);border:1px solid var(--text-leise);border-radius:6px;padding:7px 10px;color:var(--text-leise);font-size:14px}
+.m-feld svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.m-mint-body{display:grid;gap:10px}
+.m-mint{background:var(--fond-mint);border-left:4px solid var(--text-violett);border-radius:0 6px 6px 0;padding:10px 12px;font-size:14px}
+.m-violett{color:var(--text-violett);font-weight:700}
+.modus a.m-blau{color:var(--text-blau)}
+.m-violett-flaeche{background:var(--violett);color:#fff;padding:10px 12px;border-radius:6px;font-weight:500;font-size:14px}
+.m-chip{display:inline-block;width:18px;height:18px;border-radius:3px;border:1px solid rgba(30,28,25,.2);vertical-align:-4px;margin-right:6px}
+table.modi-t td{white-space:nowrap} table.modi-t td:last-child{white-space:normal}
+@media (max-width:600px){table.modi-t td{white-space:normal}}
+pre.code{background:var(--ink);color:#EDE8DE;border-radius:6px;padding:16px 18px;overflow-x:auto;font:13px/1.55 "IBM Plex Mono",monospace;max-width:820px}
+
+/* Anwendung (Muster wie die Vereinssoftware). Am Bildschirm ist nur der Modus sichtbar, den der Umschalter zeigt;
+   ohne JS und im Druck stehen beide untereinander. */
+.modi.app-demo{grid-template-columns:1fr}
+.app-demo[data-zeigt="hell"] .modus.dunkel,.app-demo[data-zeigt="dunkel"] .modus.hell{display:none}
+.app-demo[data-modus="auto"] .m-modus::after{content:" · Auto, wie Gerät"}
+.modus.app-modus{container-type:inline-size;font-size:14px;line-height:1.45}
+.app{display:grid;grid-template-columns:190px 1fr;min-height:330px}
+.app svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.app-seite{background:var(--gruen-900);color:var(--kreide);padding:14px 10px;display:flex;flex-direction:column;gap:2px}
+.app-logo{height:20px;width:auto;margin:2px 6px 14px;align-self:flex-start}
+.app-burger{display:none}
+.app-suche{display:flex;align-items:center;gap:8px;border:1px solid var(--gruen-800);border-radius:6px;padding:6px 8px;margin-bottom:12px}
+.app-suche kbd{margin-left:auto;font:500 11px "IBM Plex Mono",monospace;color:var(--gruen-300)}
+.app-gruppe{font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--gruen-300);padding:6px 8px}
+.app-punkt{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:6px;border-left:3px solid transparent}
+.app-punkt.aktiv{background:var(--gruen-800);border-left-color:var(--marke);font-weight:700}
+.app-zahlmarke{margin-left:auto;background:var(--gelb);color:var(--tinte);font-size:11px;font-weight:700;border-radius:999px;padding:0 7px}
+.app-haupt{min-width:0;display:flex;flex-direction:column}
+.app-kopf{display:flex;align-items:center;gap:6px;background:var(--flaeche);border-bottom:1px solid var(--linie);padding:4px 10px 4px 16px}
+.app-pfad{flex:1;color:var(--text-leise);font-size:13px}
+.app-schalter{width:44px;height:44px;display:grid;place-items:center;border:0;border-radius:8px;background:none;color:var(--text);cursor:pointer;padding:0}
+.app-schalter:hover{background:var(--fond)}
+.app-schalter:focus-visible{outline:3px solid var(--fokus);outline-offset:2px}
+.app-schalter svg{display:none;width:20px;height:20px}
+.app-schalter[data-modus="auto"] .i-auto,.app-schalter[data-modus="light"] .i-light,.app-schalter[data-modus="dark"] .i-dark{display:block}
+.app-profil{width:30px;height:30px;border-radius:50%;background:var(--fond-gruen);color:var(--text-gruen);display:grid;place-items:center;font-size:12px;font-weight:700}
+.app-inhalt{padding:16px;display:grid;gap:12px;align-content:start}
+.app-titel{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.app-h{font-size:20px;font-weight:700}
+.app-knoepfe{display:flex;gap:8px}
+.app-btn{padding:6px 12px;border-radius:6px;font-weight:500}
+.app-btn.haupt{background:var(--button);color:var(--button-text)}
+.app-btn.zweit{background:var(--fond);color:var(--text);border:1px solid var(--linie)}
+.app-tabelle-rahmen{background:var(--flaeche);border:1px solid var(--linie);border-radius:8px;overflow:hidden}
+table.app-tabelle{width:100%;border-collapse:collapse;font-size:13.5px}
+.app-tabelle th{background:var(--fond);text-align:left;font-weight:500;color:var(--text-leise);padding:7px 12px}
+.app-tabelle td{padding:8px 12px;border-top:1px solid var(--linie)}
+.app-tabelle .app-num{font-variant-numeric:tabular-nums}
+.app-tabelle .app-zahl{text-align:right;font-variant-numeric:tabular-nums}
+.app-tabelle tr.hover td{background:var(--fond)}
+.app-tabelle tr.gewaehlt td{background:var(--fond-gruen)}
+.app-tabelle tr.gewaehlt td:first-child{box-shadow:inset 4px 0 0 var(--text-gruen)}
+.app-pill{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.app-pill i{display:block;flex:none;font-style:normal}
+.app-pill.ok{background:var(--fond-gruen);color:var(--text-gruen)}
+.app-pill.ok i{width:7px;height:7px;border-radius:50%;background:currentColor}
+.app-pill.achtung{background:var(--fond-gelb);color:var(--text-gelb)}
+.app-pill.achtung i{width:7px;height:9px;border-left:2.5px solid currentColor;border-right:2.5px solid currentColor}
+.app-pill.problem{background:var(--fond-rot);color:var(--text-rot)}
+.app-pill.problem i::before{content:"!"}
+.app-pill.neutral{background:var(--flaeche);color:var(--text-leise);border:1px dashed var(--text-leise)}
+.app-pill.neutral i{width:8px;height:8px;border-radius:50%;border:1.5px solid currentColor}
+@container (max-width:620px){
+  .app{grid-template-columns:1fr;min-height:0}
+  .app-seite{flex-direction:row;align-items:center;justify-content:space-between;padding:10px 12px}
+  .app-logo{margin:0}
+  .app-burger{display:block}
+  .app-suche,.app-gruppe,.app-punkt{display:none}
+  .app-opt{display:none}
+}
+
 /* Typo-Muster */
 .typo-row{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:baseline;border-top:1px solid var(--line);padding:14px 0}
 @media (max-width:600px){.typo-row{grid-template-columns:1fr;gap:4px}}
@@ -146,7 +240,9 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
 @media print{
   nav.toc{display:none}
   section{break-before:page;padding-top:24px}
-  .card,.swatch,.diff,.do,.dont{break-inside:avoid}
+  .card,.swatch,.diff,.do,.dont,.modus{break-inside:avoid}
+  pre.code{white-space:pre-wrap;font-size:10px}
+  .app-demo .modus{display:block!important}
   body{background:#fff}
   .tablewrap{overflow:visible}
   table.t{min-width:0;width:100%;font-size:11px}
@@ -170,7 +266,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
 
 <nav class="toc" aria-label="Inhalt"><div class="wrap">
   <label class="switch"><input type="checkbox" id="chgToggle"> Änderungen zeigen</label>
-  <a href="#aenderungen" class="chg-block">Änderungen</a><a href="#schnellstart">Schnellstart</a><a href="#einleitung">Einleitung</a><a href="#marke">Marke</a><a href="#logo">Logo</a><a href="#claim">Claim & Name</a><a href="#farben">Farben</a><a href="#kombinationen">Kombinationen</a><a href="#material">Material</a><a href="#typo">Schrift</a><a href="#elemente">Maker-Elemente</a><a href="#schilder">Schilder</a><a href="#bilder">Bilder</a><a href="#sprache">Sprache</a><a href="#vorlagen">Vorlagen</a><a href="#pflege">Pflege</a>
+  <a href="#aenderungen" class="chg-block">Änderungen</a><a href="#schnellstart">Schnellstart</a><a href="#einleitung">Einleitung</a><a href="#marke">Marke</a><a href="#logo">Logo</a><a href="#claim">Claim & Name</a><a href="#farben">Farben</a><a href="#kombinationen">Kombinationen</a><a href="#modi">Hell &amp; Dunkel</a><a href="#material">Material</a><a href="#typo">Schrift</a><a href="#elemente">Maker-Elemente</a><a href="#schilder">Schilder</a><a href="#bilder">Bilder</a><a href="#sprache">Sprache</a><a href="#vorlagen">Vorlagen</a><a href="#pflege">Pflege</a>
 </div></nav>
 
 <main class="wrap">
@@ -194,6 +290,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
     <tr><td><a href="#farben">Farben</a></td><td><span class="chg mod">Geändert</span></td><td>Fond-Farben als feste Werte statt Transparenz (50 % / 10 %)</td><td>Transparenz lässt sich in Druck, Office und Canva nicht verlässlich nachbauen</td></tr>
     <tr><td><a href="#farben">Farben</a></td><td><span class="chg new">Neu</span></td><td>Grünskala, warme Neutraltöne (Tinte, Stein, Papier), Text-Blau, Maker-Orange, Sicherheitsrot</td><td>Volunteers brauchten bisher eigene Abstufungen; Fließtext hatte keine definierte Farbe</td></tr>
     <tr><td><a href="#kombinationen">Kombinationen</a></td><td><span class="chg new">Neu</span></td><td>Tabelle „welche Schrift auf welcher Farbe“ mit Kontrastwerten</td><td>Weiße Schrift auf Markengrün (z. B. die Download-Buttons im alten Guide) hat nur 2,69:1</td></tr>
+    <tr><td><a href="#modi">Hell &amp; Dunkel</a></td><td><span class="chg new">Neu</span></td><td>Farbrollen für Hell- und Dunkelmodus mit festen Gegenstücken, Ebenen, Muster für Anwendungen mit Status und Umschalter, Code zum Kopieren (CSS, Umschalter, shadcn/ui)</td><td>Viele Geräte stehen auf Dunkelmodus; dunkle Versionen von Webseite und Linkseite mussten bisher geraten werden</td></tr>
     <tr><td><a href="#logo">Logo</a></td><td><span class="chg new">Neu</span></td><td>Negativ-, Weiß- und Schwarz-Version, Hintergrundregeln, Logo-Don'ts</td><td>Für dunkle Flächen, Fotos, Laser, Stempel, Stick und Schwarz-Weiß-Druck gab es keine Vorgabe</td></tr>
     <tr><td><a href="#claim">Claim</a></td><td><span class="chg fix">Korrigiert</span></td><td>Einheitlich „Eine offene Werkstatt <b>für</b> Bonn. Für alle.“</td><td>Logo und Claim-Seite sagen „für“, die Beispielflyer „in“</td></tr>
     <tr><td><a href="#material">Material</a></td><td><span class="chg new">Neu</span></td><td>Farben und Logo auf Folie, Filament, Holz, Acryl, Stoff</td><td>Wir stellen viel selbst her; dafür gab es keine Regeln</td></tr>
@@ -410,9 +507,113 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
   </div>
 </section>
 
+<!-- ================= HELL & DUNKEL ================= -->
+<section id="modi">
+  <h2><span class="num">7</span>Hell &amp; Dunkel <span class="chg new">Neu</span></h2>
+  <p class="lead">Für Bildschirme, die zwischen Hell und Dunkel umschalten: Webseite, Linkseite und Anwendungen wie die Vereinssoftware. Jede Farbe hat ein festes Gegenstück im Dunkelmodus. So sieht eine Seite abends genauso nach MakerSpace aus wie tagsüber.</p>
+  <div class="diff new"><strong class="t">Warum neu?</strong>Viele Handys und Rechner stehen auf Dunkelmodus. Bisher gab es dafür keine Werte, wer eine dunkle Version gebaut hat, musste raten. Automatisches Invertieren macht aus Textgrün ein Lila und aus Creme ein kaltes Blauschwarz.</div>
+  <div class="modi">{{vorschau_inhalt}}</div>
+  <p class="small">Beide Seiten nutzen dasselbe HTML. Nur die Farb-Tokens aus der Tabelle unten wechseln.</p>
+
+  <h3>Das Prinzip</h3>
+  <div class="grid g2">
+    <div class="card"><h4>Die Marke bleibt gleich</h4>Markengrün, Gelb, Orange und MINT-Violett sehen als große Flächen in beiden Modi gleich aus, die Schrift darauf auch. Daran erkennt man uns, auch im Dunkeln.</div>
+    <div class="card"><h4>Neutraltöne bleiben warm</h4>Die dunklen Töne haben denselben warmen Farbton wie Tinte und Stein: Kohle, Werkbank, Kreide. Kein kaltes Blaugrau, kein reines Schwarz.</div>
+    <div class="card"><h4>Schrift wird heller, nicht bunter</h4>Grüne Schrift wechselt von Grün 600 auf Grün 300. Violett, Blau und Rot bekommen hellere Varianten für Schrift, schmale Balken und Icons. Die Flächen dahinter bleiben ruhig.</div>
+    <div class="card"><h4>Kreide statt Weiß</h4>Text im Dunkelmodus ist Kreide, ein warmes Off-White. Das blendet weniger als reines Weiß und ist auf allen dunklen Flächen trotzdem gut lesbar.</div>
+  </div>
+
+  <h3>Farben nach Rolle</h3>
+  <p>Gestaltet wird mit Rollen statt Farbnamen: „Text“ statt „Tinte“. Dann wechselt beim Umschalten alles von selbst. <b>Kontrast min.</b> ist die schwächste Paarung einer Rolle mit ihren Flächen: Schrift braucht mindestens 4,5:1, der Fokusring 3:1 (WCAG AA). Der Build bricht ab, wenn eine Paarung durchfällt.</p>
+  <div class="tablewrap">{{modi_tabelle}}</div>
+
+  <h3>Hintergrund &amp; Ebenen</h3>
+  <p>Drei Ebenen reichen für fast alles. Was weiter vorne liegt, hebt sich ab: im Hellen durch Linie und weichen Schatten, im Dunkeln durch Linie und Helligkeit. Im Dunkeln gilt: je weiter vorne, desto heller.</p>
+  <div class="modi">{{vorschau_ebenen}}</div>
+  <ul>
+    <li><b>Ebene 0 · Hintergrund:</b> die Seite selbst. Eine ruhige, einfarbige Fläche, nie reines Weiß oder Schwarz, kein Muster.</li>
+    <li><b>Ebene 1 · Fläche:</b> Karten, Tabellen, Kopfleiste, Eingabefelder. Immer mit Linie.</li>
+    <li><b>Ebene 2 · Fond:</b> Hover, Tabellenkopf, Zweitbuttons, Infokästen in einer Karte. Braucht keinen Rahmen.</li>
+    <li><b>Markenflächen</b> wie Kopf und Fuß in Grün 800/900 bleiben in beiden Modi gleich. Auf Kohle bekommen sie eine Linie, weil sich Grün 800 dort nur schwach abhebt.</li>
+    <li>Feste Farbwerte, keine Transparenz.</li>
+  </ul>
+
+  <h3>Anwendungen</h3>
+  <p>Für Programme wie die Vereinssoftware oder das Inventar: viel Information, wenig Deko. Die Seitenleiste trägt die Marke, der Inhalt bleibt ruhig.</p>
+  <div class="modi app-demo">{{vorschau_app}}</div>
+  <p class="small">Probier den Umschalter oben rechts aus: Jeder Klick schaltet weiter, Auto → Hell → Dunkel. Auto folgt der Einstellung des Geräts. Im Druck stehen beide Modi untereinander.</p>
+  <h4>Aufbau</h4>
+  <ul>
+    <li><b>Seitenleiste</b> in Grün 900, in beiden Modi gleich. Schrift Kreide, Gruppentitel Grün 300, Logo in der Negativ-Version. Aktiver Punkt: Grün 800 mit Balken in Markengrün und fetter Schrift.</li>
+    <li><b>Kopfleiste</b> auf Fläche mit Linie unten: links der Pfad, rechts der Umschalter und das Profil.</li>
+    <li><b>Inhalt</b> auf dem Hintergrund. Tabellen und Formulare liegen auf Fläche mit Linie, der Tabellenkopf auf Fond.</li>
+    <li>Ein Hauptbutton pro Ansicht. Weitere Buttons auf Fond mit Linie.</li>
+    <li>Mitgliedsnummern, Beträge und Daten mit gleich breiten Ziffern (<code>font-variant-numeric: tabular-nums</code>), Beträge rechtsbündig.</li>
+    <li>Auf dem Handy wird die Seitenleiste zur Kopfleiste in Grün 900 mit Menü-Symbol.</li>
+  </ul>
+  <h4>Status</h4>
+  <p>In Anwendungen bedeuten Grün, Gelb und Rot einen Status, keine Bereichsfarbe. Jeder Status hat ein Wort und eine eigene Form, damit er auch ohne Farbsehen klar ist.</p>
+  <div class="tablewrap"><table class="t">
+    <tr><th>Status</th><th>Fond</th><th>Schrift</th><th>Form</th><th>Beispiele</th></tr>
+    <tr><td>OK</td><td>Grüner Fond</td><td>Grüne Schrift</td><td>gefüllter Punkt</td><td>aktiv, bezahlt</td></tr>
+    <tr><td>Achtung</td><td>Gelber Fond</td><td>Gelbe Schrift</td><td>zwei Striche</td><td>ruhend, Entscheidung nötig</td></tr>
+    <tr><td>Problem</td><td>Roter Fond</td><td>Warnschrift</td><td>Ausrufezeichen</td><td>Lastschrift fehlgeschlagen</td></tr>
+    <tr><td>Neutral</td><td>Fläche, gestrichelter Rahmen</td><td>Text leise</td><td>Ring</td><td>ausgetreten, Entwurf</td></tr>
+  </table></div>
+  <h4>Zustände</h4>
+  <div class="tablewrap"><table class="t">
+    <tr><th>Zustand</th><th>Seitenleiste</th><th>Tabelle und Listen</th><th>Zweites Merkmal</th></tr>
+    <tr><td>Hover</td><td>Grün 800</td><td>Fond</td><td>–</td></tr>
+    <tr><td>Fokus</td><td>Ring in Grün 300</td><td>Ring in Fokus</td><td>3 px Ring, 2 px Abstand</td></tr>
+    <tr><td>Aktiv, ausgewählt</td><td>Grün 800, Balken Markengrün</td><td>Grüner Fond, Balken Grüne Schrift</td><td>Balken links, im Menü fett</td></tr>
+    <tr><td>Deaktiviert</td><td>Schrift Stein hell</td><td>Text leise auf Fond</td><td>Grund dazuschreiben („Ausgebucht“)</td></tr>
+  </table></div>
+  <p class="small">Eingabefelder bekommen einen Rahmen in Text leise, nicht in Linie: Ein Feld muss als Feld erkennbar sein (mindestens 3:1).</p>
+  <h4>Umschalter</h4>
+  <ul>
+    <li>Ein Icon-Button oben rechts in der Kopfleiste, kein Menü und kein Schieberegler. Klickfläche mindestens 44 × 44 px.</li>
+    <li>Das Icon zeigt den <b>aktuellen</b> Zustand: halber Kreis = Auto (wie Gerät), Sonne = Hell, Mond = Dunkel.</li>
+    <li>Jeder Klick schaltet weiter: Auto → Hell → Dunkel → Auto. Auto ist der Standard.</li>
+    <li>Tooltip und Screenreader nennen den Zustand, z. B. „Darstellung: Dunkel“.</li>
+    <li>Die Wahl im Browser merken und schon im <code>&lt;head&gt;</code> setzen, sonst blitzt die Seite beim Laden hell auf. Code unten.</li>
+  </ul>
+
+  <h3>MINT im Dunkeln</h3>
+  <div class="modi">{{vorschau_mint}}</div>
+  <p>Große violette Flächen mit weißer Schrift bleiben MINT-Violett. Schmale Balken, Linien, Icons und Schrift werden im Dunkeln Violett hell, sonst verschwinden sie auf Kohle.</p>
+
+  <h3>Beim Umschalten</h3>
+  <div class="grid g2">
+    <div class="do"><b>So</b>Im Dunkelmodus das Logo in der Negativ-Version.</div>
+    <div class="dont"><b>Nicht so</b>Das Farb-Logo auf Kohle: Der dunkle Schriftzug verschwindet.</div>
+    <div class="do"><b>So</b>Tiefe über Ebenen und Linien, wie oben gezeigt.</div>
+    <div class="dont"><b>Nicht so</b>Weiche Schatten im Dunkelmodus. Auf Kohle sind sie unsichtbar und machen Flächen schmutzig.</div>
+    <div class="do"><b>So</b>Harte Kanten umdrehen: Sticker-Schatten, Labelstreifen und KI-Label im Dunkeln in Kreide statt Tinte oder Weiß.</div>
+    <div class="dont"><b>Nicht so</b>Farben per Filter oder „Invertieren“ umrechnen lassen.</div>
+    <div class="do"><b>So</b>Links immer unterstreichen. Grün 300 hebt sich von Kreide kaum ab.</div>
+    <div class="dont"><b>Nicht so</b>Links nur an der Farbe erkennbar machen.</div>
+    <div class="do"><b>So</b>Icons mit Bedeutung in Grüne Schrift. Deko-Icons gerne in Markengrün.</div>
+    <div class="dont"><b>Nicht so</b>Markengrün für den Dunkelmodus aufhellen oder abdunkeln.</div>
+    <div class="do"><b>So</b>Fotos unverändert lassen. Die weiße Logo-Fahne auf Fotos bleibt weiß.</div>
+    <div class="dont"><b>Nicht so</b>Kohle, Werkbank und Kreide für Druck oder Social-Media-Posts. Dort gelten die <a href="#farben">Farben</a> aus Abschnitt 5, dunkle Posts in Grün 900 oder Tinte.</div>
+  </div>
+
+  <h3>Zum Kopieren</h3>
+  <h4>Farben (CSS)</h4>
+  <p>Für Webseiten und Anwendungen. Folgt der Systemeinstellung. Mit <code>data-theme="light"</code> oder <code>data-theme="dark"</code> am <code>&lt;html&gt;</code>-Element lässt sich ein Modus erzwingen, z. B. über den Umschalter.</p>
+  <pre class="code">{{modi_css}}</pre>
+  <p>Für die Browserleiste auf dem Handy zusätzlich im <code>&lt;head&gt;</code>:</p>
+  <pre class="code">{{modi_meta}}</pre>
+  <h4>Umschalter</h4>
+  <pre class="code">{{modi_umschalter}}</pre>
+  <h4>shadcn/ui (Vereinssoftware)</h4>
+  <p>Ordnet die Rollen den Variablen von shadcn/ui zu. Ersetzt dort die festen Farbwerte im <code>:root</code>-Block.</p>
+  <pre class="code">{{modi_shadcn}}</pre>
+</section>
+
 <!-- ================= MATERIAL ================= -->
 <section id="material">
-  <h2><span class="num">7</span>Farbe &amp; Logo auf echtem Material <span class="chg new">Neu</span></h2>
+  <h2><span class="num">8</span>Farbe &amp; Logo auf echtem Material <span class="chg new">Neu</span></h2>
   <p class="lead">Wir drucken nicht nur Flyer, wir plotten, lasern, sticken und drucken in 3D. Hier steht, wie die Marke auf Material aussieht.</p>
   <div class="diff new"><strong class="t">Status</strong>Die Werte unten sind Näherungen und <b>Vorschläge</b>. Bitte einmal mit Farbfächer bzw. Musterbuch abgleichen und die gefundenen Produktnummern hier eintragen. Das ist ein gutes Mitmach-Projekt.</div>
   <div class="tablewrap"><table class="t">
@@ -429,7 +630,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
 
 <!-- ================= TYPO ================= -->
 <section id="typo">
-  <h2><span class="num">8</span>Schrift</h2>
+  <h2><span class="num">9</span>Schrift</h2>
   <div class="diff mod"><strong class="t">Was ist anders?</strong>
     <ul><li><b>Neu:</b> Größenskala und Mindestgrößen. Bisher gab es nur die Schnitte.</li>
     <li><b>Geändert:</b> Fließtext in <b>IBM Plex Sans Regular</b> statt Light. Light bleibt erlaubt für große Einleitungstexte, ist aber bei kleinen Größen, auf Creme und im Kopierer zu dünn.</li>
@@ -455,7 +656,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
 
 <!-- ================= MAKER-ELEMENTE ================= -->
 <section id="elemente">
-  <h2><span class="num">9</span>Maker-Elemente <span class="chg new">Neu</span></h2>
+  <h2><span class="num">10</span>Maker-Elemente <span class="chg new">Neu</span></h2>
   <p class="lead">Wir sind eine Werkstatt, kein Konzern. Diese Elemente bringen Werkstatt-Charakter in die Gestaltung. Logo, Grün und Schrift bleiben dabei fest; nur die Elemente drumherum dürfen spielen.</p>
   <div class="grid g2">
     <div class="card">
@@ -493,7 +694,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
 
 <!-- ================= SCHILDER ================= -->
 <section id="schilder">
-  <h2><span class="num">10</span>Schilder &amp; Leitsystem <span class="chg new">Neu</span></h2>
+  <h2><span class="num">11</span>Schilder &amp; Leitsystem <span class="chg new">Neu</span></h2>
   <p class="lead">Raumgestaltung und Leitsysteme standen im Geltungsbereich, waren aber nicht geregelt. Vorschlag: so einfach wie möglich.</p>
   <div class="grid g3">
     <div class="card" style="background:var(--gruen-800);color:#fff;border:0">
@@ -528,7 +729,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
 
 <!-- ================= BILDER ================= -->
 <section id="bilder">
-  <h2><span class="num">11</span>Bildsprache <span class="chg mod">Geändert</span></h2>
+  <h2><span class="num">12</span>Bildsprache <span class="chg mod">Geändert</span></h2>
   <div class="diff"><strong class="t">Was ist anders?</strong>Inhalt übernommen und zusammengefasst, Tippfehler korrigiert. Die Beispielfotos stehen im Original-Guide (S. 24–30). <span class="chg mod">Geändert</span> KI-Bilder sind nicht mehr ausgeschlossen, echte Fotos haben aber Vorrang (siehe unten).</div>
   <p class="lead">Unsere Fotos zeigen echte Menschen beim Machen, inklusive Fehlversuchen. Dokumentarisch, warm, nahbar.</p>
   <h3>Die 4 P's als Checkliste</h3>
@@ -568,7 +769,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
 
 <!-- ================= SPRACHE ================= -->
 <section id="sprache">
-  <h2><span class="num">12</span>Sprache <span class="chg mod">Geändert</span></h2>
+  <h2><span class="num">13</span>Sprache <span class="chg mod">Geändert</span></h2>
   <div class="diff mod"><strong class="t">Was ist anders?</strong>Inhalt übernommen, gekürzt und um Vorher/Nachher-Beispiele ergänzt <span class="chg new">Neu</span>. Beispiele erklären schneller als Regeln.</div>
   <p class="lead">Wir schreiben, wie wir miteinander reden: klar, nahbar, auf Augenhöhe. Nicht bürokratisch, nicht werblich überhöht, nicht exklusiv.</p>
   <ul>
@@ -600,7 +801,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
 
 <!-- ================= VORLAGEN ================= -->
 <section id="vorlagen">
-  <h2><span class="num">13</span>Vorlagen &amp; Downloads <span class="chg new">Neu</span></h2>
+  <h2><span class="num">14</span>Vorlagen &amp; Downloads <span class="chg new">Neu</span></h2>
   <p class="lead">Die meisten Leute gestalten nicht nach Regeln, sondern ändern eine Vorlage. Gute Vorlagen sind darum der wichtigste Teil dieses Guides.</p>
   <div class="diff new"><strong class="t">Status</strong>Die Logo-Dateien liegen im Ordner <code>logos/</code> neben diesem Dokument (als PNG aus dem alten PDF extrahiert, für den Druck bitte durch die Vektor-Originale ersetzen). Die Vorlagen unten sind <b>geplant</b> und noch zu erstellen.</div>
   <div class="tablewrap"><table class="t">
@@ -614,13 +815,13 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
     <tr><td>Geräte- und Bereichsschild</td><td>A5, A4</td><td>Canva, Inkscape (auch für Laser)</td><td>geplant</td></tr>
     <tr><td>Briefpapier, Beitrittserklärung</td><td>A4, DIN 5008</td><td>Word/LibreOffice</td><td>vorhanden (Original S. 34–35)</td></tr>
     <tr><td>Visitenkarte</td><td>85×55 mm</td><td>Canva, InDesign</td><td>vorhanden (Original S. 34)</td></tr>
-    <tr><td>Farbpalette</td><td>ASE, Canva Brand Kit, CSS</td><td>–</td><td>geplant</td></tr>
+    <tr><td>Farbpalette</td><td>ASE, Canva Brand Kit, CSS</td><td>–</td><td>CSS hell/dunkel vorhanden (<a href="#modi">Hell &amp; Dunkel</a>), ASE und Canva geplant</td></tr>
   </table></div>
 </section>
 
 <!-- ================= PFLEGE ================= -->
 <section id="pflege">
-  <h2><span class="num">14</span>Pflege &amp; Mitmachen <span class="chg new">Neu</span></h2>
+  <h2><span class="num">15</span>Pflege &amp; Mitmachen <span class="chg new">Neu</span></h2>
   <p class="lead">Der Guide ist ein lebendes Dokument. Damit das klappt, braucht er eine zuständige Stelle und einen Ort für Vorschläge.</p>
   <ul>
     <li><b>Zuständig:</b> Medienteam. Kontakt: <i>[Ansprechperson / Kanal eintragen]</i></li>
@@ -633,7 +834,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
   <div class="tablewrap"><table class="t">
     <tr><th>Version</th><th>Was</th></tr>
     <tr><td>2026-02-15</td><td>Erste veröffentlichte Fassung (Medienteam)</td></tr>
-    <tr><td>2026-11 (Entwurf)</td><td>Farbkorrekturen, neues Textgrün, feste Fond-Werte, Kombinationstabelle, Logo-Varianten und Don'ts, Material, Schriftgrößen, Maker-Elemente, Schilder, KI-Bild-Regel, Vorlagenliste, Kürzungen. Siehe <a href="#aenderungen">Übersicht</a>.</td></tr>
+    <tr><td>2026-11 (Entwurf)</td><td>Farbkorrekturen, neues Textgrün, feste Fond-Werte, Kombinationstabelle, Logo-Varianten und Don'ts, Hell/Dunkel-Palette, Material, Schriftgrößen, Maker-Elemente, Schilder, KI-Bild-Regel, Vorlagenliste, Kürzungen. Siehe <a href="#aenderungen">Übersicht</a>.</td></tr>
   </table></div>
 
   <h3 class="chg-block">Korrekturliste <span class="chg fix">Korrigiert</span></h3>
@@ -669,6 +870,26 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
   function apply(on){document.body.classList.toggle('clean',!on);t.checked=on}
   try{var v=localStorage.getItem(k);if(v!==null)apply(v==='1')}catch(e){}
   t.addEventListener('change',function(){apply(t.checked);try{localStorage.setItem(k,t.checked?'1':'0')}catch(e){}});
+})();
+(function(){
+  // Vorschau „Anwendungen“: Umschalter Auto → Hell → Dunkel, Auto folgt dem Gerät
+  var demo=document.querySelector('.app-demo');if(!demo)return;
+  var reihe=['auto','light','dark'],name={auto:'Auto (wie Gerät)',light:'Hell',dark:'Dunkel'};
+  var mq=window.matchMedia('(prefers-color-scheme: dark)');
+  function zeige(m){
+    demo.dataset.modus=m;
+    demo.dataset.zeigt=(m==='dark'||(m==='auto'&&mq.matches))?'dunkel':'hell';
+    demo.querySelectorAll('.app-schalter').forEach(function(b){
+      b.dataset.modus=m;b.title='Darstellung: '+name[m];b.setAttribute('aria-label',b.title);
+    });
+  }
+  demo.addEventListener('click',function(e){
+    if(!e.target.closest('.app-schalter'))return;
+    zeige(reihe[(reihe.indexOf(demo.dataset.modus)+1)%3]);
+    demo.querySelector('.modus.'+demo.dataset.zeigt+' .app-schalter').focus();
+  });
+  mq.addEventListener('change',function(){if(demo.dataset.modus==='auto')zeige('auto')});
+  zeige('auto');
 })();
 </script>
 </body>
