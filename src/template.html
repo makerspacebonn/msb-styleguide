@@ -149,7 +149,7 @@ table.matrix td.ok{} table.matrix td.big{} table.matrix td.no{color:var(--stone)
 .m-ebene2{background:var(--fond);border-radius:4px;padding:12px;margin-top:10px}
 .modus.hell .m-ebene1,.modus.hell .app-tabelle-rahmen{box-shadow:0 1px 1px rgba(30,28,25,.05),0 3px 10px -2px rgba(30,28,25,.09)}
 .m-eb{font:500 12px/1.45 "IBM Plex Mono",monospace;color:var(--text-leise)}
-.m-feld{display:flex;align-items:center;gap:8px;background:var(--flaeche);border:1px solid var(--text-leise);border-radius:6px;padding:7px 10px;color:var(--text-leise);font-size:14px}
+.m-feld{display:flex;align-items:center;gap:8px;background:var(--feld);border:1px solid var(--feld-rand);border-radius:6px;padding:7px 10px;color:var(--text-leise);font-size:14px}
 .m-feld svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
 .m-mint-body{display:grid;gap:10px}
 .m-mint{background:var(--fond-mint);border-left:4px solid var(--text-violett);border-radius:0 6px 6px 0;padding:10px 12px;font-size:14px}
@@ -160,6 +160,65 @@ table.matrix td.ok{} table.matrix td.big{} table.matrix td.no{color:var(--stone)
 table.modi-t td{white-space:nowrap} table.modi-t td:last-child{white-space:normal}
 @media (max-width:600px){table.modi-t td{white-space:normal}}
 pre.code{background:var(--ink);color:#EDE8DE;border-radius:6px;padding:16px 18px;overflow-x:auto;font:13px/1.55 "IBM Plex Mono",monospace;max-width:820px}
+
+/* Formulare (Vorschau in Hell & Dunkel). Präfix fm-, nur Rollen-Tokens */
+.modus.fm-modus{container-type:inline-size}
+.fm-body{padding:16px;display:grid;gap:12px}
+.fm-karte{background:var(--flaeche);border:1px solid var(--linie);border-radius:8px;padding:16px;display:grid;gap:14px;margin:0}
+.modus.hell .fm-karte{box-shadow:0 1px 1px rgba(30,28,25,.05),0 3px 10px -2px rgba(30,28,25,.09)}
+.fm-kopf{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.fm-h{font-size:18px;font-weight:700;line-height:1.2}
+.fm-legende{font-size:13px;color:var(--text-leise)}
+.fm-stern{color:var(--text-rot);font-weight:700;margin-left:2px}
+.fm-reihe{display:grid;gap:14px;align-items:start}
+@container (min-width:440px){.fm-reihe{grid-template-columns:1fr 1fr}}
+.fm-feld{display:grid;gap:5px;align-content:start;min-width:0}
+.fm-label{font-size:14px;font-weight:700;line-height:1.3;padding:0}
+.fm-ctl{position:relative;background:var(--feld);border:1px solid var(--feld-rand);border-radius:6px;min-width:0}
+.fm-in{display:block;width:100%;min-width:0;min-height:44px;margin:0;border:0;outline:0;background:transparent;color:var(--text);font:inherit;font-size:16px;padding:0 12px;border-radius:inherit}
+.fm-in::placeholder{color:var(--text-leise);opacity:1}
+select.fm-in{appearance:none;-webkit-appearance:none;cursor:pointer;text-overflow:ellipsis}
+select.fm-in option{background:var(--feld);color:var(--text)}
+.fm-ico-r .fm-in{padding-right:40px}
+.fm-ico{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;color:var(--text-leise)}
+.fm-feld:not(.fm-aus):not(.fm-ro) .fm-ctl:hover,.fm-hover .fm-ctl{border-color:var(--text-leise)}
+.fm-ctl:focus-within,.fm-fokus .fm-ctl{border-color:var(--fokus);outline:3px solid var(--fokus);outline-offset:2px}
+.fm-feld.fm-fehler .fm-ctl{border:2px solid var(--text-rot)}
+.fm-fehler .fm-in{padding-left:11px}
+.fm-fehler .fm-ico{color:var(--text-rot)}
+.fm-fehler .fm-ctl:focus-within{outline-color:var(--text-rot)}
+.fm-feld.fm-aus .fm-ctl{background:var(--feld-aus);border-color:var(--linie)}
+.fm-aus .fm-in{color:var(--text-leise);cursor:not-allowed}
+.fm-feld.fm-ro .fm-ctl{background:var(--hintergrund);border-style:dashed}
+.modus .fm-hilfe,.modus .fm-meldung{margin:0;font-size:13px;line-height:1.4}
+.fm-hilfe{color:var(--text-leise)}
+.fm-meldung{font-weight:700;color:var(--text-rot);display:flex;gap:5px;align-items:flex-start}
+.fm-meldung svg{flex:none;width:16px;height:16px;margin-top:1px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+.fm-gruppe{border:0;margin:0;padding:0;min-width:0}
+.fm-gruppe legend{margin-bottom:0}
+.fm-wahlen{display:flex;flex-wrap:wrap;gap:0 20px}
+.fm-wahl{display:flex;align-items:center;gap:10px;min-height:44px;cursor:pointer;font-size:15px}
+.fm-check,.fm-radio,.fm-switch{appearance:none;-webkit-appearance:none;flex:none;margin:0;display:grid;place-items:center;background:var(--feld);border:2px solid var(--feld-rand);cursor:inherit}
+.fm-check{width:22px;height:22px;border-radius:4px}
+.fm-check::before{content:"";width:12px;height:12px;background:var(--button-text);clip-path:polygon(14% 44%,0 62%,42% 100%,100% 18%,84% 4%,40% 70%);transform:scale(0)}
+.fm-radio{width:22px;height:22px;border-radius:50%}
+.fm-radio::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--button);transform:scale(0)}
+.fm-switch{width:44px;height:24px;border-radius:999px;justify-items:start;padding:0 2px}
+.fm-switch::before{content:"";width:16px;height:16px;border-radius:50%;background:var(--text-leise)}
+.fm-check:checked,.fm-switch:checked{background:var(--button);border-color:var(--button)}
+.fm-radio:checked{border-color:var(--button)}
+.fm-check:checked::before,.fm-radio:checked::before{transform:scale(1)}
+.fm-switch:checked::before{background:var(--button-text);transform:translateX(20px)}
+.fm-wahl:hover input:not(:checked){border-color:var(--text-leise)}
+.fm-check:focus-visible,.fm-radio:focus-visible,.fm-switch:focus-visible{outline:3px solid var(--fokus);outline-offset:2px}
+.fm-knoepfe{display:flex;flex-wrap:wrap;gap:8px}
+.fm-btn{min-height:44px;padding:0 18px;font:inherit;font-size:15px;font-weight:700;border-radius:6px;cursor:pointer;border:0}
+.fm-btn.haupt{background:var(--button);color:var(--button-text)}
+.fm-btn.haupt:hover{background:var(--button-hover)}
+.fm-btn.zweit{background:var(--fond);color:var(--text);border:1px solid var(--linie)}
+.fm-btn:focus-visible{outline:3px solid var(--fokus);outline-offset:2px}
+.fm-zt{font-size:14px;font-weight:700;margin-top:4px}
+.fm-zgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 
 /* Anwendung (Muster wie die Vereinssoftware). Am Bildschirm ist nur der Modus sichtbar, den der Umschalter zeigt;
    ohne JS und im Druck stehen beide untereinander. */
@@ -544,7 +603,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
   <div class="modi">{{vorschau_ebenen}}</div>
   <ul>
     <li><b>Ebene 0 · Hintergrund:</b> die Seite selbst. Eine ruhige, einfarbige Fläche, nie reines Weiß oder Schwarz, kein Muster.</li>
-    <li><b>Ebene 1 · Fläche:</b> Karten, Tabellen, Kopfleiste, Eingabefelder. Immer mit Linie.</li>
+    <li><b>Ebene 1 · Fläche:</b> Karten, Tabellen, Kopfleiste. Immer mit Linie. Eingabefelder haben eigene Rollen (Feld, Feld-Rand), siehe <a href="#formulare">Formulare</a>.</li>
     <li><b>Ebene 2 · Fond:</b> Hover, Tabellenkopf, Zweitbuttons, Infokästen in einer Karte. Braucht keinen Rahmen.</li>
     <li><b>Markenflächen</b> wie Kopf und Fuß in Grün 800/900 bleiben in beiden Modi gleich. Im Dunkeln tragen sie das Grün der Seite, weil die Ebenen selbst fast schwarz sind.</li>
     <li>Feste Farbwerte, keine Transparenz.</li>
@@ -580,7 +639,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
     <tr><td>Aktiv, ausgewählt</td><td>Fläche Markengrün, Schrift Tinte</td><td>Grüner Fond</td><td>Fette Schrift (Menü; Nr. und Name in der Tabelle)</td></tr>
     <tr><td>Deaktiviert</td><td>Schrift Salbei</td><td>Text leise auf Fond</td><td>Grund dazuschreiben („Ausgebucht“)</td></tr>
   </table></div>
-  <p class="small">Eingabefelder bekommen einen Rahmen in Text leise, nicht in Linie: Ein Feld muss als Feld erkennbar sein (mindestens 3:1).</p>
+  <p class="small">Eingabefelder bekommen einen Rand in Feld-Rand, nicht in Linie: Ein Feld muss als Feld erkennbar sein (mindestens 3:1). Mehr unter <a href="#formulare">Formulare</a>.</p>
   <h4>Umschalter</h4>
   <ul>
     <li>Ein Icon-Button oben rechts in der Kopfleiste, kein Menü und kein Schieberegler. Klickfläche mindestens 44 × 44 px.</li>
@@ -589,6 +648,26 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
     <li>Tooltip und Screenreader nennen den Zustand, z. B. „Darstellung: Dunkel“.</li>
     <li>Die Wahl im Browser merken und schon im <code>&lt;head&gt;</code> setzen, sonst blitzt die Seite beim Laden hell auf. Code unten.</li>
   </ul>
+
+  <h3 id="formulare">Formulare <span class="chg new">Neu</span></h3>
+  <p>Für Eingaben in Webseiten und Anwendungen. Das Feld ist ein Kasten auf Feld mit weichem Rand in Feld-Rand (Kiesel, im Dunkeln Flechte). Der Rand ist bewusst leiser als Text leise, erreicht aber 3:1 gegen Fläche und Hintergrund. Jeder Zustand bekommt ein zweites Merkmal neben der Farbe.</p>
+  <div class="modi">{{vorschau_formular}}</div>
+  <ul>
+    <li><b>Label</b> immer sichtbar über dem Feld. Der Placeholder ist nur ein Beispiel („z. B. 53175“), nie das Label.</li>
+    <li><b>Größe:</b> Felder und Buttons 44 px hoch, Schrift im Feld 16 px. Bei Checkbox, Radio und Schalter ist die ganze Zeile klickbar.</li>
+    <li><b>Rand</b> 1 px in Feld-Rand, unter Maus oder Finger Text leise.</li>
+    <li><b>Fokus:</b> 3-px-Ring in Fokus mit 2 px Abstand, wie überall.</li>
+    <li><b>Fehler:</b> 2-px-Rand in Warnschrift, Icon im Feld und ein Satz unter dem Feld, der sagt, was zu tun ist.</li>
+    <li><b>Pflichtfeld</b> mit * hinter dem Label und der Legende „* Pflichtfeld“ oben im Formular.</li>
+    <li><b>Deaktiviert:</b> Feld deaktiviert als Fläche, Schrift Text leise, Rand Linie. Den Grund dazuschreiben.</li>
+    <li><b>Schreibgeschützt:</b> gestrichelter Rand und Schloss. Der Wert bleibt gut lesbar und lässt sich kopieren.</li>
+  </ul>
+  <div class="grid g2">
+    <div class="do"><b>So</b>Label über dem Feld, Beispiel im Placeholder: „E-Mail“ und „z. B. alex@beispiel.de“.</div>
+    <div class="dont"><b>Nicht so</b>Nur ein Placeholder als Label. Beim Tippen verschwindet er, und keiner weiß mehr, was ins Feld gehört.</div>
+    <div class="do"><b>So</b>Fehler mit rotem Rand, Icon und Satz: „Die E-Mail braucht ein @“.</div>
+    <div class="dont"><b>Nicht so</b>Den Rand in Linie. Das wirkt weicher, aber mit 1,4:1 ist das Feld kaum als Feld zu erkennen.</div>
+  </div>
 
   <h3>MINT im Dunkeln</h3>
   <div class="modi">{{vorschau_mint}}</div>

@@ -64,11 +64,11 @@ def matrix():
 # (Token, Rolle, (HEX hell, Name hell), (HEX dunkel, Name dunkel), Wofür)
 MODI = [
     ('hintergrund', 'Hintergrund', ('#FBF8F2', 'Papier'), ('#0C1511', 'Tannennacht'), 'Ebene 0: Seitenhintergrund'),
-    ('flaeche', 'Fläche', ('#FFFFFF', 'Weiß'), ('#13201A', 'Tannenschwarz'), 'Ebene 1: Karten, Tabellen, Kopfleiste, Eingabefelder'),
+    ('flaeche', 'Fläche', ('#FFFFFF', 'Weiß'), ('#13201A', 'Tannenschwarz'), 'Ebene 1: Karten, Tabellen, Kopfleiste'),
     ('fond', 'Fond', ('#FAF2E4', 'Creme'), ('#213129', 'Tanne hell'), 'Ebene 2: Hover, Tabellenkopf, Zweitbuttons, Infokästen'),
-    ('linie', 'Linie', ('#E4DCCB', 'Linie'), ('#2A3C33', 'Tanne Linie'), 'Rahmen um Karten und Tabellen, Trenner. Nicht für Eingabefelder'),
+    ('linie', 'Linie', ('#E4DCCB', 'Linie'), ('#2A3C33', 'Tanne Linie'), 'Rahmen um Karten und Tabellen, Trenner. Nicht für Eingabefelder (dafür Feld-Rand)'),
     ('text', 'Text', ('#1E1C19', 'Tinte'), ('#EDE8DE', 'Kreide'), 'Fließtext, Überschriften, harter Sticker-Schatten'),
-    ('text-leise', 'Text leise', ('#5F5850', 'Stein'), ('#9BA6A0', 'Salbei'), 'Metadaten, Deaktiviertes, Rahmen von Eingabefeldern'),
+    ('text-leise', 'Text leise', ('#5F5850', 'Stein'), ('#9BA6A0', 'Salbei'), 'Metadaten, Deaktiviertes, Rand von Eingabefeldern unter Maus oder Finger'),
     ('text-gruen', 'Grüne Schrift', ('#33791A', 'Grün 600'), ('#9CD27D', 'Grün 300'), 'Links (immer unterstrichen), Status OK, Icons mit Bedeutung'),
     ('fokus', 'Fokus', ('#33791A', 'Grün 600'), ('#9CD27D', 'Grün 300'), 'Fokusring (Tastatur): 3 px, 2 px Abstand'),
     ('button', 'Button', ('#33791A', 'Grün 600'), ('#5EB130', 'Grün 500'), 'Hauptbutton, einer pro Ansicht'),
@@ -91,6 +91,9 @@ MODI = [
     ('leiste-aktiv', 'Leiste aktiv', ('#5EB130', 'Markengrün'), ('#5EB130', 'Markengrün'), 'Aktiver Menüpunkt: volle Fläche, kein Balken'),
     ('leiste-aktiv-text', 'Leiste aktiv Schrift', ('#1E1C19', 'Tinte'), ('#1E1C19', 'Tinte'), 'Schrift auf dem aktiven Punkt, fett'),
     ('leiste-fokus', 'Leiste Fokus', ('#5EB130', 'Markengrün'), ('#5EB130', 'Markengrün'), 'Fokusring in der Leiste'),
+    ('feld', 'Feld', ('#FFFFFF', 'Weiß'), ('#13201A', 'Tannenschwarz'), 'Hintergrund von Eingabefeldern'),
+    ('feld-rand', 'Feld-Rand', ('#948D81', 'Kiesel'), ('#606E67', 'Flechte'), 'Rand von Eingabefeldern, Checkbox, Radio, Schalter aus'),
+    ('feld-aus', 'Feld deaktiviert', ('#FAF2E4', 'Creme'), ('#213129', 'Tanne hell'), 'Deaktivierte Felder'),
 ]
 # In beiden Modi gleich: (Token, HEX, Name, Wofür)
 KONSTANT = [
@@ -105,19 +108,20 @@ KONSTANT = [
     ('rot', '#C62828', 'Sicherheitsrot', 'Warnflächen mit weißer Schrift'),
 ]
 NEU = {'Tannennacht', 'Tannenschwarz', 'Tanne hell', 'Tanne Linie', 'Tanne Feld', 'Salbei', 'Nebel', 'Kreide',
-       'MINT-Fond dunkel', 'Violett hell', 'Rot hell', 'Gelb-Fond', 'Gelb-Fond dunkel', 'Ocker', 'Rot-Fond', 'Rot-Fond dunkel'}
+       'MINT-Fond dunkel', 'Violett hell', 'Rot hell', 'Gelb-Fond', 'Gelb-Fond dunkel', 'Ocker', 'Rot-Fond', 'Rot-Fond dunkel', 'Kiesel', 'Flechte'}
 # Rolle -> (Flächen, Mindestkontrast). Schrift braucht 4,5:1, Fokus 3:1 (WCAG 1.4.3 / 1.4.11).
 # Gilt für beide Modi; der Build bricht ab, wenn eine Paarung durchfällt.
 MODI_PRUEFEN = {
-    'text': (['hintergrund', 'flaeche', 'fond', 'fond-gruen', 'fond-gelb', 'fond-rot', 'fond-mint'], 4.5),
-    'text-leise': (['hintergrund', 'flaeche', 'fond', 'fond-gruen', 'fond-mint'], 4.5),
+    'text': (['hintergrund', 'flaeche', 'fond', 'fond-gruen', 'fond-gelb', 'fond-rot', 'fond-mint', 'feld'], 4.5),
+    'text-leise': (['hintergrund', 'flaeche', 'fond', 'fond-gruen', 'fond-mint', 'feld'], 4.5),
+    'feld-rand': (['hintergrund', 'flaeche', 'feld'], 3),
     'text-gruen': (['hintergrund', 'flaeche', 'fond', 'fond-gruen'], 4.5),
     'button-text': (['button', 'button-hover'], 4.5),
     'text-gelb': (['hintergrund', 'flaeche', 'fond-gelb'], 4.5),
     'text-rot': (['hintergrund', 'flaeche', 'fond', 'fond-rot'], 4.5),
     'text-violett': (['hintergrund', 'flaeche', 'fond-mint'], 4.5),
     'text-blau': (['hintergrund', 'flaeche', 'fond-mint'], 4.5),
-    'fokus': (['hintergrund', 'flaeche', 'fond', 'fond-gruen'], 3),
+    'fokus': (['hintergrund', 'flaeche', 'fond', 'fond-gruen', 'feld'], 3),
     'leiste-text': (['leiste', 'leiste-hover', 'leiste-feld'], 4.5),
     'leiste-leise': (['leiste', 'leiste-feld'], 4.5),
     'leiste-aktiv-text': (['leiste-aktiv'], 4.5),
@@ -290,7 +294,7 @@ MODI_SHADCN = '''/* shadcn/ui, z. B. Vereinssoftware: nach den Farben oben einf�
   --accent-foreground: var(--text);
   --destructive: var(--text-rot);
   --border: var(--linie);
-  --input: var(--text-leise);
+  --input: var(--feld-rand);
   --ring: var(--fokus);
   --sidebar: var(--leiste);
   --sidebar-foreground: var(--leiste-text);
@@ -322,6 +326,9 @@ ICON = {
     'auto': '<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/>',
     'hell': '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
     'dunkel': '<path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a6.5 6.5 0 0 0 11 11z"/>',
+    'fehler': '<circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/>',
+    'schloss': '<rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+    'runter': '<path d="m6 9 6 6 6-6"/>',
 }
 
 
@@ -399,6 +406,86 @@ def vorschau_app(i):
             </table></div>
           </div>
         </div>
+      </div>'''
+
+
+def vorschau_formular(i):
+    """Formular „Mitglied anlegen“: gleiches HTML in beiden Modi, IDs je Modus eindeutig (paar() rendert zweimal)."""
+    p = f'fm{i}'
+    stern = '<span class="fm-stern" aria-hidden="true">*</span>'
+
+    def feld(name, label, wert='', *, typ='text', ph='', pflicht=False, zustand='', fehler='', hilfe='',
+             aus=False, ro=False, optionen=()):
+        fid = f'{p}-{name}'
+        attr = [f'id="{fid}"']
+        attr += ['required'] if pflicht else []
+        attr += ['disabled'] if aus else []
+        attr += ['readonly'] if ro else []
+        unten, besch, ic = '', [], ''
+        if fehler:
+            attr.append('aria-invalid="true"')
+            besch.append(f'{fid}-f')
+            unten += f'<p class="fm-meldung" id="{fid}-f">{icon("fehler")}<span>{fehler}</span></p>'
+            ic = icon('fehler', 'fm-ico')
+        elif ro:
+            ic = icon('schloss', 'fm-ico')
+        if hilfe:
+            besch.append(f'{fid}-h')
+            unten += f'<p class="fm-hilfe" id="{fid}-h">{hilfe}</p>'
+        if besch:
+            attr.append(f'aria-describedby="{" ".join(besch)}"')
+        a = ' '.join(attr)
+        if typ == 'select':
+            opts = ''.join(f'<option{" selected" if o == wert else ""}>{o}</option>' for o in optionen)
+            ctl, ic = f'<select class="fm-in" {a}>{opts}</select>', icon('runter', 'fm-ico')
+        else:
+            ph_attr = f' placeholder="{ph}"' if ph else ''
+            ctl = f'<input class="fm-in" type="{typ}" {a} value="{wert}"{ph_attr}>'
+        k = ' '.join(x for x in ['fm-feld', zustand, 'fm-fehler' if fehler else '', 'fm-aus' if aus else '',
+                                  'fm-ro' if ro else ''] if x)
+        return (f'<div class="{k}"><label class="fm-label" for="{fid}">{label}{stern if pflicht else ""}</label>'
+                f'<div class="fm-ctl{" fm-ico-r" if ic else ""}">{ctl}{ic}</div>{unten}</div>')
+
+    def wahl(name, text, art, an=False, wert='x'):
+        typ = 'radio' if art == 'radio' else 'checkbox'
+        rolle = ' role="switch"' if art == 'switch' else ''
+        return (f'<label class="fm-wahl" for="{p}-{name}-{wert}"><input type="{typ}" class="fm-{art}" id="{p}-{name}-{wert}" '
+                f'name="{p}-{name}" value="{wert}"{rolle}{" checked" if an else ""}><span>{text}</span></label>')
+
+    arten = ('Ordentlich · 20 € im Monat', 'Ermäßigt · 10 € im Monat', 'Fördermitglied · ab 5 € im Monat')
+    zustaende = ''.join([
+        feld('z-leer', 'Leer', ph='z. B. 53175'),
+        feld('z-voll', 'Ausgefüllt', '53175'),
+        feld('z-hover', 'Hover', '53175', zustand='fm-hover'),
+        feld('z-fokus', 'Fokus', '53175', zustand='fm-fokus'),
+        feld('z-fehler', 'Fehler', '5317', fehler='5 Ziffern nötig.'),
+        feld('z-aus', 'Deaktiviert', '53175', aus=True, hilfe='Nur der Vorstand.'),
+        feld('z-ro', 'Schreibgeschützt', '53175', ro=True),
+    ])
+    return f'''<div class="fm-body">
+        <form class="fm-karte" novalidate onsubmit="return false" aria-labelledby="{p}-titel">
+          <div class="fm-kopf"><span class="fm-h" id="{p}-titel">Mitglied anlegen</span><span class="fm-legende">{stern} Pflichtfeld</span></div>
+          <div class="fm-reihe">
+            {feld('name', 'Name', 'Alex Beispiel', pflicht=True, zustand='fm-hover')}
+            {feld('mail', 'E-Mail', 'alex.beispiel', typ='email', pflicht=True, fehler='Die E-Mail braucht ein @, z. B. alex@beispiel.de')}
+          </div>
+          <div class="fm-reihe">
+            {feld('art', 'Mitgliedsart', arten[0], typ='select', pflicht=True, optionen=arten, hilfe='Ermäßigt mit Nachweis.')}
+            {feld('eintritt', 'Eintritt am', '2026-12-01', typ='date', pflicht=True, zustand='fm-fokus')}
+          </div>
+          <div class="fm-reihe">
+            {feld('nr', 'Mitgliedsnummer', '2005', ro=True, hilfe='Wird beim Anlegen vergeben.')}
+            <fieldset class="fm-gruppe"><legend class="fm-label">Beitrag per{stern}</legend><div class="fm-wahlen">
+              {wahl('zahlung', 'Lastschrift', 'radio', True, 'ls')}{wahl('zahlung', 'Überweisung', 'radio', wert='ue')}</div></fieldset>
+          </div>
+          <div class="fm-wahlen">
+            {wahl('news', 'Newsletter per E-Mail', 'switch', True)}
+            {wahl('satzung', f'Satzung gelesen{stern}', 'check', True)}
+          </div>
+          <div class="fm-knoepfe"><button type="submit" class="fm-btn haupt">Mitglied anlegen</button><button type="button" class="fm-btn zweit">Abbrechen</button></div>
+        </form>
+        <span class="fm-zt">Ein Feld in allen Zuständen</span>
+        <div class="fm-zgrid">{zustaende}</div>
       </div>'''
 
 
@@ -488,7 +575,7 @@ def render(versionen):
         'modi_css': escape(modi_css(), quote=False), 'modi_meta': escape(modi_meta(), quote=False),
         'modi_umschalter': escape(MODI_UMSCHALTER, quote=False), 'modi_shadcn': escape(MODI_SHADCN, quote=False),
         'vorschau_inhalt': paar(vorschau_inhalt), 'vorschau_ebenen': paar(vorschau_ebenen),
-        'vorschau_app': paar(vorschau_app, 'app-modus'), 'vorschau_mint': paar(vorschau_mint, 'kompakt'),
+        'vorschau_app': paar(vorschau_app, 'app-modus'), 'vorschau_formular': paar(vorschau_formular, 'fm-modus'), 'vorschau_mint': paar(vorschau_mint, 'kompakt'),
         'version': escape(aktuell['version']), 'stand': stand(aktuell), 'stand_datum': stand(aktuell).split(',')[0],
         'protokoll': protokoll(versionen),
     }.items():

@@ -1,5 +1,11 @@
 [
   {
+    "version": "2026-11.9",
+    "zeit": "2026-11-21T00:28:23Z",
+    "was": "Formulare: Stil für Eingabefelder in Web und Apps, hell und dunkel, mit eigenem weicheren Feld-Rand (Kiesel/Flechte)",
+    "fingerabdruck": "9ca2e2fc733d"
+  },
+  {
     "version": "2026-11.8",
     "zeit": "2026-11-20T23:13:54Z",
     "was": "Dunkelmodus in Tanne: dunkle Ebenen und Seitenleiste im gedeckten Grün-Schwarz der Vereinssoftware, Seitenleiste mit eigenen Rollen je Modus, aktiver Menüpunkt als Markengrün-Fläche statt Balken, ausgewählte Tabellenzeile fett statt Balken",
