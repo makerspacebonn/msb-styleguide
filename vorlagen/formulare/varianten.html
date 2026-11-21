@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Formular-Stile</title>
+<meta name="description" content="Entwurf: drei Formular-Stile für Web und Apps von MakerSpace Bonn e.V., jeweils hell und dunkel.">
+<!-- Entwurfsseite. Farben: modi_css() und MODI aus src/build.py, per Skript eingebettet (nicht abtippen).
+     Kontraste: build.ratio. Schriften lokal wie in vorlagen/sticker: ../linkseite/fonts. -->
+<script>try{var m=localStorage.getItem('darstellung');if(m==='light'||m==='dark')document.documentElement.dataset.theme=m}catch(e){}</script>
+<style>
+/* MakerSpace Bonn · Farben hell/dunkel · Styleguide 2026-11 */
+
+/* In beiden Modi gleich */
+:root {
+  --marke: #5EB130;  /* Markengrün */
+  --tinte: #1E1C19;  /* Tinte */
+  --kreide: #EDE8DE;  /* Kreide */
+  --gruen-800: #325725;  /* Grün 800 */
+  --gruen-900: #1B3714;  /* Grün 900 */
+  --violett: #6D3E91;  /* MINT-Violett */
+  --gelb: #FCBD30;  /* Mitglieder-Gelb */
+  --orange: #F2711C;  /* Maker-Orange */
+  --rot: #C62828;  /* Sicherheitsrot */
+}
+
+/* Hell (Standard) */
+:root {
+  color-scheme: light;
+  --hintergrund: #FBF8F2;  /* Papier */
+  --flaeche: #FFFFFF;  /* Weiß */
+  --fond: #FAF2E4;  /* Creme */
+  --linie: #E4DCCB;  /* Linie */
+  --text: #1E1C19;  /* Tinte */
+  --text-leise: #5F5850;  /* Stein */
+  --text-gruen: #33791A;  /* Grün 600 */
+  --fokus: #33791A;  /* Grün 600 */
+  --button: #33791A;  /* Grün 600 */
+  --button-hover: #325725;  /* Grün 800 */
+  --button-text: #FFFFFF;  /* Weiß */
+  --fond-gruen: #F0F7EA;  /* Grün 50 */
+  --fond-gelb: #FDF3D7;  /* Gelb-Fond */
+  --text-gelb: #8A5A00;  /* Ocker */
+  --fond-rot: #FCEBE9;  /* Rot-Fond */
+  --text-rot: #C62828;  /* Sicherheitsrot */
+  --fond-mint: #E6F5FC;  /* MINT-Fond */
+  --text-violett: #6D3E91;  /* MINT-Violett */
+  --text-blau: #0070A8;  /* Textblau */
+  --leiste: #13201A;  /* Tannenschwarz */
+  --leiste-text: #D6E0DA;  /* Nebel */
+  --leiste-leise: #9BA6A0;  /* Salbei */
+  --leiste-feld: #1F2B26;  /* Tanne Feld */
+  --leiste-hover: #213129;  /* Tanne hell */
+  --leiste-linie: #2A3C33;  /* Tanne Linie */
+  --leiste-aktiv: #5EB130;  /* Markengrün */
+  --leiste-aktiv-text: #1E1C19;  /* Tinte */
+  --leiste-fokus: #5EB130;  /* Markengrün */
+}
+
+/* Dunkel: folgt dem System, außer data-theme="light" erzwingt Hell */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --hintergrund: #0C1511;  /* Tannennacht */
+    --flaeche: #13201A;  /* Tannenschwarz */
+    --fond: #213129;  /* Tanne hell */
+    --linie: #2A3C33;  /* Tanne Linie */
+    --text: #EDE8DE;  /* Kreide */
+    --text-leise: #9BA6A0;  /* Salbei */
+    --text-gruen: #9CD27D;  /* Grün 300 */
+    --fokus: #9CD27D;  /* Grün 300 */
+    --button: #5EB130;  /* Grün 500 */
+    --button-hover: #9CD27D;  /* Grün 300 */
+    --button-text: #1E1C19;  /* Tinte */
+    --fond-gruen: #1B3714;  /* Grün 900 */
+    --fond-gelb: #33280F;  /* Gelb-Fond dunkel */
+    --text-gelb: #FCBD30;  /* Mitglieder-Gelb */
+    --fond-rot: #3B1A17;  /* Rot-Fond dunkel */
+    --text-rot: #FF7B7B;  /* Rot hell */
+    --fond-mint: #152D37;  /* MINT-Fond dunkel */
+    --text-violett: #BC94DB;  /* Violett hell */
+    --text-blau: #009FE3;  /* MINT-Blau */
+    --leiste: #13201A;  /* Tannenschwarz */
+    --leiste-text: #D6E0DA;  /* Nebel */
+    --leiste-leise: #9BA6A0;  /* Salbei */
+    --leiste-feld: #1F2B26;  /* Tanne Feld */
+    --leiste-hover: #213129;  /* Tanne hell */
+    --leiste-linie: #2A3C33;  /* Tanne Linie */
+    --leiste-aktiv: #5EB130;  /* Markengrün */
+    --leiste-aktiv-text: #1E1C19;  /* Tinte */
+    --leiste-fokus: #5EB130;  /* Markengrün */
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --hintergrund: #0C1511;  /* Tannennacht */
+  --flaeche: #13201A;  /* Tannenschwarz */
+  --fond: #213129;  /* Tanne hell */
+  --linie: #2A3C33;  /* Tanne Linie */
+  --text: #EDE8DE;  /* Kreide */
+  --text-leise: #9BA6A0;  /* Salbei */
+  --text-gruen: #9CD27D;  /* Grün 300 */
+  --fokus: #9CD27D;  /* Grün 300 */
+  --button: #5EB130;  /* Grün 500 */
+  --button-hover: #9CD27D;  /* Grün 300 */
+  --button-text: #1E1C19;  /* Tinte */
+  --fond-gruen: #1B3714;  /* Grün 900 */
+  --fond-gelb: #33280F;  /* Gelb-Fond dunkel */
+  --text-gelb: #FCBD30;  /* Mitglieder-Gelb */
+  --fond-rot: #3B1A17;  /* Rot-Fond dunkel */
+  --text-rot: #FF7B7B;  /* Rot hell */
+  --fond-mint: #152D37;  /* MINT-Fond dunkel */
+  --text-violett: #BC94DB;  /* Violett hell */
+  --text-blau: #009FE3;  /* MINT-Blau */
+  --leiste: #13201A;  /* Tannenschwarz */
+  --leiste-text: #D6E0DA;  /* Nebel */
+  --leiste-leise: #9BA6A0;  /* Salbei */
+  --leiste-feld: #1F2B26;  /* Tanne Feld */
+  --leiste-hover: #213129;  /* Tanne hell */
+  --leiste-linie: #2A3C33;  /* Tanne Linie */
+  --leiste-aktiv: #5EB130;  /* Markengrün */
+  --leiste-aktiv-text: #1E1C19;  /* Tinte */
+  --leiste-fokus: #5EB130;  /* Markengrün */
+}
+
+/* Anwenden */
+body { background: var(--hintergrund); color: var(--text); }
+a { color: var(--text-gruen); text-decoration: underline; }
+:focus-visible { outline: 3px solid var(--fokus); outline-offset: 2px; }
+
+/* Logo tauschen: <img class="logo-hell" …> und <img class="logo-dunkel" …> */
+.logo-dunkel { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .logo-hell { display: none; }
+  :root:not([data-theme="light"]) .logo-dunkel { display: block; }
+}
+:root[data-theme="dark"] .logo-hell { display: none; }
+:root[data-theme="dark"] .logo-dunkel { display: block; }
+
+/* Panels: feste Modi, unabhängig vom Umschalter (aus build.MODI) */
+.modus.hell {
+  color-scheme: light;
+  --hintergrund: #FBF8F2;  /* Papier */
+  --flaeche: #FFFFFF;  /* Weiß */
+  --fond: #FAF2E4;  /* Creme */
+  --linie: #E4DCCB;  /* Linie */
+  --text: #1E1C19;  /* Tinte */
+  --text-leise: #5F5850;  /* Stein */
+  --text-gruen: #33791A;  /* Grün 600 */
+  --fokus: #33791A;  /* Grün 600 */
+  --button: #33791A;  /* Grün 600 */
+  --button-hover: #325725;  /* Grün 800 */
+  --button-text: #FFFFFF;  /* Weiß */
+  --fond-gruen: #F0F7EA;  /* Grün 50 */
+  --fond-gelb: #FDF3D7;  /* Gelb-Fond */
+  --text-gelb: #8A5A00;  /* Ocker */
+  --fond-rot: #FCEBE9;  /* Rot-Fond */
+  --text-rot: #C62828;  /* Sicherheitsrot */
+  --fond-mint: #E6F5FC;  /* MINT-Fond */
+  --text-violett: #6D3E91;  /* MINT-Violett */
+  --text-blau: #0070A8;  /* Textblau */
+  --leiste: #13201A;  /* Tannenschwarz */
+  --leiste-text: #D6E0DA;  /* Nebel */
+  --leiste-leise: #9BA6A0;  /* Salbei */
+  --leiste-feld: #1F2B26;  /* Tanne Feld */
+  --leiste-hover: #213129;  /* Tanne hell */
+  --leiste-linie: #2A3C33;  /* Tanne Linie */
+  --leiste-aktiv: #5EB130;  /* Markengrün */
+  --leiste-aktiv-text: #1E1C19;  /* Tinte */
+  --leiste-fokus: #5EB130;  /* Markengrün */
+}
+.modus.dunkel {
+  color-scheme: dark;
+  --hintergrund: #0C1511;  /* Tannennacht */
+  --flaeche: #13201A;  /* Tannenschwarz */
+  --fond: #213129;  /* Tanne hell */
+  --linie: #2A3C33;  /* Tanne Linie */
+  --text: #EDE8DE;  /* Kreide */
+  --text-leise: #9BA6A0;  /* Salbei */
+  --text-gruen: #9CD27D;  /* Grün 300 */
+  --fokus: #9CD27D;  /* Grün 300 */
+  --button: #5EB130;  /* Grün 500 */
+  --button-hover: #9CD27D;  /* Grün 300 */
+  --button-text: #1E1C19;  /* Tinte */
+  --fond-gruen: #1B3714;  /* Grün 900 */
+  --fond-gelb: #33280F;  /* Gelb-Fond dunkel */
+  --text-gelb: #FCBD30;  /* Mitglieder-Gelb */
+  --fond-rot: #3B1A17;  /* Rot-Fond dunkel */
+  --text-rot: #FF7B7B;  /* Rot hell */
+  --fond-mint: #152D37;  /* MINT-Fond dunkel */
+  --text-violett: #BC94DB;  /* Violett hell */
+  --text-blau: #009FE3;  /* MINT-Blau */
+  --leiste: #13201A;  /* Tannenschwarz */
+  --leiste-text: #D6E0DA;  /* Nebel */
+  --leiste-leise: #9BA6A0;  /* Salbei */
+  --leiste-feld: #1F2B26;  /* Tanne Feld */
+  --leiste-hover: #213129;  /* Tanne hell */
+  --leiste-linie: #2A3C33;  /* Tanne Linie */
+  --leiste-aktiv: #5EB130;  /* Markengrün */
+  --leiste-aktiv-text: #1E1C19;  /* Tinte */
+  --leiste-fokus: #5EB130;  /* Markengrün */
+}
+/* Vorschlag: neue Rolle Feld-Rand, nur in A benutzt */
+.modus.hell { --feld-rand: #948D81;  /* Kiesel */ }
+.modus.dunkel { --feld-rand: #606E67;  /* Flechte */ }
+
+@font-face { font-family: 'Plex Sans'; font-weight: 400; font-display: swap; src: url(../linkseite/fonts/ibm-plex-sans-latin-400-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Plex Sans'; font-weight: 700; font-display: swap; src: url(../linkseite/fonts/ibm-plex-sans-latin-700-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Plex Mono'; font-weight: 500; font-display: swap; src: url(../linkseite/fonts/ibm-plex-mono-latin-500-normal.woff2) format('woff2'); }
+* { box-sizing: border-box; }
+html { background: var(--hintergrund); }
+body { margin: 0; background: var(--hintergrund); color: var(--text); font: 400 16px/1.55 'Plex Sans', 'IBM Plex Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+code { font: 500 .86em 'Plex Mono', 'IBM Plex Mono', ui-monospace, monospace; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+@media (max-width: 600px) { .wrap { padding: 0 16px; } }
+
+/* Kopf: Markenfläche, in beiden Modi gleich */
+header.seite { background: var(--gruen-800); color: var(--kreide); }
+header.seite .wrap { padding-top: 40px; padding-bottom: 40px; display: grid; grid-template-columns: 1fr auto; gap: 20px 32px; align-items: start; }
+header.seite h1 { font-size: clamp(32px, 5.4vw, 52px); line-height: 1.04; margin: 0 0 12px; letter-spacing: -.01em; }
+header.seite p { margin: 0; max-width: 64ch; }
+header.seite a { color: var(--kreide); }
+.tape { height: 14px; background: repeating-linear-gradient(-45deg, var(--marke) 0 14px, var(--gruen-900) 14px 28px); }
+.schalter { width: 44px; height: 44px; display: grid; place-items: center; border: 0; border-radius: 8px; background: none; color: var(--kreide); cursor: pointer; padding: 0; }
+.schalter:hover { background: var(--gruen-900); }
+.schalter:focus-visible { outline: 3px solid var(--marke); outline-offset: 2px; }
+.schalter svg { display: none; width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.schalter[data-modus="auto"] .i-auto, .schalter[data-modus="light"] .i-light, .schalter[data-modus="dark"] .i-dark { display: block; }
+.schalter-wrap { display: flex; align-items: center; gap: 6px; font-size: 14px; }
+@media (max-width: 600px) { #modusName { display: none; } header.seite .wrap { gap: 12px; } .modus { padding: 12px; } .f-karte { padding: 16px; } }
+
+main { padding: 8px 0 72px; }
+.regeln { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px 28px; margin: 32px 0 8px; padding: 0; list-style: none; font-size: 15px; }
+.regeln li { border-top: 2px solid var(--text); padding-top: 8px; }
+.regeln b { display: block; }
+section.variante { padding: 56px 0 8px; border-bottom: 1px solid var(--linie); }
+.v-kopf { display: flex; gap: 18px; align-items: center; }
+.v-buchst { flex: none; width: 56px; height: 56px; display: grid; place-items: center; background: var(--text); color: var(--hintergrund); font: 500 30px/1 'Plex Mono', monospace; border-radius: 2px; }
+.v-kopf h2 { font-size: clamp(26px, 3.4vw, 34px); line-height: 1.1; margin: 0; }
+.v-kurz { margin: 4px 0 0; color: var(--text-leise); }
+.v-fakten { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 24px 0 8px; font-size: 15px; }
+.v-fakten h3 { font-size: 15px; margin: 0 0 4px; }
+.v-fakten p { margin: 0; max-width: 60ch; }
+@media (max-width: 860px) { .v-fakten { grid-template-columns: 1fr; gap: 14px; } }
+
+.modi { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0 12px; }
+@media (max-width: 980px) { .modi { grid-template-columns: 1fr; } }
+.modus { background: var(--hintergrund); color: var(--text); border: 1px solid var(--linie); border-radius: 8px; padding: 16px; min-width: 0; container-type: inline-size; position: relative; }
+.m-modus { display: inline-block; font: 500 12px/1 'Plex Mono', monospace; letter-spacing: .04em; background: var(--text); color: var(--hintergrund); padding: 5px 8px 4px; border-radius: 2px; margin-bottom: 12px; }
+body.nur-aktuell .modus.versteckt { display: none; }
+body.nur-aktuell .modi { grid-template-columns: 1fr; }
+
+/* Kontraste */
+.k-box { margin: 8px 0 16px; }
+.k-box summary { cursor: pointer; font-weight: 700; font-size: 15px; padding: 12px 0; }
+.k-wrap { overflow-x: auto; }
+.k-t { border-collapse: collapse; font-size: 14px; width: 100%; min-width: 0; }
+.k-t th, .k-t td { text-align: left; padding: 7px 10px; border-top: 1px solid var(--linie); vertical-align: middle; }
+.k-t th { color: var(--text-leise); font-weight: 400; }
+.k-w { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.k-chip { display: inline-grid; place-items: center; width: 30px; height: 22px; border-radius: 3px; font-weight: 700; font-size: 12px; margin-right: 8px; border: 1px solid var(--linie); vertical-align: middle; }
+.k-ok { color: var(--text-gruen); font-weight: 700; }
+@media (max-width: 700px) {
+  .k-t thead { display: none; }
+  .k-t tr { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--linie); padding: 6px 0; }
+  .k-t td { border: 0; padding: 3px 4px; }
+  .k-t td:nth-child(1) { grid-column: 1 / -1; font-weight: 700; }
+  .k-t td:nth-child(2) { grid-column: 1 / -1; color: var(--text-leise); }
+  .k-t td:nth-child(3) { grid-column: 1 / -1; }
+  .k-t td:nth-child(4)::before { content: 'Hell '; color: var(--text-leise); }
+  .k-t td:nth-child(5)::before { content: 'Dunkel '; color: var(--text-leise); }
+}
+
+/* Empfehlung */
+.empf { padding: 56px 0 0; }
+.empf h2 { font-size: clamp(26px, 3.4vw, 34px); margin: 0 0 12px; }
+.empf p, .empf li { max-width: 72ch; }
+.r-t { border-collapse: collapse; font-size: 15px; width: 100%; }
+.r-t th, .r-t td { text-align: left; padding: 8px 10px; border-top: 1px solid var(--linie); vertical-align: top; }
+.r-t th { color: var(--text-leise); font-weight: 400; }
+@media (max-width: 700px) { .r-t thead { display: none; } .r-t tr { display: block; border-top: 1px solid var(--linie); padding: 6px 0; } .r-t td { display: block; border: 0; padding: 2px 0; } }
+footer { color: var(--text-leise); font-size: 14px; padding: 40px 0; }
+
+/* ================= Formular: gemeinsames Gerüst ================= */
+.f-karte { background: var(--flaeche); border: 1px solid var(--linie); border-radius: 8px; padding: 20px; }
+.modus.hell .f-karte { box-shadow: 0 1px 1px rgba(30,28,25,.05), 0 3px 10px -2px rgba(30,28,25,.09); }
+.f-form { display: grid; gap: 18px; }
+.f-kopf { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.f-kopf h4 { margin: 0; font-size: 20px; line-height: 1.2; }
+.f-legende { margin: 0; font-size: 14px; color: var(--text-leise); }
+.f-pflicht { color: var(--text-rot); font-weight: 700; margin-left: 3px; }
+.f-reihe { display: grid; gap: 18px; align-items: start; }
+@container (min-width: 460px) { .f-reihe { grid-template-columns: 1fr 1fr; } .f-kurz { max-width: 50%; } }
+.f-feld { display: grid; gap: 6px; min-width: 0; align-content: start; }
+.f-box { display: grid; gap: 6px; min-width: 0; }
+.f-label { font-size: 14px; font-weight: 700; line-height: 1.3; padding: 0; }
+.f-ctl { position: relative; min-width: 0; }
+.f-in { display: block; width: 100%; min-width: 0; min-height: 44px; margin: 0; font: inherit; font-size: 16px; color: var(--text); background: transparent; border: 0; outline: 0; padding: 0 12px; border-radius: inherit; }
+.f-in::placeholder { color: var(--text-leise); opacity: 1; }
+textarea.f-in { padding-top: 10px; padding-bottom: 10px; resize: vertical; min-height: 88px; line-height: 1.5; }
+select.f-in { appearance: none; -webkit-appearance: none; padding-right: 40px; cursor: pointer; text-overflow: ellipsis; }
+select.f-in option { background: var(--flaeche); color: var(--text); }
+.hat-ico .f-in { padding-right: 40px; }
+input[type="date"].f-in { min-width: 0; }
+.f-ico { position: absolute; right: 12px; top: 50%; translate: 0 -50%; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; color: var(--text-leise); }
+.ist-fehler .f-ico { color: var(--text-rot); }
+.f-hilfe { margin: 0; font-size: 14px; color: var(--text-leise); line-height: 1.4; display: block; }
+.f-meldung { margin: 0; font-size: 14px; color: var(--text-rot); font-weight: 700; display: flex; gap: 6px; align-items: flex-start; line-height: 1.4; }
+.f-mico { flex: none; width: 18px; height: 18px; margin-top: 1px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
+.ist-aus .f-in { color: var(--text-leise); cursor: not-allowed; }
+.f-gruppe { border: 0; padding: 0; margin: 0; min-width: 0; }
+.f-gruppe legend { margin-bottom: 4px; }
+.f-wahlen { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+.f-schalter { display: grid; gap: 2px; }
+.f-wahl { display: flex; align-items: flex-start; gap: 12px; min-height: 44px; padding: 10px 0; cursor: pointer; font-size: 16px; line-height: 1.4; }
+.f-wtext { display: grid; gap: 2px; }
+.f-wahl.ist-aus { cursor: not-allowed; color: var(--text-leise); }
+.f-checkbox, .f-radio, .f-switch { appearance: none; -webkit-appearance: none; flex: none; margin: 0; display: grid; place-items: center; cursor: inherit; background: var(--flaeche); }
+.f-checkbox { width: 22px; height: 22px; border: 2px solid var(--text-leise); border-radius: 4px; }
+.f-checkbox::before { content: ""; width: 12px; height: 12px; background: var(--button-text); clip-path: polygon(14% 44%, 0 62%, 42% 100%, 100% 18%, 84% 4%, 40% 70%); transform: scale(0); }
+.f-checkbox:checked { background: var(--button); border-color: var(--button); }
+.f-checkbox:checked::before { transform: scale(1); }
+.f-radio { width: 22px; height: 22px; border: 2px solid var(--text-leise); border-radius: 50%; }
+.f-radio::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--button); transform: scale(0); }
+.f-radio:checked { border-color: var(--button); }
+.f-radio:checked::before { transform: scale(1); }
+.f-switch { width: 44px; height: 24px; border: 2px solid var(--text-leise); border-radius: 999px; justify-items: start; padding: 0 2px; }
+.f-switch::before { content: ""; width: 16px; height: 16px; border-radius: 50%; background: var(--text-leise); transition: translate .15s; }
+.f-switch:checked { background: var(--button); border-color: var(--button); }
+.f-switch:checked::before { background: var(--button-text); translate: 20px 0; }
+.f-checkbox:disabled, .f-radio:disabled, .f-switch:disabled { background: var(--fond); border-color: var(--linie); }
+.f-checkbox:focus-visible, .f-radio:focus-visible, .f-switch:focus-visible { outline: 3px solid var(--fokus); outline-offset: 2px; }
+.f-wahl:hover .f-checkbox:not(:checked):not(:disabled), .f-wahl:hover .f-radio:not(:checked), .f-wahl:hover .f-switch:not(:checked) { border-color: var(--text); }
+@media (prefers-reduced-motion: reduce) { .f-switch::before { transition: none; } }
+.f-knoepfe { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 4px; }
+.f-btn { min-height: 44px; padding: 0 18px; font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; border: 0; border-radius: 6px; }
+.f-btn.haupt { background: var(--button); color: var(--button-text); }
+.f-btn.haupt:hover { background: var(--button-hover); }
+.f-btn.zweit { background: var(--fond); color: var(--text); border: 1px solid var(--linie); }
+.f-btn.zweit:hover { border-color: var(--text-leise); }
+.f-btn:focus-visible { outline: 3px solid var(--fokus); outline-offset: 2px; }
+@media (max-width: 420px) { .f-btn { flex: 1 1 100%; } }
+.f-zustaende { margin-top: 16px; }
+.f-zustaende h5 { font-size: 15px; margin: 0 0 10px; }
+.f-zgrid { display: grid; gap: 14px 16px; }
+@container (min-width: 460px) { .f-zgrid { grid-template-columns: 1fr 1fr; } }
+
+/* ================= A · Klassisch umrandet ================= */
+.v-a .f-ctl { background: var(--flaeche); border: 1px solid var(--feld-rand); border-radius: 6px; }
+.v-a .f-zustaende .f-ctl { background: var(--flaeche); }
+.v-a .f-feld:not(.ist-aus):not(.ist-ro) .f-ctl:hover, .v-a .ist-hover .f-ctl { border-color: var(--text-leise); }
+.v-a .f-checkbox:not(:checked):not(:disabled), .v-a .f-radio:not(:checked), .v-a .f-switch:not(:checked) { border-color: var(--feld-rand); }
+.v-a .f-wahl:hover .f-checkbox:not(:checked):not(:disabled), .v-a .f-wahl:hover .f-radio:not(:checked), .v-a .f-wahl:hover .f-switch:not(:checked) { border-color: var(--text-leise); }
+/* Randvergleich */
+.rv-titel { font-size: 18px; margin: 24px 0 0; }
+.rv-modi { margin-top: 12px; }
+.rv-grid { display: grid; gap: 16px; }
+@container (min-width: 520px) { .rv-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.rv .f-feld { gap: 6px; }
+.rv-z { margin: 6px 0 0; font-size: 13.5px; color: var(--text-leise); line-height: 1.4; font-variant-numeric: tabular-nums; }
+.rv-z b { color: var(--text); }
+.rv-nein { display: flex; gap: 6px; color: var(--text-rot); font-weight: 700; }
+.v-a .rand-alt .f-ctl { border-color: var(--text-leise); }
+.v-a .rand-linie .f-ctl { border-color: var(--linie); }
+.k-nein { color: var(--text-rot); }
+.v-a .f-ctl:focus-within, .v-a .ist-fokus .f-ctl { border-color: var(--fokus); outline: 3px solid var(--fokus); outline-offset: 2px; }
+.v-a .ist-fehler .f-ctl { border: 2px solid var(--text-rot); }
+.v-a .ist-fehler .f-in { padding-left: 11px; }
+.v-a .ist-fehler .f-ctl:focus-within { outline-color: var(--text-rot); }
+.v-a .ist-aus .f-ctl { background: var(--fond); border-color: var(--linie); }
+.v-a .ist-ro .f-ctl { background: var(--hintergrund); border-style: dashed; }
+
+/* ================= B · Gefüllt ================= */
+.v-b .f-box { background: var(--fond); border-bottom: 2px solid var(--text-leise); border-radius: 8px 8px 0 0; gap: 0; padding-top: 8px; cursor: text; }
+.v-b .f-label { font-size: 13px; color: var(--text-leise); padding: 0 12px; }
+.v-b .f-pflicht { color: var(--text-rot); }
+.v-b .f-in { min-height: 38px; }
+.v-b textarea.f-in { padding-top: 4px; }
+.v-b .f-feld:not(.ist-aus):not(.ist-ro) .f-box:hover, .v-b .ist-hover .f-box { border-bottom-color: var(--text); }
+.v-b .f-box:focus-within, .v-b .ist-fokus .f-box { border-bottom: 3px solid var(--fokus); margin-bottom: -1px; outline: 3px solid var(--fokus); outline-offset: 2px; }
+.v-b .f-box:focus-within .f-label, .v-b .ist-fokus .f-label { color: var(--text); }
+.v-b .ist-fehler .f-box { background: var(--fond-rot); border-bottom: 3px solid var(--text-rot); margin-bottom: -1px; }
+.v-b .ist-fehler .f-label { color: var(--text-rot); }
+.v-b .ist-fehler .f-box:focus-within { outline-color: var(--text-rot); }
+.v-b .ist-aus .f-box { background: var(--hintergrund); border-bottom: 2px dashed var(--linie); cursor: not-allowed; }
+.v-b .ist-ro .f-box { background: var(--flaeche); border: 1px dashed var(--text-leise); border-bottom: 2px dotted var(--text-leise); }
+.v-b .f-ico { top: auto; bottom: 9px; translate: none; }
+.v-b .f-hilfe, .v-b .f-meldung { padding-left: 12px; }
+.v-b .f-checkbox:not(:checked), .v-b .f-switch:not(:checked) { background: var(--fond); }
+.v-b .f-wahlen { gap: 8px; }
+.v-b .f-gruppe .f-wahl { background: var(--fond); border: 2px solid transparent; border-radius: 8px; padding: 10px 16px 10px 12px; align-items: center; }
+.v-b .f-gruppe .f-wahl:has(:checked) { background: var(--fond-gruen); border-color: var(--text-gruen); color: var(--text-gruen); font-weight: 700; }
+.v-b .f-gruppe .f-radio { background: var(--flaeche); }
+.v-b .f-btn { border-radius: 999px; padding: 0 22px; }
+.v-b .f-btn.zweit { border: 0; }
+.v-b .f-btn.zweit:hover { background: var(--linie); }
+
+/* ================= C · Werkstatt ================= */
+.v-c .f-box { gap: 0; justify-items: start; }
+.v-c .f-label { font: 500 12px/1 'Plex Mono', 'IBM Plex Mono', monospace; letter-spacing: .06em; text-transform: uppercase; background: var(--text); color: var(--flaeche); padding: 6px 9px 5px; border-radius: 2px 2px 0 0; }
+.v-c .f-label .f-pflicht { color: inherit; }
+.v-c .f-gruppe legend.f-label { margin-bottom: 6px; border-radius: 2px; }
+.v-c .f-ctl { justify-self: stretch; background: var(--flaeche); border: 2px solid var(--text); border-radius: 0 2px 2px 2px; }
+.v-c .f-in { padding: 0 11px; }
+.v-c .f-feld:not(.ist-aus):not(.ist-ro) .f-ctl:hover, .v-c .ist-hover .f-ctl { box-shadow: 3px 3px 0 var(--text-leise); }
+.v-c .f-box:focus-within .f-ctl, .v-c .ist-fokus .f-ctl { border-color: var(--fokus); box-shadow: 4px 4px 0 var(--fokus); }
+.v-c .f-box:focus-within .f-label, .v-c .ist-fokus .f-label { background: var(--fokus); }
+.v-c .ist-fehler .f-ctl { border-color: var(--text-rot); }
+.v-c .ist-fehler .f-label, .v-c .ist-fehler .f-box:focus-within .f-label { background: var(--text-rot); }
+.v-c .ist-fehler .f-box:focus-within .f-ctl { border-color: var(--text-rot); box-shadow: 4px 4px 0 var(--text-rot); }
+.v-c .ist-aus .f-label { background: var(--fond); color: var(--text-leise); }
+.v-c .ist-aus .f-ctl { background: var(--fond); border: 2px dashed var(--text-leise); }
+.v-c .ist-ro .f-label { background: var(--fond); color: var(--text); }
+.v-c .ist-ro .f-ctl { background: var(--hintergrund); border-style: dashed; }
+.v-c input[name="nummer"] { font-family: 'Plex Mono', monospace; font-weight: 500; }
+.v-c .f-checkbox, .v-c .f-radio, .v-c .f-switch { border-color: var(--text); }
+.v-c .f-checkbox { border-radius: 2px; }
+.v-c .f-checkbox:checked, .v-c .f-radio:checked, .v-c .f-switch:checked { border-color: var(--text); }
+.v-c .f-switch { width: 48px; height: 26px; border-radius: 2px; }
+.v-c .f-switch::before { border-radius: 1px; width: 18px; height: 18px; background: var(--text); }
+.v-c .f-switch:checked::before { translate: 20px 0; background: var(--button-text); }
+.v-c .f-btn { border-radius: 2px; }
+.v-c .f-btn.haupt { box-shadow: 3px 3px 0 var(--text); }
+.v-c .f-btn.haupt:active { translate: 2px 2px; box-shadow: 1px 1px 0 var(--text); }
+.v-c .f-btn.zweit { background: var(--flaeche); border: 2px solid var(--text); }
+.v-c .f-btn.zweit:hover { background: var(--fond); }
+@media (prefers-reduced-motion: reduce) { .v-c .f-btn.haupt:active { translate: none; } }
+
+</style>
+</head>
+<body>
+<header class="seite"><div class="wrap">
+  <div>
+    <h1>Formulare: drei Stile</h1>
+    <p>Dasselbe Formular „Mitglied anlegen“ in drei Stilen, jeweils hell und dunkel. Nur Rollen aus Abschnitt 7 „Hell &amp; Dunkel“; jede Zahl unten ist aus der Palette gerechnet.</p>
+  </div>
+  <div class="schalter-wrap"><span id="modusName">Auto (wie Gerät)</span><button type="button" class="schalter" data-modus="auto" aria-label="Darstellung: Auto (wie Gerät)"><svg class="i-auto" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg><svg class="i-light" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-dark" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a6.5 6.5 0 0 0 11 11z"/></svg></button></div>
+</div></header>
+<div class="tape" aria-hidden="true"></div>
+<main class="wrap">
+  <ul class="regeln">
+    <li><b>Label immer sichtbar</b>Über oder im Feld, nie nur als Placeholder.</li>
+    <li><b>Feldrand mindestens 3:1</b>In Feld-Rand, Text leise oder Text, nie in Linie.</li>
+    <li><b>Fokus mindestens 3:1</b>Fester Ring oder Kante in Fokus, keine Transparenz.</li>
+    <li><b>Fehler mit Wort und Icon</b>Meldung sagt, was zu tun ist; Farbe allein reicht nicht.</li>
+    <li><b>44 px Klickfläche</b>Felder, Buttons und die ganze Zeile bei Checkbox, Radio, Switch.</li>
+  </ul>
+  <label class="f-wahl" for="nurAktuell" style="margin-top:12px"><input type="checkbox" id="nurAktuell" class="f-checkbox"><span>Nur den aktuellen Modus zeigen (folgt dem Umschalter oben)</span></label>
+  <section class="variante" id="v-a">
+  <div class="v-kopf"><span class="v-buchst" aria-hidden="true">A</span><div><h2>Klassisch umrandet</h2><p class="v-kurz">Jedes Feld ist ein Kasten auf Fläche mit weichem Rand in Feld-Rand (neue Rolle). Nah an shadcn/ui.</p></div></div>
+  <div class="v-fakten">
+    <div><h3>Warum</h3><p>Ein umrandeter Kasten ist das Feld, das alle kennen: keine Lernkurve, auch nicht für Leute, die selten im Verein am Rechner sitzen. Der Rand in der neuen Rolle Feld-Rand liegt knapp über 3:1: weich, aber als Feld erkennbar. Hover wird Text leise, Fokus grüner Ring, Fehler rot, so bleibt jeder Zustand deutlich. Der Charakter kommt aus Seitenleiste und Labelstreifen drumherum, nicht aus dem Feld.</p></div>
+    <div><h3>Geeignet für</h3><p>Vereinssoftware, Inventar, lange Verwaltungsformulare, Tabellenfilter. Dichte Ansichten mit vielen Feldern.</p></div>
+    <div><h3>Aufwand in der Vereinssoftware</h3><p>Klein. <code>input.tsx</code> nur anpassen: <code>h-11</code> statt <code>h-9</code>, Fokus als fester Ring (<code>outline-3 outline-ring outline-offset-2</code>) statt <code>ring-ring/30</code>, Fehler mit Icon, <code>--input</code> auf <code>var(--feld-rand)</code>. Select, Textarea, Checkbox, Radio Group, Switch, Label per <code>shadcn add</code> holen und gleich einstellen; heute sind das native Elemente mit eigenen Klassen.</p></div>
+  </div>
+  <h3 class="rv-titel">Rand im Vergleich</h3><div class="modi rv-modi"><div class="modus hell"><span class="m-modus">Hell</span><div class="f-karte"><div class="v-a rv-grid"><div class="rv rand-alt"><div class="f-feld"><div class="f-box"><label class="f-label" for="rv0-alt">Vorher: Text leise</label><div class="f-ctl"><input class="f-in" type="text" id="rv0-alt" name="alt" value="Alex Beispiel"></div></div></div><p class="rv-z">7,0:1 · kräftig, wirkt hart</p></div><div class="rv"><div class="f-feld"><div class="f-box"><label class="f-label" for="rv0-neu">Neu: Feld-Rand</label><div class="f-ctl"><input class="f-in" type="text" id="rv0-neu" name="neu" value="Alex Beispiel"></div></div></div><p class="rv-z"><b>3,3:1</b> · Kiesel <code>#948D81</code> · weich, erkennbar</p></div><div class="rv rand-linie"><div class="f-feld"><div class="f-box"><label class="f-label" for="rv0-linie">Nicht so: Linie</label><div class="f-ctl"><input class="f-in" type="text" id="rv0-linie" name="linie" value="Alex Beispiel"></div></div></div><p class="rv-z rv-nein"><svg class="f-mico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg><span>1,4:1 · weicher, aber Feld schwer erkennbar, nicht barrierefrei</span></p></div></div></div></div><div class="modus dunkel"><span class="m-modus">Dunkel</span><div class="f-karte"><div class="v-a rv-grid"><div class="rv rand-alt"><div class="f-feld"><div class="f-box"><label class="f-label" for="rv1-alt">Vorher: Text leise</label><div class="f-ctl"><input class="f-in" type="text" id="rv1-alt" name="alt" value="Alex Beispiel"></div></div></div><p class="rv-z">6,7:1 · kräftig, wirkt hart</p></div><div class="rv"><div class="f-feld"><div class="f-box"><label class="f-label" for="rv1-neu">Neu: Feld-Rand</label><div class="f-ctl"><input class="f-in" type="text" id="rv1-neu" name="neu" value="Alex Beispiel"></div></div></div><p class="rv-z"><b>3,1:1</b> · Flechte <code>#606E67</code> · weich, erkennbar</p></div><div class="rv rand-linie"><div class="f-feld"><div class="f-box"><label class="f-label" for="rv1-linie">Nicht so: Linie</label><div class="f-ctl"><input class="f-in" type="text" id="rv1-linie" name="linie" value="Alex Beispiel"></div></div></div><p class="rv-z rv-nein"><svg class="f-mico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg><span>1,4:1 · weicher, aber Feld schwer erkennbar, nicht barrierefrei</span></p></div></div></div></div></div>
+  <div class="modi"><div class="modus hell"><span class="m-modus">Hell</span><div class="v-a"><div class="f-karte"><form class="f-form" novalidate onsubmit="return false" aria-labelledby="a0-titel">
+  <div class="f-kopf"><h4 id="a0-titel">Mitglied anlegen</h4><p class="f-legende"><span class="f-pflicht" aria-hidden="true">*</span> Pflichtfeld</p></div>
+  <div class="f-reihe">
+    <div class="f-feld ist-hover"><div class="f-box"><label class="f-label" for="a0-vorname">Vorname<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl"><input class="f-in" type="text" id="a0-vorname" name="vorname" required autocomplete="given-name" value="Alex"></div></div></div>
+    <div class="f-feld"><div class="f-box"><label class="f-label" for="a0-nachname">Nachname<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl"><input class="f-in" type="text" id="a0-nachname" name="nachname" required autocomplete="family-name" value="Beispiel"></div></div></div>
+  </div>
+  <div class="f-feld ist-fehler"><div class="f-box"><label class="f-label" for="a0-email">E-Mail<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl hat-ico"><input class="f-in" type="email" id="a0-email" name="email" required autocomplete="email" aria-invalid="true" aria-describedby="a0-email-f" value="alex.beispiel"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg></div></div><p class="f-meldung" id="a0-email-f"><svg class="f-mico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg><span>Die E-Mail braucht ein @, z. B. alex@beispiel.de</span></p></div>
+  <div class="f-reihe">
+    <div class="f-feld"><div class="f-box"><label class="f-label" for="a0-art">Mitgliedsart<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl hat-ico"><select class="f-in" id="a0-art" name="art" required aria-describedby="a0-art-h"><option selected>Ordentlich · 20 € im Monat</option><option>Ermäßigt · 10 € im Monat</option><option>Fördermitglied · ab 5 € im Monat</option></select><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div></div><p class="f-hilfe" id="a0-art-h">Ermäßigt mit Nachweis, z. B. Schüler- oder Studienausweis.</p></div>
+    <div class="f-feld ist-fokus"><div class="f-box"><label class="f-label" for="a0-eintritt">Eintritt am<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl"><input class="f-in" type="date" id="a0-eintritt" name="eintritt" required value="2026-12-01"></div></div></div>
+  </div>
+  <div class="f-feld f-kurz ist-ro"><div class="f-box"><label class="f-label" for="a0-nummer">Mitgliedsnummer</label><div class="f-ctl hat-ico"><input class="f-in" type="text" id="a0-nummer" name="nummer" readonly aria-describedby="a0-nummer-h" value="2005"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div></div><p class="f-hilfe" id="a0-nummer-h">Wird beim Anlegen vergeben.</p></div>
+  <fieldset class="f-gruppe">
+    <legend class="f-label">Beitrag zahlen per<span class="f-pflicht" aria-hidden="true">*</span></legend>
+    <div class="f-wahlen">
+      <label class="f-wahl" for="a0-zahlung-lastschrift"><input type="radio" id="a0-zahlung-lastschrift" name="zahlung" class="f-radio" value="lastschrift" checked><span class="f-wtext"><span>Lastschrift</span></span></label>
+      <label class="f-wahl" for="a0-zahlung-ueberweisung"><input type="radio" id="a0-zahlung-ueberweisung" name="zahlung" class="f-radio" value="ueberweisung"><span class="f-wtext"><span>Überweisung</span></span></label>
+    </div>
+  </fieldset>
+  <div class="f-feld ist-area"><div class="f-box"><label class="f-label" for="a0-notiz">Notiz</label><div class="f-ctl"><textarea class="f-in" rows="3" id="a0-notiz" name="notiz" placeholder="z. B. Interesse an Holzwerkstatt und Lasercutter"></textarea></div></div></div>
+  <div class="f-schalter">
+    <label class="f-wahl" for="a0-newsletter-x"><input type="checkbox" id="a0-newsletter-x" name="newsletter" class="f-switch" role="switch" checked aria-describedby="a0-newsletter-x-h"><span class="f-wtext"><span>Newsletter per E-Mail</span><span class="f-hilfe" id="a0-newsletter-x-h">Einmal im Monat: Termine und Neues aus der Werkstatt.</span></span></label>
+    <label class="f-wahl" for="a0-satzung-x"><input type="checkbox" id="a0-satzung-x" name="satzung" class="f-checkbox" checked><span class="f-wtext"><span>Satzung und Datenschutzhinweise gelesen<span class="f-pflicht" aria-hidden="true">*</span></span></span></label>
+    <label class="f-wahl ist-aus" for="a0-laser-x"><input type="checkbox" id="a0-laser-x" name="laser" class="f-checkbox" disabled aria-describedby="a0-laser-x-h"><span class="f-wtext"><span>Laser freigeschaltet</span><span class="f-hilfe" id="a0-laser-x-h">Erst nach der Einweisung möglich.</span></span></label>
+  </div>
+  <div class="f-knoepfe"><button type="submit" class="f-btn haupt">Mitglied anlegen</button><button type="button" class="f-btn zweit">Abbrechen</button></div>
+</form></div><div class="f-zustaende"><h5>Ein Feld in allen Zuständen</h5><div class="f-zgrid"><div class="f-feld"><div class="f-box"><label class="f-label" for="a0z-leer">Leer</label><div class="f-ctl"><input class="f-in" type="text" id="a0z-leer" name="leer" autocomplete="off" value="" placeholder="z. B. 53175"></div></div></div><div class="f-feld"><div class="f-box"><label class="f-label" for="a0z-voll">Ausgefüllt</label><div class="f-ctl"><input class="f-in" type="text" id="a0z-voll" name="voll" value="53175"></div></div></div><div class="f-feld ist-hover"><div class="f-box"><label class="f-label" for="a0z-hover">Hover</label><div class="f-ctl"><input class="f-in" type="text" id="a0z-hover" name="hover" value="53175"></div></div></div><div class="f-feld ist-fokus"><div class="f-box"><label class="f-label" for="a0z-fokus">Fokus</label><div class="f-ctl"><input class="f-in" type="text" id="a0z-fokus" name="fokus" value="53175"></div></div></div><div class="f-feld ist-fehler"><div class="f-box"><label class="f-label" for="a0z-fehler">Fehler</label><div class="f-ctl hat-ico"><input class="f-in" type="text" id="a0z-fehler" name="fehler" aria-invalid="true" aria-describedby="a0z-fehler-f" value="5317"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg></div></div><p class="f-meldung" id="a0z-fehler-f"><svg class="f-mico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg><span>Die PLZ hat 5 Ziffern.</span></p></div><div class="f-feld ist-aus"><div class="f-box"><label class="f-label" for="a0z-aus">Deaktiviert</label><div class="f-ctl"><input class="f-in" type="text" id="a0z-aus" name="aus" disabled aria-describedby="a0z-aus-h" value="53175"></div></div><p class="f-hilfe" id="a0z-aus-h">Nur der Vorstand ändert die PLZ.</p></div><div class="f-feld ist-ro"><div class="f-box"><label class="f-label" for="a0z-ro">Schreibgeschützt</label><div class="f-ctl hat-ico"><input class="f-in" type="text" id="a0z-ro" name="ro" readonly value="53175"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div></div></div></div></div></div></div><div class="modus dunkel"><span class="m-modus">Dunkel</span><div class="v-a"><div class="f-karte"><form class="f-form" novalidate onsubmit="return false" aria-labelledby="a1-titel">
+  <div class="f-kopf"><h4 id="a1-titel">Mitglied anlegen</h4><p class="f-legende"><span class="f-pflicht" aria-hidden="true">*</span> Pflichtfeld</p></div>
+  <div class="f-reihe">
+    <div class="f-feld ist-hover"><div class="f-box"><label class="f-label" for="a1-vorname">Vorname<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl"><input class="f-in" type="text" id="a1-vorname" name="vorname" required autocomplete="given-name" value="Alex"></div></div></div>
+    <div class="f-feld"><div class="f-box"><label class="f-label" for="a1-nachname">Nachname<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl"><input class="f-in" type="text" id="a1-nachname" name="nachname" required autocomplete="family-name" value="Beispiel"></div></div></div>
+  </div>
+  <div class="f-feld ist-fehler"><div class="f-box"><label class="f-label" for="a1-email">E-Mail<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl hat-ico"><input class="f-in" type="email" id="a1-email" name="email" required autocomplete="email" aria-invalid="true" aria-describedby="a1-email-f" value="alex.beispiel"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg></div></div><p class="f-meldung" id="a1-email-f"><svg class="f-mico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg><span>Die E-Mail braucht ein @, z. B. alex@beispiel.de</span></p></div>
+  <div class="f-reihe">
+    <div class="f-feld"><div class="f-box"><label class="f-label" for="a1-art">Mitgliedsart<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl hat-ico"><select class="f-in" id="a1-art" name="art" required aria-describedby="a1-art-h"><option selected>Ordentlich · 20 € im Monat</option><option>Ermäßigt · 10 € im Monat</option><option>Fördermitglied · ab 5 € im Monat</option></select><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div></div><p class="f-hilfe" id="a1-art-h">Ermäßigt mit Nachweis, z. B. Schüler- oder Studienausweis.</p></div>
+    <div class="f-feld ist-fokus"><div class="f-box"><label class="f-label" for="a1-eintritt">Eintritt am<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl"><input class="f-in" type="date" id="a1-eintritt" name="eintritt" required value="2026-12-01"></div></div></div>
+  </div>
+  <div class="f-feld f-kurz ist-ro"><div class="f-box"><label class="f-label" for="a1-nummer">Mitgliedsnummer</label><div class="f-ctl hat-ico"><input class="f-in" type="text" id="a1-nummer" name="nummer" readonly aria-describedby="a1-nummer-h" value="2005"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div></div><p class="f-hilfe" id="a1-nummer-h">Wird beim Anlegen vergeben.</p></div>
+  <fieldset class="f-gruppe">
+    <legend class="f-label">Beitrag zahlen per<span class="f-pflicht" aria-hidden="true">*</span></legend>
+    <div class="f-wahlen">
+      <label class="f-wahl" for="a1-zahlung-lastschrift"><input type="radio" id="a1-zahlung-lastschrift" name="zahlung" class="f-radio" value="lastschrift" checked><span class="f-wtext"><span>Lastschrift</span></span></label>
+      <label class="f-wahl" for="a1-zahlung-ueberweisung"><input type="radio" id="a1-zahlung-ueberweisung" name="zahlung" class="f-radio" value="ueberweisung"><span class="f-wtext"><span>Überweisung</span></span></label>
+    </div>
+  </fieldset>
+  <div class="f-feld ist-area"><div class="f-box"><label class="f-label" for="a1-notiz">Notiz</label><div class="f-ctl"><textarea class="f-in" rows="3" id="a1-notiz" name="notiz" placeholder="z. B. Interesse an Holzwerkstatt und Lasercutter"></textarea></div></div></div>
+  <div class="f-schalter">
+    <label class="f-wahl" for="a1-newsletter-x"><input type="checkbox" id="a1-newsletter-x" name="newsletter" class="f-switch" role="switch" checked aria-describedby="a1-newsletter-x-h"><span class="f-wtext"><span>Newsletter per E-Mail</span><span class="f-hilfe" id="a1-newsletter-x-h">Einmal im Monat: Termine und Neues aus der Werkstatt.</span></span></label>
+    <label class="f-wahl" for="a1-satzung-x"><input type="checkbox" id="a1-satzung-x" name="satzung" class="f-checkbox" checked><span class="f-wtext"><span>Satzung und Datenschutzhinweise gelesen<span class="f-pflicht" aria-hidden="true">*</span></span></span></label>
+    <label class="f-wahl ist-aus" for="a1-laser-x"><input type="checkbox" id="a1-laser-x" name="laser" class="f-checkbox" disabled aria-describedby="a1-laser-x-h"><span class="f-wtext"><span>Laser freigeschaltet</span><span class="f-hilfe" id="a1-laser-x-h">Erst nach der Einweisung möglich.</span></span></label>
+  </div>
+  <div class="f-knoepfe"><button type="submit" class="f-btn haupt">Mitglied anlegen</button><button type="button" class="f-btn zweit">Abbrechen</button></div>
+</form></div><div class="f-zustaende"><h5>Ein Feld in allen Zuständen</h5><div class="f-zgrid"><div class="f-feld"><div class="f-box"><label class="f-label" for="a1z-leer">Leer</label><div class="f-ctl"><input class="f-in" type="text" id="a1z-leer" name="leer" autocomplete="off" value="" placeholder="z. B. 53175"></div></div></div><div class="f-feld"><div class="f-box"><label class="f-label" for="a1z-voll">Ausgefüllt</label><div class="f-ctl"><input class="f-in" type="text" id="a1z-voll" name="voll" value="53175"></div></div></div><div class="f-feld ist-hover"><div class="f-box"><label class="f-label" for="a1z-hover">Hover</label><div class="f-ctl"><input class="f-in" type="text" id="a1z-hover" name="hover" value="53175"></div></div></div><div class="f-feld ist-fokus"><div class="f-box"><label class="f-label" for="a1z-fokus">Fokus</label><div class="f-ctl"><input class="f-in" type="text" id="a1z-fokus" name="fokus" value="53175"></div></div></div><div class="f-feld ist-fehler"><div class="f-box"><label class="f-label" for="a1z-fehler">Fehler</label><div class="f-ctl hat-ico"><input class="f-in" type="text" id="a1z-fehler" name="fehler" aria-invalid="true" aria-describedby="a1z-fehler-f" value="5317"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg></div></div><p class="f-meldung" id="a1z-fehler-f"><svg class="f-mico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg><span>Die PLZ hat 5 Ziffern.</span></p></div><div class="f-feld ist-aus"><div class="f-box"><label class="f-label" for="a1z-aus">Deaktiviert</label><div class="f-ctl"><input class="f-in" type="text" id="a1z-aus" name="aus" disabled aria-describedby="a1z-aus-h" value="53175"></div></div><p class="f-hilfe" id="a1z-aus-h">Nur der Vorstand ändert die PLZ.</p></div><div class="f-feld ist-ro"><div class="f-box"><label class="f-label" for="a1z-ro">Schreibgeschützt</label><div class="f-ctl hat-ico"><input class="f-in" type="text" id="a1z-ro" name="ro" readonly value="53175"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div></div></div></div></div></div></div></div>
+  <details class="k-box" open><summary>Kontraste A, gerechnet mit <code>build.ratio</code></summary><div class="k-wrap"><table class="k-t"><thead><tr><th>Paar</th><th>Rollen</th><th>Ziel</th><th>Hell</th><th>Dunkel</th></tr></thead><tbody><tr><td>Feldrand (neu: Feld-Rand) auf Fläche</td><td><code>feld-rand</code> / <code>flaeche</code></td><td>≥ 3,0:1</td><td class="k-w"><span class="k-chip" style="background:#FFFFFF;color:#948D81">Aa</span>3,3:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#13201A;color:#606E67">Aa</span>3,1:1 <span class="k-ok">✓</span></td></tr><tr><td>Feldrand (neu: Feld-Rand) auf Hintergrund</td><td><code>feld-rand</code> / <code>hintergrund</code></td><td>≥ 3,0:1</td><td class="k-w"><span class="k-chip" style="background:#FBF8F2;color:#948D81">Aa</span>3,1:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#0C1511;color:#606E67">Aa</span>3,5:1 <span class="k-ok">✓</span></td></tr><tr><td>Hover-Rand auf Fläche</td><td><code>text-leise</code> / <code>flaeche</code></td><td>≥ 3,0:1</td><td class="k-w"><span class="k-chip" style="background:#FFFFFF;color:#5F5850">Aa</span>7,0:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#13201A;color:#9BA6A0">Aa</span>6,7:1 <span class="k-ok">✓</span></td></tr><tr><td>Zum Vergleich: Linie auf Fläche (zu schwach)</td><td><code>linie</code> / <code>flaeche</code></td><td>≥ 3,0:1</td><td class="k-w"><span class="k-chip" style="background:#FFFFFF;color:#E4DCCB">Aa</span>1,4:1 <span class="k-ok"><span class="k-nein">✗</span></span></td><td class="k-w"><span class="k-chip" style="background:#13201A;color:#2A3C33">Aa</span>1,4:1 <span class="k-ok"><span class="k-nein">✗</span></span></td></tr><tr><td>Eingabe auf Fläche</td><td><code>text</code> / <code>flaeche</code></td><td>≥ 4,5:1</td><td class="k-w"><span class="k-chip" style="background:#FFFFFF;color:#1E1C19">Aa</span>17,0:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#13201A;color:#EDE8DE">Aa</span>13,8:1 <span class="k-ok">✓</span></td></tr><tr><td>Placeholder, Hilfetext auf Fläche</td><td><code>text-leise</code> / <code>flaeche</code></td><td>≥ 4,5:1</td><td class="k-w"><span class="k-chip" style="background:#FFFFFF;color:#5F5850">Aa</span>7,0:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#13201A;color:#9BA6A0">Aa</span>6,7:1 <span class="k-ok">✓</span></td></tr><tr><td>Fokusring auf Fläche</td><td><code>fokus</code> / <code>flaeche</code></td><td>≥ 3,0:1</td><td class="k-w"><span class="k-chip" style="background:#FFFFFF;color:#33791A">Aa</span>5,4:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#13201A;color:#9CD27D">Aa</span>9,5:1 <span class="k-ok">✓</span></td></tr><tr><td>Fehlerrand und -text auf Fläche</td><td><code>text-rot</code> / <code>flaeche</code></td><td>≥ 4,5:1</td><td class="k-w"><span class="k-chip" style="background:#FFFFFF;color:#C62828">Aa</span>5,6:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#13201A;color:#FF7B7B">Aa</span>6,7:1 <span class="k-ok">✓</span></td></tr><tr><td>Haken/Switch an auf Fläche</td><td><code>button</code> / <code>flaeche</code></td><td>≥ 3,0:1</td><td class="k-w"><span class="k-chip" style="background:#FFFFFF;color:#33791A">Aa</span>5,4:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#13201A;color:#5EB130">Aa</span>6,2:1 <span class="k-ok">✓</span></td></tr><tr><td>Haken und Button-Schrift auf Button</td><td><code>button-text</code> / <code>button</code></td><td>≥ 4,5:1</td><td class="k-w"><span class="k-chip" style="background:#33791A;color:#FFFFFF">Aa</span>5,4:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#5EB130;color:#1E1C19">Aa</span>6,3:1 <span class="k-ok">✓</span></td></tr><tr><td>Deaktiviert: Schrift auf Fond (ausgenommen)</td><td><code>text-leise</code> / <code>fond</code></td><td>info</td><td class="k-w"><span class="k-chip" style="background:#FAF2E4;color:#5F5850">Aa</span>6,3:1 <span class="k-ok">–</span></td><td class="k-w"><span class="k-chip" style="background:#213129;color:#9BA6A0">Aa</span>5,4:1 <span class="k-ok">–</span></td></tr></tbody></table></div></details>
+</section><section class="variante" id="v-b">
+  <div class="v-kopf"><span class="v-buchst" aria-hidden="true">B</span><div><h2>Gefüllt</h2><p class="v-kurz">Das Feld ist eine Fond-Fläche mit Label innen und starker Linie unten.</p></div></div>
+  <div class="v-fakten">
+    <div><h3>Warum</h3><p>Gefüllte Felder wirken weich und luftig, das Label steht fest oben im Feld und rutscht nie weg. Die Fläche selbst hebt sich mit 1,1:1 kaum ab; als Feld erkennbar macht es allein die 2-px-Linie unten. Gut auf dem Handy, schwächer in dichten Tabellenansichten.</p></div>
+    <div><h3>Geeignet für</h3><p>Kurze Formulare auf dem Handy: Workshop-Anmeldung, Linkseite, Kontakt. Weniger für Verwaltung mit vielen Feldern.</p></div>
+    <div><h3>Aufwand in der Vereinssoftware</h3><p>Mittel. Eigene Feld-Komponente nötig, weil Label und Eingabe in einem Kasten stecken (<code>Field</code>-Wrapper mit <code>focus-within</code>). Input-, Select- und Textarea-Klassen umbauen, Radio als Auswahlkacheln neu stylen. Ein Fond-Feld auf Fond-Karte verschwindet; dafür eine Regel nötig.</p></div>
+  </div>
+  
+  <div class="modi"><div class="modus hell"><span class="m-modus">Hell</span><div class="v-b"><div class="f-karte"><form class="f-form" novalidate onsubmit="return false" aria-labelledby="b0-titel">
+  <div class="f-kopf"><h4 id="b0-titel">Mitglied anlegen</h4><p class="f-legende"><span class="f-pflicht" aria-hidden="true">*</span> Pflichtfeld</p></div>
+  <div class="f-reihe">
+    <div class="f-feld ist-hover"><div class="f-box"><label class="f-label" for="b0-vorname">Vorname<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl"><input class="f-in" type="text" id="b0-vorname" name="vorname" required autocomplete="given-name" value="Alex"></div></div></div>
+    <div class="f-feld"><div class="f-box"><label class="f-label" for="b0-nachname">Nachname<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl"><input class="f-in" type="text" id="b0-nachname" name="nachname" required autocomplete="family-name" value="Beispiel"></div></div></div>
+  </div>
+  <div class="f-feld ist-fehler"><div class="f-box"><label class="f-label" for="b0-email">E-Mail<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl hat-ico"><input class="f-in" type="email" id="b0-email" name="email" required autocomplete="email" aria-invalid="true" aria-describedby="b0-email-f" value="alex.beispiel"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg></div></div><p class="f-meldung" id="b0-email-f"><svg class="f-mico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg><span>Die E-Mail braucht ein @, z. B. alex@beispiel.de</span></p></div>
+  <div class="f-reihe">
+    <div class="f-feld"><div class="f-box"><label class="f-label" for="b0-art">Mitgliedsart<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl hat-ico"><select class="f-in" id="b0-art" name="art" required aria-describedby="b0-art-h"><option selected>Ordentlich · 20 € im Monat</option><option>Ermäßigt · 10 € im Monat</option><option>Fördermitglied · ab 5 € im Monat</option></select><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div></div><p class="f-hilfe" id="b0-art-h">Ermäßigt mit Nachweis, z. B. Schüler- oder Studienausweis.</p></div>
+    <div class="f-feld ist-fokus"><div class="f-box"><label class="f-label" for="b0-eintritt">Eintritt am<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl"><input class="f-in" type="date" id="b0-eintritt" name="eintritt" required value="2026-12-01"></div></div></div>
+  </div>
+  <div class="f-feld f-kurz ist-ro"><div class="f-box"><label class="f-label" for="b0-nummer">Mitgliedsnummer</label><div class="f-ctl hat-ico"><input class="f-in" type="text" id="b0-nummer" name="nummer" readonly aria-describedby="b0-nummer-h" value="2005"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div></div><p class="f-hilfe" id="b0-nummer-h">Wird beim Anlegen vergeben.</p></div>
+  <fieldset class="f-gruppe">
+    <legend class="f-label">Beitrag zahlen per<span class="f-pflicht" aria-hidden="true">*</span></legend>
+    <div class="f-wahlen">
+      <label class="f-wahl" for="b0-zahlung-lastschrift"><input type="radio" id="b0-zahlung-lastschrift" name="zahlung" class="f-radio" value="lastschrift" checked><span class="f-wtext"><span>Lastschrift</span></span></label>
+      <label class="f-wahl" for="b0-zahlung-ueberweisung"><input type="radio" id="b0-zahlung-ueberweisung" name="zahlung" class="f-radio" value="ueberweisung"><span class="f-wtext"><span>Überweisung</span></span></label>
+    </div>
+  </fieldset>
+  <div class="f-feld ist-area"><div class="f-box"><label class="f-label" for="b0-notiz">Notiz</label><div class="f-ctl"><textarea class="f-in" rows="3" id="b0-notiz" name="notiz" placeholder="z. B. Interesse an Holzwerkstatt und Lasercutter"></textarea></div></div></div>
+  <div class="f-schalter">
+    <label class="f-wahl" for="b0-newsletter-x"><input type="checkbox" id="b0-newsletter-x" name="newsletter" class="f-switch" role="switch" checked aria-describedby="b0-newsletter-x-h"><span class="f-wtext"><span>Newsletter per E-Mail</span><span class="f-hilfe" id="b0-newsletter-x-h">Einmal im Monat: Termine und Neues aus der Werkstatt.</span></span></label>
+    <label class="f-wahl" for="b0-satzung-x"><input type="checkbox" id="b0-satzung-x" name="satzung" class="f-checkbox" checked><span class="f-wtext"><span>Satzung und Datenschutzhinweise gelesen<span class="f-pflicht" aria-hidden="true">*</span></span></span></label>
+    <label class="f-wahl ist-aus" for="b0-laser-x"><input type="checkbox" id="b0-laser-x" name="laser" class="f-checkbox" disabled aria-describedby="b0-laser-x-h"><span class="f-wtext"><span>Laser freigeschaltet</span><span class="f-hilfe" id="b0-laser-x-h">Erst nach der Einweisung möglich.</span></span></label>
+  </div>
+  <div class="f-knoepfe"><button type="submit" class="f-btn haupt">Mitglied anlegen</button><button type="button" class="f-btn zweit">Abbrechen</button></div>
+</form></div><div class="f-zustaende"><h5>Ein Feld in allen Zuständen</h5><div class="f-zgrid"><div class="f-feld"><div class="f-box"><label class="f-label" for="b0z-leer">Leer</label><div class="f-ctl"><input class="f-in" type="text" id="b0z-leer" name="leer" autocomplete="off" value="" placeholder="z. B. 53175"></div></div></div><div class="f-feld"><div class="f-box"><label class="f-label" for="b0z-voll">Ausgefüllt</label><div class="f-ctl"><input class="f-in" type="text" id="b0z-voll" name="voll" value="53175"></div></div></div><div class="f-feld ist-hover"><div class="f-box"><label class="f-label" for="b0z-hover">Hover</label><div class="f-ctl"><input class="f-in" type="text" id="b0z-hover" name="hover" value="53175"></div></div></div><div class="f-feld ist-fokus"><div class="f-box"><label class="f-label" for="b0z-fokus">Fokus</label><div class="f-ctl"><input class="f-in" type="text" id="b0z-fokus" name="fokus" value="53175"></div></div></div><div class="f-feld ist-fehler"><div class="f-box"><label class="f-label" for="b0z-fehler">Fehler</label><div class="f-ctl hat-ico"><input class="f-in" type="text" id="b0z-fehler" name="fehler" aria-invalid="true" aria-describedby="b0z-fehler-f" value="5317"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg></div></div><p class="f-meldung" id="b0z-fehler-f"><svg class="f-mico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg><span>Die PLZ hat 5 Ziffern.</span></p></div><div class="f-feld ist-aus"><div class="f-box"><label class="f-label" for="b0z-aus">Deaktiviert</label><div class="f-ctl"><input class="f-in" type="text" id="b0z-aus" name="aus" disabled aria-describedby="b0z-aus-h" value="53175"></div></div><p class="f-hilfe" id="b0z-aus-h">Nur der Vorstand ändert die PLZ.</p></div><div class="f-feld ist-ro"><div class="f-box"><label class="f-label" for="b0z-ro">Schreibgeschützt</label><div class="f-ctl hat-ico"><input class="f-in" type="text" id="b0z-ro" name="ro" readonly value="53175"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div></div></div></div></div></div></div><div class="modus dunkel"><span class="m-modus">Dunkel</span><div class="v-b"><div class="f-karte"><form class="f-form" novalidate onsubmit="return false" aria-labelledby="b1-titel">
+  <div class="f-kopf"><h4 id="b1-titel">Mitglied anlegen</h4><p class="f-legende"><span class="f-pflicht" aria-hidden="true">*</span> Pflichtfeld</p></div>
+  <div class="f-reihe">
+    <div class="f-feld ist-hover"><div class="f-box"><label class="f-label" for="b1-vorname">Vorname<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl"><input class="f-in" type="text" id="b1-vorname" name="vorname" required autocomplete="given-name" value="Alex"></div></div></div>
+    <div class="f-feld"><div class="f-box"><label class="f-label" for="b1-nachname">Nachname<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl"><input class="f-in" type="text" id="b1-nachname" name="nachname" required autocomplete="family-name" value="Beispiel"></div></div></div>
+  </div>
+  <div class="f-feld ist-fehler"><div class="f-box"><label class="f-label" for="b1-email">E-Mail<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl hat-ico"><input class="f-in" type="email" id="b1-email" name="email" required autocomplete="email" aria-invalid="true" aria-describedby="b1-email-f" value="alex.beispiel"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg></div></div><p class="f-meldung" id="b1-email-f"><svg class="f-mico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg><span>Die E-Mail braucht ein @, z. B. alex@beispiel.de</span></p></div>
+  <div class="f-reihe">
+    <div class="f-feld"><div class="f-box"><label class="f-label" for="b1-art">Mitgliedsart<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl hat-ico"><select class="f-in" id="b1-art" name="art" required aria-describedby="b1-art-h"><option selected>Ordentlich · 20 € im Monat</option><option>Ermäßigt · 10 € im Monat</option><option>Fördermitglied · ab 5 € im Monat</option></select><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div></div><p class="f-hilfe" id="b1-art-h">Ermäßigt mit Nachweis, z. B. Schüler- oder Studienausweis.</p></div>
+    <div class="f-feld ist-fokus"><div class="f-box"><label class="f-label" for="b1-eintritt">Eintritt am<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl"><input class="f-in" type="date" id="b1-eintritt" name="eintritt" required value="2026-12-01"></div></div></div>
+  </div>
+  <div class="f-feld f-kurz ist-ro"><div class="f-box"><label class="f-label" for="b1-nummer">Mitgliedsnummer</label><div class="f-ctl hat-ico"><input class="f-in" type="text" id="b1-nummer" name="nummer" readonly aria-describedby="b1-nummer-h" value="2005"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div></div><p class="f-hilfe" id="b1-nummer-h">Wird beim Anlegen vergeben.</p></div>
+  <fieldset class="f-gruppe">
+    <legend class="f-label">Beitrag zahlen per<span class="f-pflicht" aria-hidden="true">*</span></legend>
+    <div class="f-wahlen">
+      <label class="f-wahl" for="b1-zahlung-lastschrift"><input type="radio" id="b1-zahlung-lastschrift" name="zahlung" class="f-radio" value="lastschrift" checked><span class="f-wtext"><span>Lastschrift</span></span></label>
+      <label class="f-wahl" for="b1-zahlung-ueberweisung"><input type="radio" id="b1-zahlung-ueberweisung" name="zahlung" class="f-radio" value="ueberweisung"><span class="f-wtext"><span>Überweisung</span></span></label>
+    </div>
+  </fieldset>
+  <div class="f-feld ist-area"><div class="f-box"><label class="f-label" for="b1-notiz">Notiz</label><div class="f-ctl"><textarea class="f-in" rows="3" id="b1-notiz" name="notiz" placeholder="z. B. Interesse an Holzwerkstatt und Lasercutter"></textarea></div></div></div>
+  <div class="f-schalter">
+    <label class="f-wahl" for="b1-newsletter-x"><input type="checkbox" id="b1-newsletter-x" name="newsletter" class="f-switch" role="switch" checked aria-describedby="b1-newsletter-x-h"><span class="f-wtext"><span>Newsletter per E-Mail</span><span class="f-hilfe" id="b1-newsletter-x-h">Einmal im Monat: Termine und Neues aus der Werkstatt.</span></span></label>
+    <label class="f-wahl" for="b1-satzung-x"><input type="checkbox" id="b1-satzung-x" name="satzung" class="f-checkbox" checked><span class="f-wtext"><span>Satzung und Datenschutzhinweise gelesen<span class="f-pflicht" aria-hidden="true">*</span></span></span></label>
+    <label class="f-wahl ist-aus" for="b1-laser-x"><input type="checkbox" id="b1-laser-x" name="laser" class="f-checkbox" disabled aria-describedby="b1-laser-x-h"><span class="f-wtext"><span>Laser freigeschaltet</span><span class="f-hilfe" id="b1-laser-x-h">Erst nach der Einweisung möglich.</span></span></label>
+  </div>
+  <div class="f-knoepfe"><button type="submit" class="f-btn haupt">Mitglied anlegen</button><button type="button" class="f-btn zweit">Abbrechen</button></div>
+</form></div><div class="f-zustaende"><h5>Ein Feld in allen Zuständen</h5><div class="f-zgrid"><div class="f-feld"><div class="f-box"><label class="f-label" for="b1z-leer">Leer</label><div class="f-ctl"><input class="f-in" type="text" id="b1z-leer" name="leer" autocomplete="off" value="" placeholder="z. B. 53175"></div></div></div><div class="f-feld"><div class="f-box"><label class="f-label" for="b1z-voll">Ausgefüllt</label><div class="f-ctl"><input class="f-in" type="text" id="b1z-voll" name="voll" value="53175"></div></div></div><div class="f-feld ist-hover"><div class="f-box"><label class="f-label" for="b1z-hover">Hover</label><div class="f-ctl"><input class="f-in" type="text" id="b1z-hover" name="hover" value="53175"></div></div></div><div class="f-feld ist-fokus"><div class="f-box"><label class="f-label" for="b1z-fokus">Fokus</label><div class="f-ctl"><input class="f-in" type="text" id="b1z-fokus" name="fokus" value="53175"></div></div></div><div class="f-feld ist-fehler"><div class="f-box"><label class="f-label" for="b1z-fehler">Fehler</label><div class="f-ctl hat-ico"><input class="f-in" type="text" id="b1z-fehler" name="fehler" aria-invalid="true" aria-describedby="b1z-fehler-f" value="5317"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg></div></div><p class="f-meldung" id="b1z-fehler-f"><svg class="f-mico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg><span>Die PLZ hat 5 Ziffern.</span></p></div><div class="f-feld ist-aus"><div class="f-box"><label class="f-label" for="b1z-aus">Deaktiviert</label><div class="f-ctl"><input class="f-in" type="text" id="b1z-aus" name="aus" disabled aria-describedby="b1z-aus-h" value="53175"></div></div><p class="f-hilfe" id="b1z-aus-h">Nur der Vorstand ändert die PLZ.</p></div><div class="f-feld ist-ro"><div class="f-box"><label class="f-label" for="b1z-ro">Schreibgeschützt</label><div class="f-ctl hat-ico"><input class="f-in" type="text" id="b1z-ro" name="ro" readonly value="53175"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div></div></div></div></div></div></div></div>
+  <details class="k-box" open><summary>Kontraste B, gerechnet mit <code>build.ratio</code></summary><div class="k-wrap"><table class="k-t"><thead><tr><th>Paar</th><th>Rollen</th><th>Ziel</th><th>Hell</th><th>Dunkel</th></tr></thead><tbody><tr><td>Unterlinie auf Fond</td><td><code>text-leise</code> / <code>fond</code></td><td>≥ 3,0:1</td><td class="k-w"><span class="k-chip" style="background:#FAF2E4;color:#5F5850">Aa</span>6,3:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#213129;color:#9BA6A0">Aa</span>5,4:1 <span class="k-ok">✓</span></td></tr><tr><td>Feldfond auf Fläche (zählt nicht als Rand)</td><td><code>fond</code> / <code>flaeche</code></td><td>info</td><td class="k-w"><span class="k-chip" style="background:#FFFFFF;color:#FAF2E4">Aa</span>1,1:1 <span class="k-ok">–</span></td><td class="k-w"><span class="k-chip" style="background:#13201A;color:#213129">Aa</span>1,2:1 <span class="k-ok">–</span></td></tr><tr><td>Label und Placeholder auf Fond</td><td><code>text-leise</code> / <code>fond</code></td><td>≥ 4,5:1</td><td class="k-w"><span class="k-chip" style="background:#FAF2E4;color:#5F5850">Aa</span>6,3:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#213129;color:#9BA6A0">Aa</span>5,4:1 <span class="k-ok">✓</span></td></tr><tr><td>Eingabe auf Fond</td><td><code>text</code> / <code>fond</code></td><td>≥ 4,5:1</td><td class="k-w"><span class="k-chip" style="background:#FAF2E4;color:#1E1C19">Aa</span>15,3:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#213129;color:#EDE8DE">Aa</span>11,2:1 <span class="k-ok">✓</span></td></tr><tr><td>Fokuslinie und -ring auf Fond</td><td><code>fokus</code> / <code>fond</code></td><td>≥ 3,0:1</td><td class="k-w"><span class="k-chip" style="background:#FAF2E4;color:#33791A">Aa</span>4,9:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#213129;color:#9CD27D">Aa</span>7,8:1 <span class="k-ok">✓</span></td></tr><tr><td>Fehlerlinie und Label auf Rotem Fond</td><td><code>text-rot</code> / <code>fond-rot</code></td><td>≥ 4,5:1</td><td class="k-w"><span class="k-chip" style="background:#FCEBE9;color:#C62828">Aa</span>4,9:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#3B1A17;color:#FF7B7B">Aa</span>6,2:1 <span class="k-ok">✓</span></td></tr><tr><td>Eingabe auf Rotem Fond</td><td><code>text</code> / <code>fond-rot</code></td><td>≥ 4,5:1</td><td class="k-w"><span class="k-chip" style="background:#FCEBE9;color:#1E1C19">Aa</span>14,7:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#3B1A17;color:#EDE8DE">Aa</span>12,8:1 <span class="k-ok">✓</span></td></tr><tr><td>Gewählte Option: Grüne Schrift auf Grünem Fond</td><td><code>text-gruen</code> / <code>fond-gruen</code></td><td>≥ 4,5:1</td><td class="k-w"><span class="k-chip" style="background:#F0F7EA;color:#33791A">Aa</span>4,9:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#1B3714;color:#9CD27D">Aa</span>7,4:1 <span class="k-ok">✓</span></td></tr><tr><td>Button-Schrift auf Button</td><td><code>button-text</code> / <code>button</code></td><td>≥ 4,5:1</td><td class="k-w"><span class="k-chip" style="background:#33791A;color:#FFFFFF">Aa</span>5,4:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#5EB130;color:#1E1C19">Aa</span>6,3:1 <span class="k-ok">✓</span></td></tr></tbody></table></div></details>
+</section><section class="variante" id="v-c">
+  <div class="v-kopf"><span class="v-buchst" aria-hidden="true">C</span><div><h2>Werkstatt</h2><p class="v-kurz">Das Label ist ein Labelstreifen aus dem Beschriftungsgerät, das Feld hat harte Kanten.</p></div></div>
+  <div class="v-fakten">
+    <div><h3>Warum</h3><p>Greift die Maker-Elemente aus dem Styleguide auf: Labelstreifen in IBM Plex Mono, harte Kante wie beim Sticker, 2-px-Rand in Text. Beim Fokus wird der Streifen grün, beim Fehler rot; so ist der Zustand auch mit Abstand und ohne Farbsehen am Kasten ablesbar. Auffällig, aber in langen Formularen laut.</p></div>
+    <div><h3>Geeignet für</h3><p>Öffentliche Formulare mit Markenauftritt: Workshop-Anmeldung, Repair-Café-Anmeldung, Kiosk-Tablet in der Werkstatt. Für die Vereinssoftware nur als Akzent.</p></div>
+    <div><h3>Aufwand in der Vereinssoftware</h3><p>Mittel bis groß. Neue Varianten in <code>input.tsx</code> und den neuen Formular-Komponenten (Rand 2 px, <code>rounded-[2px]</code>, Schatten <code>shadow-[4px_4px_0_var(--ring)]</code> beim Fokus), eigene Label-Komponente mit Zustand aus dem Feld (<code>group-focus-within</code>, <code>group-has-aria-invalid</code>). Switch eckig neu zeichnen.</p></div>
+  </div>
+  
+  <div class="modi"><div class="modus hell"><span class="m-modus">Hell</span><div class="v-c"><div class="f-karte"><form class="f-form" novalidate onsubmit="return false" aria-labelledby="c0-titel">
+  <div class="f-kopf"><h4 id="c0-titel">Mitglied anlegen</h4><p class="f-legende"><span class="f-pflicht" aria-hidden="true">*</span> Pflichtfeld</p></div>
+  <div class="f-reihe">
+    <div class="f-feld ist-hover"><div class="f-box"><label class="f-label" for="c0-vorname">Vorname<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl"><input class="f-in" type="text" id="c0-vorname" name="vorname" required autocomplete="given-name" value="Alex"></div></div></div>
+    <div class="f-feld"><div class="f-box"><label class="f-label" for="c0-nachname">Nachname<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl"><input class="f-in" type="text" id="c0-nachname" name="nachname" required autocomplete="family-name" value="Beispiel"></div></div></div>
+  </div>
+  <div class="f-feld ist-fehler"><div class="f-box"><label class="f-label" for="c0-email">E-Mail<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl hat-ico"><input class="f-in" type="email" id="c0-email" name="email" required autocomplete="email" aria-invalid="true" aria-describedby="c0-email-f" value="alex.beispiel"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg></div></div><p class="f-meldung" id="c0-email-f"><svg class="f-mico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg><span>Die E-Mail braucht ein @, z. B. alex@beispiel.de</span></p></div>
+  <div class="f-reihe">
+    <div class="f-feld"><div class="f-box"><label class="f-label" for="c0-art">Mitgliedsart<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl hat-ico"><select class="f-in" id="c0-art" name="art" required aria-describedby="c0-art-h"><option selected>Ordentlich · 20 € im Monat</option><option>Ermäßigt · 10 € im Monat</option><option>Fördermitglied · ab 5 € im Monat</option></select><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div></div><p class="f-hilfe" id="c0-art-h">Ermäßigt mit Nachweis, z. B. Schüler- oder Studienausweis.</p></div>
+    <div class="f-feld ist-fokus"><div class="f-box"><label class="f-label" for="c0-eintritt">Eintritt am<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl"><input class="f-in" type="date" id="c0-eintritt" name="eintritt" required value="2026-12-01"></div></div></div>
+  </div>
+  <div class="f-feld f-kurz ist-ro"><div class="f-box"><label class="f-label" for="c0-nummer">Mitgliedsnummer</label><div class="f-ctl hat-ico"><input class="f-in" type="text" id="c0-nummer" name="nummer" readonly aria-describedby="c0-nummer-h" value="2005"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div></div><p class="f-hilfe" id="c0-nummer-h">Wird beim Anlegen vergeben.</p></div>
+  <fieldset class="f-gruppe">
+    <legend class="f-label">Beitrag zahlen per<span class="f-pflicht" aria-hidden="true">*</span></legend>
+    <div class="f-wahlen">
+      <label class="f-wahl" for="c0-zahlung-lastschrift"><input type="radio" id="c0-zahlung-lastschrift" name="zahlung" class="f-radio" value="lastschrift" checked><span class="f-wtext"><span>Lastschrift</span></span></label>
+      <label class="f-wahl" for="c0-zahlung-ueberweisung"><input type="radio" id="c0-zahlung-ueberweisung" name="zahlung" class="f-radio" value="ueberweisung"><span class="f-wtext"><span>Überweisung</span></span></label>
+    </div>
+  </fieldset>
+  <div class="f-feld ist-area"><div class="f-box"><label class="f-label" for="c0-notiz">Notiz</label><div class="f-ctl"><textarea class="f-in" rows="3" id="c0-notiz" name="notiz" placeholder="z. B. Interesse an Holzwerkstatt und Lasercutter"></textarea></div></div></div>
+  <div class="f-schalter">
+    <label class="f-wahl" for="c0-newsletter-x"><input type="checkbox" id="c0-newsletter-x" name="newsletter" class="f-switch" role="switch" checked aria-describedby="c0-newsletter-x-h"><span class="f-wtext"><span>Newsletter per E-Mail</span><span class="f-hilfe" id="c0-newsletter-x-h">Einmal im Monat: Termine und Neues aus der Werkstatt.</span></span></label>
+    <label class="f-wahl" for="c0-satzung-x"><input type="checkbox" id="c0-satzung-x" name="satzung" class="f-checkbox" checked><span class="f-wtext"><span>Satzung und Datenschutzhinweise gelesen<span class="f-pflicht" aria-hidden="true">*</span></span></span></label>
+    <label class="f-wahl ist-aus" for="c0-laser-x"><input type="checkbox" id="c0-laser-x" name="laser" class="f-checkbox" disabled aria-describedby="c0-laser-x-h"><span class="f-wtext"><span>Laser freigeschaltet</span><span class="f-hilfe" id="c0-laser-x-h">Erst nach der Einweisung möglich.</span></span></label>
+  </div>
+  <div class="f-knoepfe"><button type="submit" class="f-btn haupt">Mitglied anlegen</button><button type="button" class="f-btn zweit">Abbrechen</button></div>
+</form></div><div class="f-zustaende"><h5>Ein Feld in allen Zuständen</h5><div class="f-zgrid"><div class="f-feld"><div class="f-box"><label class="f-label" for="c0z-leer">Leer</label><div class="f-ctl"><input class="f-in" type="text" id="c0z-leer" name="leer" autocomplete="off" value="" placeholder="z. B. 53175"></div></div></div><div class="f-feld"><div class="f-box"><label class="f-label" for="c0z-voll">Ausgefüllt</label><div class="f-ctl"><input class="f-in" type="text" id="c0z-voll" name="voll" value="53175"></div></div></div><div class="f-feld ist-hover"><div class="f-box"><label class="f-label" for="c0z-hover">Hover</label><div class="f-ctl"><input class="f-in" type="text" id="c0z-hover" name="hover" value="53175"></div></div></div><div class="f-feld ist-fokus"><div class="f-box"><label class="f-label" for="c0z-fokus">Fokus</label><div class="f-ctl"><input class="f-in" type="text" id="c0z-fokus" name="fokus" value="53175"></div></div></div><div class="f-feld ist-fehler"><div class="f-box"><label class="f-label" for="c0z-fehler">Fehler</label><div class="f-ctl hat-ico"><input class="f-in" type="text" id="c0z-fehler" name="fehler" aria-invalid="true" aria-describedby="c0z-fehler-f" value="5317"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg></div></div><p class="f-meldung" id="c0z-fehler-f"><svg class="f-mico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg><span>Die PLZ hat 5 Ziffern.</span></p></div><div class="f-feld ist-aus"><div class="f-box"><label class="f-label" for="c0z-aus">Deaktiviert</label><div class="f-ctl"><input class="f-in" type="text" id="c0z-aus" name="aus" disabled aria-describedby="c0z-aus-h" value="53175"></div></div><p class="f-hilfe" id="c0z-aus-h">Nur der Vorstand ändert die PLZ.</p></div><div class="f-feld ist-ro"><div class="f-box"><label class="f-label" for="c0z-ro">Schreibgeschützt</label><div class="f-ctl hat-ico"><input class="f-in" type="text" id="c0z-ro" name="ro" readonly value="53175"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div></div></div></div></div></div></div><div class="modus dunkel"><span class="m-modus">Dunkel</span><div class="v-c"><div class="f-karte"><form class="f-form" novalidate onsubmit="return false" aria-labelledby="c1-titel">
+  <div class="f-kopf"><h4 id="c1-titel">Mitglied anlegen</h4><p class="f-legende"><span class="f-pflicht" aria-hidden="true">*</span> Pflichtfeld</p></div>
+  <div class="f-reihe">
+    <div class="f-feld ist-hover"><div class="f-box"><label class="f-label" for="c1-vorname">Vorname<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl"><input class="f-in" type="text" id="c1-vorname" name="vorname" required autocomplete="given-name" value="Alex"></div></div></div>
+    <div class="f-feld"><div class="f-box"><label class="f-label" for="c1-nachname">Nachname<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl"><input class="f-in" type="text" id="c1-nachname" name="nachname" required autocomplete="family-name" value="Beispiel"></div></div></div>
+  </div>
+  <div class="f-feld ist-fehler"><div class="f-box"><label class="f-label" for="c1-email">E-Mail<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl hat-ico"><input class="f-in" type="email" id="c1-email" name="email" required autocomplete="email" aria-invalid="true" aria-describedby="c1-email-f" value="alex.beispiel"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg></div></div><p class="f-meldung" id="c1-email-f"><svg class="f-mico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg><span>Die E-Mail braucht ein @, z. B. alex@beispiel.de</span></p></div>
+  <div class="f-reihe">
+    <div class="f-feld"><div class="f-box"><label class="f-label" for="c1-art">Mitgliedsart<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl hat-ico"><select class="f-in" id="c1-art" name="art" required aria-describedby="c1-art-h"><option selected>Ordentlich · 20 € im Monat</option><option>Ermäßigt · 10 € im Monat</option><option>Fördermitglied · ab 5 € im Monat</option></select><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div></div><p class="f-hilfe" id="c1-art-h">Ermäßigt mit Nachweis, z. B. Schüler- oder Studienausweis.</p></div>
+    <div class="f-feld ist-fokus"><div class="f-box"><label class="f-label" for="c1-eintritt">Eintritt am<span class="f-pflicht" aria-hidden="true">*</span></label><div class="f-ctl"><input class="f-in" type="date" id="c1-eintritt" name="eintritt" required value="2026-12-01"></div></div></div>
+  </div>
+  <div class="f-feld f-kurz ist-ro"><div class="f-box"><label class="f-label" for="c1-nummer">Mitgliedsnummer</label><div class="f-ctl hat-ico"><input class="f-in" type="text" id="c1-nummer" name="nummer" readonly aria-describedby="c1-nummer-h" value="2005"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div></div><p class="f-hilfe" id="c1-nummer-h">Wird beim Anlegen vergeben.</p></div>
+  <fieldset class="f-gruppe">
+    <legend class="f-label">Beitrag zahlen per<span class="f-pflicht" aria-hidden="true">*</span></legend>
+    <div class="f-wahlen">
+      <label class="f-wahl" for="c1-zahlung-lastschrift"><input type="radio" id="c1-zahlung-lastschrift" name="zahlung" class="f-radio" value="lastschrift" checked><span class="f-wtext"><span>Lastschrift</span></span></label>
+      <label class="f-wahl" for="c1-zahlung-ueberweisung"><input type="radio" id="c1-zahlung-ueberweisung" name="zahlung" class="f-radio" value="ueberweisung"><span class="f-wtext"><span>Überweisung</span></span></label>
+    </div>
+  </fieldset>
+  <div class="f-feld ist-area"><div class="f-box"><label class="f-label" for="c1-notiz">Notiz</label><div class="f-ctl"><textarea class="f-in" rows="3" id="c1-notiz" name="notiz" placeholder="z. B. Interesse an Holzwerkstatt und Lasercutter"></textarea></div></div></div>
+  <div class="f-schalter">
+    <label class="f-wahl" for="c1-newsletter-x"><input type="checkbox" id="c1-newsletter-x" name="newsletter" class="f-switch" role="switch" checked aria-describedby="c1-newsletter-x-h"><span class="f-wtext"><span>Newsletter per E-Mail</span><span class="f-hilfe" id="c1-newsletter-x-h">Einmal im Monat: Termine und Neues aus der Werkstatt.</span></span></label>
+    <label class="f-wahl" for="c1-satzung-x"><input type="checkbox" id="c1-satzung-x" name="satzung" class="f-checkbox" checked><span class="f-wtext"><span>Satzung und Datenschutzhinweise gelesen<span class="f-pflicht" aria-hidden="true">*</span></span></span></label>
+    <label class="f-wahl ist-aus" for="c1-laser-x"><input type="checkbox" id="c1-laser-x" name="laser" class="f-checkbox" disabled aria-describedby="c1-laser-x-h"><span class="f-wtext"><span>Laser freigeschaltet</span><span class="f-hilfe" id="c1-laser-x-h">Erst nach der Einweisung möglich.</span></span></label>
+  </div>
+  <div class="f-knoepfe"><button type="submit" class="f-btn haupt">Mitglied anlegen</button><button type="button" class="f-btn zweit">Abbrechen</button></div>
+</form></div><div class="f-zustaende"><h5>Ein Feld in allen Zuständen</h5><div class="f-zgrid"><div class="f-feld"><div class="f-box"><label class="f-label" for="c1z-leer">Leer</label><div class="f-ctl"><input class="f-in" type="text" id="c1z-leer" name="leer" autocomplete="off" value="" placeholder="z. B. 53175"></div></div></div><div class="f-feld"><div class="f-box"><label class="f-label" for="c1z-voll">Ausgefüllt</label><div class="f-ctl"><input class="f-in" type="text" id="c1z-voll" name="voll" value="53175"></div></div></div><div class="f-feld ist-hover"><div class="f-box"><label class="f-label" for="c1z-hover">Hover</label><div class="f-ctl"><input class="f-in" type="text" id="c1z-hover" name="hover" value="53175"></div></div></div><div class="f-feld ist-fokus"><div class="f-box"><label class="f-label" for="c1z-fokus">Fokus</label><div class="f-ctl"><input class="f-in" type="text" id="c1z-fokus" name="fokus" value="53175"></div></div></div><div class="f-feld ist-fehler"><div class="f-box"><label class="f-label" for="c1z-fehler">Fehler</label><div class="f-ctl hat-ico"><input class="f-in" type="text" id="c1z-fehler" name="fehler" aria-invalid="true" aria-describedby="c1z-fehler-f" value="5317"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg></div></div><p class="f-meldung" id="c1z-fehler-f"><svg class="f-mico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg><span>Die PLZ hat 5 Ziffern.</span></p></div><div class="f-feld ist-aus"><div class="f-box"><label class="f-label" for="c1z-aus">Deaktiviert</label><div class="f-ctl"><input class="f-in" type="text" id="c1z-aus" name="aus" disabled aria-describedby="c1z-aus-h" value="53175"></div></div><p class="f-hilfe" id="c1z-aus-h">Nur der Vorstand ändert die PLZ.</p></div><div class="f-feld ist-ro"><div class="f-box"><label class="f-label" for="c1z-ro">Schreibgeschützt</label><div class="f-ctl hat-ico"><input class="f-in" type="text" id="c1z-ro" name="ro" readonly value="53175"><svg class="f-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div></div></div></div></div></div></div></div>
+  <details class="k-box" open><summary>Kontraste C, gerechnet mit <code>build.ratio</code></summary><div class="k-wrap"><table class="k-t"><thead><tr><th>Paar</th><th>Rollen</th><th>Ziel</th><th>Hell</th><th>Dunkel</th></tr></thead><tbody><tr><td>Feldrand (Text) auf Fläche</td><td><code>text</code> / <code>flaeche</code></td><td>≥ 3,0:1</td><td class="k-w"><span class="k-chip" style="background:#FFFFFF;color:#1E1C19">Aa</span>17,0:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#13201A;color:#EDE8DE">Aa</span>13,8:1 <span class="k-ok">✓</span></td></tr><tr><td>Labelstreifen: Fläche auf Text</td><td><code>flaeche</code> / <code>text</code></td><td>≥ 4,5:1</td><td class="k-w"><span class="k-chip" style="background:#1E1C19;color:#FFFFFF">Aa</span>17,0:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#EDE8DE;color:#13201A">Aa</span>13,8:1 <span class="k-ok">✓</span></td></tr><tr><td>Labelstreifen Fokus: Fläche auf Fokus</td><td><code>flaeche</code> / <code>fokus</code></td><td>≥ 4,5:1</td><td class="k-w"><span class="k-chip" style="background:#33791A;color:#FFFFFF">Aa</span>5,4:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#9CD27D;color:#13201A">Aa</span>9,5:1 <span class="k-ok">✓</span></td></tr><tr><td>Labelstreifen Fehler: Fläche auf Warnschrift</td><td><code>flaeche</code> / <code>text-rot</code></td><td>≥ 4,5:1</td><td class="k-w"><span class="k-chip" style="background:#C62828;color:#FFFFFF">Aa</span>5,6:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#FF7B7B;color:#13201A">Aa</span>6,7:1 <span class="k-ok">✓</span></td></tr><tr><td>Fokusrand und -kante auf Fläche</td><td><code>fokus</code> / <code>flaeche</code></td><td>≥ 3,0:1</td><td class="k-w"><span class="k-chip" style="background:#FFFFFF;color:#33791A">Aa</span>5,4:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#13201A;color:#9CD27D">Aa</span>9,5:1 <span class="k-ok">✓</span></td></tr><tr><td>Fehlertext auf Fläche</td><td><code>text-rot</code> / <code>flaeche</code></td><td>≥ 4,5:1</td><td class="k-w"><span class="k-chip" style="background:#FFFFFF;color:#C62828">Aa</span>5,6:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#13201A;color:#FF7B7B">Aa</span>6,7:1 <span class="k-ok">✓</span></td></tr><tr><td>Labelstreifen deaktiviert: Text leise auf Fond</td><td><code>text-leise</code> / <code>fond</code></td><td>≥ 4,5:1</td><td class="k-w"><span class="k-chip" style="background:#FAF2E4;color:#5F5850">Aa</span>6,3:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#213129;color:#9BA6A0">Aa</span>5,4:1 <span class="k-ok">✓</span></td></tr><tr><td>Button-Schrift auf Button</td><td><code>button-text</code> / <code>button</code></td><td>≥ 4,5:1</td><td class="k-w"><span class="k-chip" style="background:#33791A;color:#FFFFFF">Aa</span>5,4:1 <span class="k-ok">✓</span></td><td class="k-w"><span class="k-chip" style="background:#5EB130;color:#1E1C19">Aa</span>6,3:1 <span class="k-ok">✓</span></td></tr></tbody></table></div></details>
+</section>
+  <section class="empf" id="empfehlung">
+    <h2>Empfehlung</h2>
+    <p><b>A „Klassisch umrandet“ als Standard für die Vereinssoftware und alle Anwendungen.</b> Es ist das am schnellsten erkennbare Feld, hält die Kontraste mit Abstand und ist in shadcn/ui eine Anpassung von Klassen statt neuer Komponenten. Die Marke steckt dort schon in Seitenleiste, Hauptbutton und Status.</p>
+    <p><b>C „Werkstatt“ für öffentliche Formulare</b> mit wenigen Feldern, etwa Workshop- oder Repair-Café-Anmeldung. Gleiche Rollen, gleiche Zustände, nur Label und Kanten anders; so bleibt es dieselbe Familie.</p>
+    <p><b>B „Gefüllt“ nicht weiterverfolgen.</b> Das Feld ist nur über die Linie unten erkennbar, und auf Fond-Flächen wie Infokästen verschwindet es ganz.</p>
+    <h3>Vorgeschlagene neue Rollen</h3>
+    <p>Keine neuen Farben, nur Namen für das, was Formulare heute implizit nutzen. Sie würden in <code>MODI</code> und <code>MODI_PRUEFEN</code> eingetragen (Rand ≥ 3:1 gegen Fläche, Hintergrund, Fond).</p>
+    <div class="k-wrap"><table class="r-t"><thead><tr><th>Token</th><th>Wert</th><th>Wofür</th></tr></thead><tbody><tr><td><code>--feld</code></td><td>Fläche (A, C) · Fond (B)</td><td>Hintergrund eines Eingabefelds. Heute „Fläche“ nach Ebene 1; mit eigener Rolle lässt sich B umsetzen, ohne Fond doppelt zu belegen.</td></tr><tr><td><code>--feld-rand</code></td><td>Hell <b>Kiesel</b> <code>#948D81</code> (3,1–3,3:1) · Dunkel <b>Flechte</b> <code>#606E67</code> (3,1–3,5:1). In A; B nutzt Text leise, C Text</td><td>Rand bzw. Unterlinie von Eingabefeldern, Checkboxen, Radios, Switch aus. Weicher als Text leise, aber ≥ 3:1 gegen Fläche und Hintergrund (WCAG 1.4.11). Macht die Regel „nicht Linie“ zur Rolle; entspricht shadcn <code>--input</code>. Neue Farben, aus Linie/Stein bzw. Tanne Linie/Salbei gemischt.</td></tr><tr><td><code>--feld-aus</code></td><td>Fond</td><td>Hintergrund deaktivierter Felder. Heute implizit Fond, in shadcn per <code>opacity</code> gelöst (verboten: keine Transparenz).</td></tr></tbody></table></div>
+  </section>
+</main>
+<footer><div class="wrap">Entwurf für den Styleguide von MakerSpace Bonn e.V. · Farben aus <code>src/build.py</code>, Stand der Palette wie im Abschnitt „Hell &amp; Dunkel“.</div></footer>
+<script>
+(function(){
+  // Umschalter wie in der App-Demo: Auto → Hell → Dunkel. Steuert die Seite; die Panels zeigen immer beide Modi.
+  var knopf=document.querySelector('.schalter'),reihe=['auto','light','dark'],name={auto:'Auto (wie Gerät)',light:'Hell',dark:'Dunkel'};
+  var nur=document.getElementById('nurAktuell'),mq=matchMedia('(prefers-color-scheme: dark)');
+  function aktuell(m){return (m==='dark'||(m==='auto'&&mq.matches))?'dunkel':'hell'}
+  function panels(){var z=aktuell(knopf.dataset.modus);document.querySelectorAll('.modus').forEach(function(p){p.classList.toggle('versteckt',!p.classList.contains(z))})}
+  function setze(m){
+    if(m==='auto')delete document.documentElement.dataset.theme;else document.documentElement.dataset.theme=m;
+    knopf.dataset.modus=m;knopf.title='Darstellung: '+name[m];knopf.setAttribute('aria-label',knopf.title);
+    document.getElementById('modusName').textContent=name[m];panels();
+    try{localStorage.setItem('darstellung',m)}catch(e){}
+  }
+  knopf.addEventListener('click',function(){setze(reihe[(reihe.indexOf(knopf.dataset.modus)+1)%3])});
+  nur.addEventListener('change',function(){document.body.classList.toggle('nur-aktuell',nur.checked)});
+  mq.addEventListener('change',function(){if(knopf.dataset.modus==='auto')panels()});
+  var g='auto';try{g=localStorage.getItem('darstellung')||'auto'}catch(e){}
+  setze(reihe.indexOf(g)>=0?g:'auto');
+})();
+</script>
+</body>
+</html>
