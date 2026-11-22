@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MakerSpace Bonn Styleguide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   color-scheme: light;
@@ -149,6 +149,19 @@ table.matrix td.ok{} table.matrix td.big{} table.matrix td.no{color:var(--stone)
 .m-ebene2{background:var(--fond);border-radius:4px;padding:12px;margin-top:10px}
 .modus.hell .m-ebene1,.modus.hell .app-tabelle-rahmen{box-shadow:0 1px 1px rgba(30,28,25,.05),0 3px 10px -2px rgba(30,28,25,.09)}
 .m-eb{font:500 12px/1.45 "IBM Plex Mono",monospace;color:var(--text-leise)}
+/* Raster (Millimeterpapier, Ebene 0) und Schneidematte (Markenfläche); Maße wie RASTER_PX/MATTE_PX in build.py */
+.m-raster{padding:18px 14px 14px;background-color:var(--hintergrund);background-image:linear-gradient(var(--raster) 1px,transparent 1px),linear-gradient(90deg,var(--raster) 1px,transparent 1px);background-size:27px 27px}
+.m-raster-eb{display:block}
+.m-raster-karte{margin:12px 0}
+.modus.hell .m-raster-karte{box-shadow:0 1px 1px rgba(30,28,25,.05),0 3px 10px -2px rgba(30,28,25,.09)}
+.m-matte{position:relative;overflow:hidden;border-radius:10px;margin-bottom:10px;color:var(--kreide);background-color:var(--gruen-800);background-image:linear-gradient(var(--matte-linie) 1px,transparent 1px),linear-gradient(90deg,var(--matte-linie) 1px,transparent 1px);background-size:34px 34px}
+.m-skala{position:absolute;top:0;left:0}
+.m-skala-oben{right:0;height:12px;background-image:repeating-linear-gradient(90deg,var(--matte-skala) 0 1px,transparent 1px 17px)}
+.m-skala-links{bottom:0;width:12px;background-image:repeating-linear-gradient(180deg,var(--matte-skala) 0 1px,transparent 1px 17px)}
+.m-matte-inhalt{position:relative;padding:32px 22px 24px 34px}
+.m-matte-h{font-size:27px;font-weight:700;line-height:1.08;letter-spacing:-.015em;margin:0 0 10px;max-width:14ch}
+.modus .m-matte p{margin:0 0 16px;max-width:36ch;font-size:15px}
+.m-matte-button{display:inline-block;background:var(--kreide);color:var(--gruen-800);font-weight:600;padding:8px 15px;border-radius:6px}
 .m-feld{display:flex;align-items:center;gap:8px;background:var(--feld);border:1px solid var(--feld-rand);border-radius:6px;padding:7px 10px;color:var(--text-leise);font-size:14px}
 .m-feld svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
 .m-mint-body{display:grid;gap:10px}
@@ -361,11 +374,11 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
     <tr><td><a href="#farben">Farben</a></td><td><span class="chg mod">Geändert</span></td><td>Fond-Farben als feste Werte statt Transparenz (50 % / 10 %)</td><td>Transparenz lässt sich in Druck, Office und Canva nicht verlässlich nachbauen</td></tr>
     <tr><td><a href="#farben">Farben</a></td><td><span class="chg new">Neu</span></td><td>Grünskala, warme Neutraltöne (Tinte, Stein, Papier), Text-Blau, Maker-Orange, Sicherheitsrot</td><td>Volunteers brauchten bisher eigene Abstufungen; Fließtext hatte keine definierte Farbe</td></tr>
     <tr><td><a href="#kombinationen">Kombinationen</a></td><td><span class="chg new">Neu</span></td><td>Tabelle „welche Schrift auf welcher Farbe“ mit Kontrastwerten</td><td>Weiße Schrift auf Markengrün (z. B. die Download-Buttons im alten Guide) hat nur 2,69:1</td></tr>
-    <tr><td><a href="#modi">Hell &amp; Dunkel</a></td><td><span class="chg new">Neu</span></td><td>Farbrollen für Hell- und Dunkelmodus mit festen Gegenstücken, Ebenen, Muster für Anwendungen mit Status und Umschalter, Code zum Kopieren (CSS, Umschalter, shadcn/ui)</td><td>Viele Geräte stehen auf Dunkelmodus; dunkle Versionen von Webseite und Linkseite mussten bisher geraten werden</td></tr>
+    <tr><td><a href="#modi">Hell &amp; Dunkel</a></td><td><span class="chg new">Neu</span></td><td>Farbrollen für Hell- und Dunkelmodus mit festen Gegenstücken, Ebenen, Muster für Anwendungen mit Status und Umschalter, Code zum Kopieren (CSS, Umschalter, shadcn/ui), Raster-Hintergrund und Schneidematte</td><td>Viele Geräte stehen auf Dunkelmodus; dunkle Versionen von Webseite und Linkseite mussten bisher geraten werden</td></tr>
     <tr><td><a href="#logo">Logo</a></td><td><span class="chg new">Neu</span></td><td>Negativ-, Weiß- und Schwarz-Version, Hintergrundregeln, Logo-Don'ts</td><td>Für dunkle Flächen, Fotos, Laser, Stempel, Stick und Schwarz-Weiß-Druck gab es keine Vorgabe</td></tr>
     <tr><td><a href="#claim">Claim</a></td><td><span class="chg fix">Korrigiert</span></td><td>Einheitlich „Eine offene Werkstatt <b>für</b> Bonn. Für alle.“</td><td>Logo und Claim-Seite sagen „für“, die Beispielflyer „in“</td></tr>
     <tr><td><a href="#material">Material</a></td><td><span class="chg new">Neu</span></td><td>Farben und Logo auf Folie, Filament, Holz, Acryl, Stoff</td><td>Wir stellen viel selbst her; dafür gab es keine Regeln</td></tr>
-    <tr><td><a href="#typo">Schrift</a></td><td><span class="chg new">Neu</span> <span class="chg mod">Geändert</span></td><td>Schriftgrößen-Skala, Mindestgrößen; IBM Plex Sans Regular für Fließtext ergänzt</td><td>Bisher nur Schnitte, keine Größen. Light ist bei kleinen Größen und auf Creme zu dünn</td></tr>
+    <tr><td><a href="#typo">Schrift</a></td><td><span class="chg new">Neu</span> <span class="chg mod">Geändert</span></td><td>Schriftgrößen-Skala, Mindestgrößen; IBM Plex Sans Regular für Fließtext; Archivo für Titel und Überschriften</td><td>Bisher nur Schnitte, keine Größen. Light ist bei kleinen Größen und auf Creme zu dünn. Plex Sans endet bei Bold, große Titel brauchen mehr Kraft</td></tr>
     <tr><td><a href="#elemente">Maker-Elemente</a></td><td><span class="chg new">Neu</span></td><td>Warnband, Labelstreifen, Sticker, Handnotizen</td><td>Werkstatt-Charakter statt Firmen-Look, ohne die Wiedererkennung zu verwässern</td></tr>
     <tr><td><a href="#schilder">Schilder</a></td><td><span class="chg new">Neu</span></td><td>Beschilderung und Sicherheitszeichen</td><td>Leitsysteme waren im Geltungsbereich genannt, aber nicht geregelt</td></tr>
     <tr><td><a href="#einleitung">Einleitung</a>, <a href="#marke">Marke</a></td><td><span class="chg mod">Geändert</span></td><td>Gekürzt, weniger Marketing-Fachbegriffe</td><td>Passt zur eigenen Tonalität: „Nicht werblich überhöht“</td></tr>
@@ -602,12 +615,35 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
   <p>Drei Ebenen reichen für fast alles. Was weiter vorne liegt, hebt sich ab: im Hellen durch Linie und weichen Schatten, im Dunkeln durch Linie und Helligkeit. Im Dunkeln gilt: je weiter vorne, desto heller.</p>
   <div class="modi">{{vorschau_ebenen}}</div>
   <ul>
-    <li><b>Ebene 0 · Hintergrund:</b> die Seite selbst. Eine ruhige, einfarbige Fläche, nie reines Weiß oder Schwarz, kein Muster.</li>
+    <li><b>Ebene 0 · Hintergrund:</b> die Seite selbst. Eine ruhige Fläche, nie reines Weiß oder Schwarz. Einfarbig oder mit dem Millimeter-Raster unten, sonst kein Muster. <span class="chg mod">Geändert</span></li>
     <li><b>Ebene 1 · Fläche:</b> Karten, Tabellen, Kopfleiste. Immer mit Linie. Eingabefelder haben eigene Rollen (Feld, Feld-Rand), siehe <a href="#formulare">Formulare</a>.</li>
     <li><b>Ebene 2 · Fond:</b> Hover, Tabellenkopf, Zweitbuttons, Infokästen in einer Karte. Braucht keinen Rahmen.</li>
     <li><b>Markenflächen</b> wie Kopf und Fuß in Grün 800/900 bleiben in beiden Modi gleich. Im Dunkeln tragen sie das Grün der Seite, weil die Ebenen selbst fast schwarz sind.</li>
-    <li>Feste Farbwerte, keine Transparenz.</li>
+    <li>Feste Farbwerte, keine Transparenz. Das gilt auch für Rasterlinien: Rastergrün und Mattenlinie sind schon fertig gemischt.</li>
   </ul>
+
+  <h4>Raster und Schneidematte <span class="chg new">Neu</span></h4>
+  <p>Zwei Hintergründe aus der Werkstatt, übernommen aus dem Homepage-Design: <b>Millimeterpapier</b>, auf dem man Ideen skizziert, und die grüne <b>Schneidematte</b> auf der Werkbank. Beide sind ein feines Gitter aus 1-px-Linien in einem festen Ton. Sie sagen „hier wird gebaut“, ohne dass man ein Bild braucht.</p>
+  <div class="modi">{{vorschau_raster}}</div>
+  <ul>
+    <li><b>Raster auf Ebene 0:</b> Linien in Raster (Rastergrün hell, Tanne Raster dunkel), alle <b>27 px</b>, quer und längs. Das ist fein wie Karopapier: Man sieht es, man liest es nicht.</li>
+    <li>Im Dunkeln ist das Raster genauso leise wie im Hellen, nicht heller. Der Build prüft das: Raster zu Hintergrund höchstens 1,10:1 in beiden Modi.</li>
+    <li>Das Raster liegt nur auf dem Seitenhintergrund. Karten, Tabellen, Fond und Felder darüber sind einfarbig und decken es ab. Schrift direkt auf dem Raster ist erlaubt (Kontrast geprüft), längere Texte gehören trotzdem auf eine Fläche.</li>
+  </ul>
+  <div class="modi">{{vorschau_matte}}</div>
+  <ul>
+    <li><b>Schneidematte:</b> Grün 800 mit Linien in Mattenlinie alle <b>34 px</b>. Gröber als das Papier, wie das Zentimeter-Raster einer echten Matte. Am oberen und linken Rand darf eine Lineal-Skala stehen (Mattenskala, Striche alle 17 px, 12 bis 16 px lang).</li>
+    <li>Sie ist eine Markenfläche: gleich in beiden Modi, Schrift Kreide (6,8:1 auf Grün 800, 5,1:1 auf der Linie). Ein Button darauf ist Kreide mit Schrift Grün 800.</li>
+    <li>Wofür: Hero der Webseite, Kopf einer Landingpage, Titelkachel eines Posts. Höchstens eine Matte pro Ansicht.</li>
+  </ul>
+  <div class="grid g2">
+    <div class="do"><b>So</b>Raster auf dem Seitenhintergrund von Webseite und Linkseite, Schneidematte für den Hero. Maße 27 px und 34 px, Linien 1 px.</div>
+    <div class="dont"><b>Nicht so</b>Raster in Anwendungen wie Vereinssoftware oder Inventar. Dort konkurriert es mit Tabellenlinien, der Hintergrund bleibt einfarbig.</div>
+    <div class="dont"><b>Nicht so</b>Raster auf Karten, Fond, Feldern oder der Seitenleiste. Es gehört nur auf Ebene 0.</div>
+    <div class="dont"><b>Nicht so</b>Raster oder Matte im Druck unter Fließtext: Feine Linien drucken unruhig oder verschwinden. Auf Plakaten höchstens hinter der großen Überschrift.</div>
+    <div class="dont"><b>Nicht so</b>Andere Maße, dickere Linien, Punkte, Raster per Transparenz oder in anderen Farben. Keine Matte als Seitenhintergrund und nicht in Grün 900.</div>
+    <div class="dont"><b>Nicht so</b>Raster hinter Fotos, Logos oder Diagrammen mit eigenen Linien. Dort einfarbig bleiben.</div>
+  </div>
 
   <h3>Anwendungen</h3>
   <p>Für Programme wie die Vereinssoftware oder das Inventar: viel Information, wenig Deko. Die Seitenleiste trägt die Marke, der Inhalt bleibt ruhig.</p>
@@ -723,13 +759,18 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
 <section id="typo">
   <h2><span class="num">9</span>Schrift</h2>
   <div class="diff mod"><strong class="t">Was ist anders?</strong>
-    <ul><li><b>Neu:</b> Größenskala und Mindestgrößen. Bisher gab es nur die Schnitte.</li>
+    <ul><li><b>Neu:</b> <b>Archivo</b> Black/ExtraBold für Titel und Überschriften, wie auf der Homepage. IBM Plex Sans endet bei Bold und hat für große Titel zu wenig Kraft.</li>
+    <li><b>Neu:</b> Größenskala und Mindestgrößen. Bisher gab es nur die Schnitte.</li>
     <li><b>Geändert:</b> Fließtext in <b>IBM Plex Sans Regular</b> statt Light. Light bleibt erlaubt für große Einleitungstexte, ist aber bei kleinen Größen, auf Creme und im Kopierer zu dünn.</li>
-    <li><b>Unverändert:</b> IBM Plex Sans für alles, Montserrat nur im Logo.</li></ul></div>
+    <li><b>Unverändert:</b> IBM Plex Sans für alles andere, Montserrat nur im Logo.</li></ul></div>
   <p><b>IBM Plex Sans</b>: technisch, gut lesbar, erinnert an Normschrift aus dem Handwerk, kostenlos (<a href="https://fonts.google.com/specimen/IBM+Plex+Sans">Google Fonts</a>), in Canva verfügbar. <b>IBM Plex Mono</b> optional für Maße, Code, Labels <span class="chg new">Neu</span>.</p>
+  <p><b>Archivo</b> <span class="chg new">Neu</span>: nur für <b>Titel</b> und <b>Überschrift</b>, nie für Fließtext, Einleitung, Zwischenzeilen, Labels oder Buttons. Schnitte Black (900) für Titel, ExtraBold (800) oder Black für Überschriften. Kostenlos (<a href="https://fonts.google.com/specimen/Archivo">Google Fonts</a>). Ab 24 px im Web und 18 pt im Druck, darunter IBM Plex Sans Bold. Ersatz, wenn Archivo fehlt (Word, Fremdsysteme): IBM Plex Sans Bold.</p>
+  <pre class="code">--schrift-titel: "Archivo", "IBM Plex Sans", system-ui, sans-serif;  /* 800/900, ab 24 px */
+--schrift-text:  "IBM Plex Sans", system-ui, sans-serif;
+--schrift-mono:  "IBM Plex Mono", ui-monospace, monospace;</pre>
   <div>
-    <div class="typo-row"><div class="spec"><b>Titel</b><br>Bold · Print 36–60 pt · Web 40–56 px · Zeilenabstand 1,05</div><div style="font-size:clamp(32px,5vw,48px);font-weight:700;line-height:1.05">Repair Café im MakerSpace</div></div>
-    <div class="typo-row"><div class="spec"><b>Überschrift</b><br>Bold · Print 18–24 pt · Web 28–32 px</div><div style="font-size:28px;font-weight:700;line-height:1.2">Was du mitbringen solltest</div></div>
+    <div class="typo-row"><div class="spec"><b>Titel</b> <span class="chg mod">Archivo</span><br>Archivo Black · Print 36–60 pt · Web 40–56 px · Zeilenabstand 1,02 · Sperrung −2 %</div><div style="font-family:'Archivo','IBM Plex Sans',sans-serif;font-size:clamp(32px,5vw,52px);font-weight:900;line-height:1.02;letter-spacing:-.02em">Repair Café im MakerSpace</div></div>
+    <div class="typo-row"><div class="spec"><b>Überschrift</b> <span class="chg mod">Archivo</span><br>Archivo ExtraBold oder Black · Print 18–24 pt · Web 24–32 px</div><div style="font-family:'Archivo','IBM Plex Sans',sans-serif;font-size:28px;font-weight:800;line-height:1.15">Was du mitbringen solltest</div></div>
     <div class="typo-row"><div class="spec"><b>Zwischenzeile</b><br>Medium · Print 12–14 pt · Web 20 px</div><div style="font-size:20px;font-weight:500">Jeden Montag ab 18 Uhr</div></div>
     <div class="typo-row"><div class="spec"><b>Einleitung</b><br>Light · Print 12–14 pt · Web 19–21 px</div><div style="font-size:20px;font-weight:300;line-height:1.5">In unserem Makerspace findest du Werkzeuge, die für die eigene Wohnung zu groß oder zu teuer sind.</div></div>
     <div class="typo-row"><div class="spec"><b>Fließtext</b> <span class="chg mod">Regular</span><br>Print 9,5–11 pt · Web 16–18 px · Zeilenabstand 1,5</div><div style="font-size:16px;line-height:1.6">Komm vorbei, schau dir die Werkstatt an und lass dir alles zeigen. Du brauchst keine Vorkenntnisse. Sicherheitseinweisungen für Laser, CNC und Metall machen wir gemeinsam.</div></div>

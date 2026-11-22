@@ -64,6 +64,7 @@ def matrix():
 # (Token, Rolle, (HEX hell, Name hell), (HEX dunkel, Name dunkel), Wofür)
 MODI = [
     ('hintergrund', 'Hintergrund', ('#FBF8F2', 'Papier'), ('#0C1511', 'Tannennacht'), 'Ebene 0: Seitenhintergrund'),
+    ('raster', 'Raster', ('#EBF1DF', 'Rastergrün'), ('#111E13', 'Tanne Raster'), 'Rasterlinie auf Ebene 0, wenn die Seite Millimeterpapier zeigt (1 px, alle 27 px). Nur Deko, nie Schrift oder Rahmen'),
     ('flaeche', 'Fläche', ('#FFFFFF', 'Weiß'), ('#13201A', 'Tannenschwarz'), 'Ebene 1: Karten, Tabellen, Kopfleiste'),
     ('fond', 'Fond', ('#FAF2E4', 'Creme'), ('#213129', 'Tanne hell'), 'Ebene 2: Hover, Tabellenkopf, Zweitbuttons, Infokästen'),
     ('linie', 'Linie', ('#E4DCCB', 'Linie'), ('#2A3C33', 'Tanne Linie'), 'Rahmen um Karten und Tabellen, Trenner. Nicht für Eingabefelder (dafür Feld-Rand)'),
@@ -102,20 +103,23 @@ KONSTANT = [
     ('kreide', '#EDE8DE', 'Kreide', 'Schrift auf Grün 800/900, auch im Hellmodus'),
     ('gruen-800', '#325725', 'Grün 800', 'Markenflächen: Kopf, Fuß, Schilder'),
     ('gruen-900', '#1B3714', 'Grün 900', 'Dunkle Markenflächen, dunkle Posts'),
+    ('matte-linie', '#49693D', 'Mattenlinie', 'Rasterlinie der Schneidematte auf Grün 800 (1 px, alle 34 px)'),
+    ('matte-skala', '#98AB92', 'Mattenskala', 'Lineal-Striche am Rand der Schneidematte. Nicht für Schrift'),
     ('violett', '#6D3E91', 'MINT-Violett', 'Große Flächen mit weißer Schrift'),
     ('gelb', '#FCBD30', 'Mitglieder-Gelb', 'Mitglieder-Fahne, Schrift darauf Tinte'),
     ('orange', '#F2711C', 'Maker-Orange', 'Sticker, Events, Schrift darauf Tinte'),
     ('rot', '#C62828', 'Sicherheitsrot', 'Warnflächen mit weißer Schrift'),
 ]
 NEU = {'Tannennacht', 'Tannenschwarz', 'Tanne hell', 'Tanne Linie', 'Tanne Feld', 'Salbei', 'Nebel', 'Kreide',
-       'MINT-Fond dunkel', 'Violett hell', 'Rot hell', 'Gelb-Fond', 'Gelb-Fond dunkel', 'Ocker', 'Rot-Fond', 'Rot-Fond dunkel', 'Kiesel', 'Flechte'}
+       'MINT-Fond dunkel', 'Violett hell', 'Rot hell', 'Gelb-Fond', 'Gelb-Fond dunkel', 'Ocker', 'Rot-Fond', 'Rot-Fond dunkel', 'Kiesel', 'Flechte',
+       'Rastergrün', 'Tanne Raster', 'Mattenlinie', 'Mattenskala'}
 # Rolle -> (Flächen, Mindestkontrast). Schrift braucht 4,5:1, Fokus 3:1 (WCAG 1.4.3 / 1.4.11).
 # Gilt für beide Modi; der Build bricht ab, wenn eine Paarung durchfällt.
 MODI_PRUEFEN = {
-    'text': (['hintergrund', 'flaeche', 'fond', 'fond-gruen', 'fond-gelb', 'fond-rot', 'fond-mint', 'feld'], 4.5),
-    'text-leise': (['hintergrund', 'flaeche', 'fond', 'fond-gruen', 'fond-mint', 'feld'], 4.5),
+    'text': (['hintergrund', 'raster', 'flaeche', 'fond', 'fond-gruen', 'fond-gelb', 'fond-rot', 'fond-mint', 'feld'], 4.5),
+    'text-leise': (['hintergrund', 'raster', 'flaeche', 'fond', 'fond-gruen', 'fond-mint', 'feld'], 4.5),
     'feld-rand': (['hintergrund', 'flaeche', 'feld'], 3),
-    'text-gruen': (['hintergrund', 'flaeche', 'fond', 'fond-gruen'], 4.5),
+    'text-gruen': (['hintergrund', 'raster', 'flaeche', 'fond', 'fond-gruen'], 4.5),
     'button-text': (['button', 'button-hover'], 4.5),
     'text-gelb': (['hintergrund', 'flaeche', 'fond-gelb'], 4.5),
     'text-rot': (['hintergrund', 'flaeche', 'fond', 'fond-rot'], 4.5),
@@ -129,10 +133,16 @@ MODI_PRUEFEN = {
 }
 # Feste Paarungen (Schrift, Fläche, Minimum): Token oder HEX
 KONSTANT_PRUEFEN = [
-    ('kreide', 'gruen-900', 4.5), ('kreide', 'gruen-800', 4.5),
+    ('kreide', 'gruen-900', 4.5), ('kreide', 'gruen-800', 4.5), ('kreide', 'matte-linie', 4.5),
     ('tinte', 'marke', 4.5), ('tinte', 'gelb', 4.5), ('tinte', 'orange', 4.5),
     ('#FFFFFF', 'violett', 4.5), ('#FFFFFF', 'rot', 4.5), ('marke', 'gruen-900', 3),
 ]
+
+# Deko darf nicht auffallen: (Linie, Fläche, Höchstkontrast). Gilt in beiden Modi, damit das Raster
+# im Dunkeln genauso ruhig wirkt wie im Hellen (Homepage: Markengrün 10 % über Papier = 1,09:1).
+MODI_LEISE = [('raster', 'hintergrund', 1.10)]
+# Raster- und Mattenmaß in px, wie auf der Homepage
+RASTER_PX, MATTE_PX = 27, 34
 
 
 def modi_werte(i):
@@ -154,6 +164,11 @@ def modi_kontrast():
             werte = [(ratio(w[tok], w[f]), f) for f in flaechen]
             out[tok, i] = min(werte)[0]
             fehler += [f'{tok} auf {f} ({modus}): {v:.2f}:1 < {minimum}' for v, f in werte if v < minimum]
+        for linie, flaeche, maximum in MODI_LEISE:
+            v = ratio(w[linie], w[flaeche])
+            out[linie, i] = v
+            if v > maximum:
+                fehler.append(f'{linie} auf {flaeche} ({modus}): {v:.2f}:1 > {maximum}, zu auffällig')
     w = modi_werte(0)
     for vorn, hinten, minimum in KONSTANT_PRUEFEN:
         v = ratio(w.get(vorn, vorn), w[hinten])
@@ -177,6 +192,10 @@ def modi_tabelle():
             '<th>Kontrast min.<br>hell · dunkel</th><th>Wofür</th></tr>']
     for tok, rolle, (hh, hn), (dh, dn), wofuer in MODI:
         kontrast = f'{zahl(k[tok, 0])} · {zahl(k[tok, 1])}' if (tok, 0) in k else '–'
+        leise = {linie: maximum for linie, _, maximum in MODI_LEISE}
+        if tok in leise:
+            z2 = lambda v: f'{v:.2f}'.replace('.', ',')
+            kontrast = f'{z2(k[tok, 0])} · {z2(k[tok, 1])}<br><span class="small">Deko, höchstens {z2(leise[tok])}</span>'
         rows.append(f'<tr><td><b>{rolle}</b><br><code>--{tok}</code></td><td>{chip(hh, hn, hn in NEU)}</td>'
                     f'<td>{chip(dh, dn, dn in NEU)}</td><td>{kontrast}</td><td>{wofuer}</td></tr>')
     rows.append('<tr><th colspan="5">In beiden Modi gleich</th></tr>')
@@ -225,6 +244,24 @@ def modi_css():
 body {{ background: var(--hintergrund); color: var(--text); }}
 a {{ color: var(--text-gruen); text-decoration: underline; }}
 :focus-visible {{ outline: 3px solid var(--fokus); outline-offset: 2px; }}
+
+/* Raster (optional): Millimeterpapier nur auf Ebene 0, z. B. <body class="raster">.
+   Karten und Flächen darüber bleiben einfarbig. Nicht in Anwendungen. */
+.raster {{
+  background-color: var(--hintergrund);
+  background-image: linear-gradient(var(--raster) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--raster) 1px, transparent 1px);
+  background-size: {RASTER_PX}px {RASTER_PX}px;
+}}
+
+/* Schneidematte: Markenfläche für Hero und Kopf, in beiden Modi gleich. Schrift Kreide. */
+.schneidematte {{
+  background-color: var(--gruen-800);
+  background-image: linear-gradient(var(--matte-linie) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--matte-linie) 1px, transparent 1px);
+  background-size: {MATTE_PX}px {MATTE_PX}px;
+  color: var(--kreide);
+}}
 
 /* Logo tauschen: <img class="logo-hell" …> und <img class="logo-dunkel" …> */
 .logo-dunkel {{ display: none; }}
@@ -361,6 +398,32 @@ def vorschau_ebenen(i):
         <div class="m-ebene1"><span class="m-eb">1 · Fläche · {n['flaeche']} · Linie · {n['linie']}</span>
           <div class="m-ebene2"><span class="m-eb">2 · Fond · {n['fond']}</span></div>
         </div>
+      </div>'''
+
+
+def vorschau_raster(i):
+    n = modi_namen(i)
+    return f'''<div class="m-raster">
+        <span class="m-eb m-raster-eb">0 · Hintergrund · {n['hintergrund']} + Raster · {n['raster']} · {RASTER_PX} px</span>
+        <div class="m-karte m-raster-karte">
+          <div><b>Offene Werkstatt</b><br><span class="m-leise">Donnerstag 18–21 Uhr · Kennedyallee 18</span></div>
+          <span class="m-button">Vorbeikommen</span>
+        </div>
+        <span class="m-eb m-raster-eb">1 · Fläche liegt einfarbig auf dem Raster</span>
+      </div>'''
+
+
+def vorschau_matte(i):
+    return f'''<div class="m-raster m-raster-matte">
+        <div class="m-matte">
+          <div class="m-skala m-skala-oben"></div><div class="m-skala m-skala-links"></div>
+          <div class="m-matte-inhalt">
+            <div class="m-matte-h">Bau, was du dir vorstellst.</div>
+            <p>Löten, fräsen, nähen, 3D-drucken: sechs Werkstätten und Leute, die mit anpacken.</p>
+            <span class="m-matte-button">Offene Tür besuchen</span>
+          </div>
+        </div>
+        <span class="m-eb m-raster-eb">Schneidematte · Grün 800 + Mattenlinie · {MATTE_PX} px · gleich in beiden Modi</span>
       </div>'''
 
 
@@ -575,6 +638,7 @@ def render(versionen):
         'modi_css': escape(modi_css(), quote=False), 'modi_meta': escape(modi_meta(), quote=False),
         'modi_umschalter': escape(MODI_UMSCHALTER, quote=False), 'modi_shadcn': escape(MODI_SHADCN, quote=False),
         'vorschau_inhalt': paar(vorschau_inhalt), 'vorschau_ebenen': paar(vorschau_ebenen),
+        'vorschau_raster': paar(vorschau_raster), 'vorschau_matte': paar(vorschau_matte),
         'vorschau_app': paar(vorschau_app, 'app-modus'), 'vorschau_formular': paar(vorschau_formular, 'fm-modus'), 'vorschau_mint': paar(vorschau_mint, 'kompakt'),
         'version': escape(aktuell['version']), 'stand': stand(aktuell), 'stand_datum': stand(aktuell).split(',')[0],
         'protokoll': protokoll(versionen),

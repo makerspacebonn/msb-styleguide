@@ -1,5 +1,11 @@
 [
   {
+    "version": "2026-11.10",
+    "zeit": "2026-11-22T02:33:34Z",
+    "was": "Raster-Hintergrund aus dem Homepage-Design; Archivo als Schrift für Titel und Überschriften",
+    "fingerabdruck": "9455e81d5e15"
+  },
+  {
     "version": "2026-11.9",
     "zeit": "2026-11-21T00:28:23Z",
     "was": "Formulare: Stil für Eingabefelder in Web und Apps, hell und dunkel, mit eigenem weicheren Feld-Rand (Kiesel/Flechte)",
