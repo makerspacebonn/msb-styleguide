@@ -117,7 +117,7 @@ table.matrix td.ok{} table.matrix td.big{} table.matrix td.no{color:var(--stone)
 .ki-tag b{display:flex;align-items:center;padding:0 10px;background:var(--gruen-500);color:var(--ink);font-weight:500}
 .ki-tag span{display:flex;align-items:center;padding:0 12px 0 10px;background:var(--ink);color:#fff}
 .ki-tag.hell span{background:#fff;color:var(--ink)}
-.sticker{display:inline-flex;align-items:center;justify-content:center;width:120px;height:120px;border-radius:50%;background:var(--orange);color:var(--ink);font-weight:700;font-size:20px;line-height:1.1;text-align:center;transform:rotate(-8deg);box-shadow:3px 3px 0 var(--ink)}
+.sticker{display:inline-flex;align-items:center;justify-content:center;width:120px;height:131px;padding:0 20px;font-size:19px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 108 118'%3E%3Cpolygon points='50,9.5 91,33 91,79 50,102.5 9,79 9,33' fill='%23F2711C' stroke='%23F2711C' stroke-width='19' stroke-linejoin='round'/%3E%3Cpath d='M36.4,16.82 L50,9 L63.6,16.82 M76.4,24.18 L90,32 L90,80 L76.4,87.82 M63.6,95.18 L50,103 L36.4,95.18 M23.6,87.82 L10,80 L10,32 L23.6,24.18' fill='none' stroke='%23B7591B' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;color:var(--tinte);font-weight:700;line-height:1.08;text-align:center;transform:rotate(8deg)}
 .flag{display:inline-block;background:var(--gelb);color:var(--ink);font-weight:700;padding:6px 12px;font-size:20px}
 .flag + .by{display:block;background:var(--creme);color:var(--ink);font-size:14px;padding:4px 12px;width:max-content}
 .scribble{font-family:"Caveat","Bradley Hand","Segoe Print",cursive;font-weight:700;color:var(--ink);font-size:22px;transform:rotate(-3deg);display:inline-block}
@@ -138,7 +138,7 @@ table.matrix td.ok{} table.matrix td.big{} table.matrix td.no{color:var(--stone)
 .modus a{color:var(--text-gruen);text-decoration:underline;text-underline-offset:2px}
 .m-leise{color:var(--text-leise);font-size:14px}
 .label.m-label{background:var(--text);color:var(--flaeche);font-size:12px;padding:6px 9px 5px;box-shadow:none}
-.m-sticker{position:absolute;top:14px;right:16px;width:72px;height:72px;border-radius:50%;background:var(--orange);color:var(--tinte);display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;font-size:13px;line-height:1.1;transform:rotate(-8deg);box-shadow:3px 3px 0 var(--text)}
+.m-sticker{position:absolute;top:12px;right:16px;width:80px;height:87px;padding:0 13px;display:flex;align-items:center;justify-content:center;font-size:13px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 108 118'%3E%3Cpolygon points='50,9.5 91,33 91,79 50,102.5 9,79 9,33' fill='%23F2711C' stroke='%23F2711C' stroke-width='19' stroke-linejoin='round'/%3E%3Cpath d='M36.4,16.82 L50,9 L63.6,16.82 M76.4,24.18 L90,32 L90,80 L76.4,87.82 M63.6,95.18 L50,103 L36.4,95.18 M23.6,87.82 L10,80 L10,32 L23.6,24.18' fill='none' stroke='%23B7591B' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;color:var(--tinte);font-weight:700;line-height:1.08;text-align:center;transform:rotate(8deg)}
 .m-karte{background:var(--flaeche);border:1px solid var(--linie);border-radius:6px;padding:12px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin:14px 0 10px}
 .m-tag-gruen{background:var(--fond-gruen);color:var(--text);font-size:13px;font-weight:500;padding:3px 8px;border-radius:3px}
 .m-button{background:var(--button);color:var(--button-text);padding:7px 14px;border-radius:4px;font-weight:500}
@@ -715,7 +715,7 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
     <div class="dont"><b>Nicht so</b>Das Farb-Logo auf dunklem Grund: Der dunkle Schriftzug verschwindet.</div>
     <div class="do"><b>So</b>Tiefe über Ebenen und Linien, wie oben gezeigt.</div>
     <div class="dont"><b>Nicht so</b>Weiche Schatten im Dunkelmodus. Auf Tannennacht sind sie unsichtbar und machen Flächen schmutzig.</div>
-    <div class="do"><b>So</b>Harte Kanten umdrehen: Sticker-Schatten, Labelstreifen und KI-Label im Dunkeln in Kreide statt Tinte oder Weiß.</div>
+    <div class="do"><b>So</b>Harte Kanten umdrehen: Labelstreifen und KI-Label im Dunkeln in Kreide statt Tinte oder Weiß.</div>
     <div class="dont"><b>Nicht so</b>Farben per Filter oder „Invertieren“ umrechnen lassen.</div>
     <div class="do"><b>So</b>Links immer unterstreichen. Grün 300 hebt sich von Kreide kaum ab.</div>
     <div class="dont"><b>Nicht so</b>Links nur an der Farbe erkennbar machen.</div>
@@ -838,9 +838,9 @@ body.clean .chg,body.clean .diff,body.clean .chg-txt,body.clean .chg-block{displ
       Wie aus dem Beschriftungsgerät: IBM Plex Mono in Versalien auf Tinte oder Markengrün. Für Kategorien, Orte, Termine. Gerne leicht schief auf Fotos.
     </div>
     <div class="card">
-      <h4>Sticker</h4>
+      <h4>Sticker <span class="chg mod">Geändert</span></h4>
       <div style="margin:10px 0 16px"><span class="sticker">Heute<br>offen!</span></div>
-      Runde Störer in Maker-Orange mit hartem Tinten-Schatten. Für Aktionen und Events, maximal einer pro Medium.
+      Störer in der Außenform des Signets, Maker-Orange mit der unterbrochenen Signet-Linie Ton in Ton (Tinte zu 28 % gemischt, <code>#B7591B</code>). Ecken rund, um +8° nach rechts geneigt (+4° bis +10°), kein Schatten. Höchstens 3 Wörter auf 2 Zeilen in IBM Plex Sans Bold. Web ab 72 px, Druck ab 30 mm. Für Aktionen und Events, höchstens einer pro Medium. <span class="chg-txt">Ersetzt den runden Sticker mit Tinten-Schatten.</span>
     </div>
     <div class="card">
       <h4>Mitglieder-Fahne</h4>

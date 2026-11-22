@@ -68,7 +68,7 @@ MODI = [
     ('flaeche', 'Fläche', ('#FFFFFF', 'Weiß'), ('#13201A', 'Tannenschwarz'), 'Ebene 1: Karten, Tabellen, Kopfleiste'),
     ('fond', 'Fond', ('#FAF2E4', 'Creme'), ('#213129', 'Tanne hell'), 'Ebene 2: Hover, Tabellenkopf, Zweitbuttons, Infokästen'),
     ('linie', 'Linie', ('#E4DCCB', 'Linie'), ('#2A3C33', 'Tanne Linie'), 'Rahmen um Karten und Tabellen, Trenner. Nicht für Eingabefelder (dafür Feld-Rand)'),
-    ('text', 'Text', ('#1E1C19', 'Tinte'), ('#EDE8DE', 'Kreide'), 'Fließtext, Überschriften, harter Sticker-Schatten'),
+    ('text', 'Text', ('#1E1C19', 'Tinte'), ('#EDE8DE', 'Kreide'), 'Fließtext, Überschriften'),
     ('text-leise', 'Text leise', ('#5F5850', 'Stein'), ('#9BA6A0', 'Salbei'), 'Metadaten, Deaktiviertes, Rand von Eingabefeldern unter Maus oder Finger'),
     ('text-gruen', 'Grüne Schrift', ('#33791A', 'Grün 600'), ('#9CD27D', 'Grün 300'), 'Links (immer unterstrichen), Status OK, Icons mit Bedeutung'),
     ('fokus', 'Fokus', ('#33791A', 'Grün 600'), ('#9CD27D', 'Grün 300'), 'Fokusring (Tastatur): 3 px, 2 px Abstand'),
