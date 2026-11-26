@@ -1,0 +1,175 @@
+/* MakerSpace Bonn e.V. – Dokumentvorlage A4 (Satzung, Ordnungen, Pressemitteilungen)
+   Regeln: Styleguide §3 (Logo ohne Claim), §5 (Farben), §9 (Schrift).
+   Farbwerte aus src/build.py (MODI/KONSTANT); hier nur gelesen, nicht neu erfunden. */
+
+:root{
+  --gruen-500:#5EB130;   /* Markengrün: nur die eine Kopflinie */
+  --gruen-600:#33791A;   /* Textgrün: Dokumentart-Label */
+  --ink:#1E1C19;         /* Tinte: Text */
+  --stone:#5F5850;       /* Stein: Metadaten, Fußzeile */
+  --line:#CFC7B8;        /* Haarlinie über der Fußzeile */
+
+  --schrift-titel:"Archivo","IBM Plex Sans",system-ui,sans-serif;
+  --schrift-text:"IBM Plex Sans",system-ui,sans-serif;
+  --schrift-mono:"IBM Plex Mono",ui-monospace,monospace;
+
+  --einzug:13mm;         /* Hängezone für §- und Absatznummern */
+}
+
+/* ---------- Seite ---------- */
+/* DIN 5008: links 25 mm (Heft-/Lochrand), rechts 20 mm.
+   Unten Platz für die Fußzeile in den Randboxen. */
+@page{
+  size:A4;
+  margin:18mm 22mm 24mm 25mm;
+
+  @bottom-left{
+    content:"MakerSpace Bonn e.V. · Kennedyallee 18 · 53175 Bonn";
+    font:400 7.5pt/1.3 var(--schrift-mono);
+    color:var(--stone);
+    vertical-align:top;
+    margin-top:4mm;
+    padding-top:3mm;
+    border-top:.4pt solid var(--line);
+    width:62%;
+  }
+  @bottom-right{
+    /* content kommt aus der HTML-Datei: "<Dokument> · <Stand>\\A Seite " counter(page) " von " counter(pages) */
+    font:400 7.5pt/1.3 var(--schrift-mono);
+    color:var(--stone);
+    vertical-align:top;
+    text-align:right;
+    white-space:pre;
+    margin-top:4mm;
+    padding-top:3mm;
+    border-top:.4pt solid var(--line);
+    width:38%;
+  }
+}
+
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{
+  margin:0;
+  background:#fff;
+  color:var(--ink);
+  font:400 10.5pt/1.5 var(--schrift-text);
+  hyphens:manual;              /* keine automatische Trennung: Rechtstext bleibt wortgleich */
+  font-variant-numeric:tabular-nums;
+  orphans:2; widows:2;
+}
+p{margin:0 0 2.6mm}
+strong,b{font-weight:700}
+a{color:inherit;text-decoration:none}
+
+/* Bildschirmansicht: Blatt auf Papier-Grund */
+@media screen{
+  html{background:#FBF8F2}
+  body{width:210mm;min-height:297mm;margin:10mm auto;padding:18mm 22mm 24mm 25mm;
+       box-shadow:0 0 0 .5pt #E4DCCB}
+}
+
+/* ---------- Kopf (nur Seite 1) ---------- */
+.kopf{margin:0 0 9mm}
+.kopf .kopfzeile{display:flex;justify-content:space-between;align-items:flex-start;gap:8mm;margin:0 0 15mm}
+.kopf .logo{display:block;width:52mm;height:auto;margin:0}
+.kopf .vereinsdaten{margin:0;font:400 7pt/1.45 var(--schrift-mono);color:var(--stone);text-align:right}
+.kopf .art{
+  margin:0 0 3mm;
+  font:500 8pt/1.2 var(--schrift-mono);
+  letter-spacing:.06em;text-transform:uppercase;
+  color:var(--gruen-600);
+}
+.kopf h1{
+  margin:0;
+  max-width:150mm;
+  font:900 30pt/1.04 var(--schrift-titel);
+  letter-spacing:-.02em;
+  text-wrap:balance;
+}
+.kopf .stand{
+  margin:4.5mm 0 0;
+  padding-bottom:5mm;
+  border-bottom:.75pt solid var(--gruen-500);   /* der eine grüne Akzent */
+  font:400 8.5pt/1.3 var(--schrift-mono);
+  color:var(--stone);
+}
+
+/* ---------- Überschriften ---------- */
+/* §-Überschriften: Archivo ExtraBold 18 pt, Nummer hängt in der Einzugszone */
+h2{
+  margin:8mm 0 3mm;
+  font:800 18pt/1.12 var(--schrift-titel);
+  letter-spacing:-.01em;
+  break-after:avoid; page-break-after:avoid;
+  break-inside:avoid;
+}
+h2 .nr{display:inline-block;min-width:calc(var(--einzug) - .28em)} /* .28em = Wortabstand danach */
+h2.ohne-nr{margin-top:7mm}
+h2 + *{break-before:avoid}
+.kopf + h2,.kopf + section > h2:first-child{margin-top:0}
+section{break-before:auto}
+
+/* ---------- Nummerierte Absätze mit hängendem Einzug ---------- */
+ol.abs{list-style:none;margin:0 0 2mm;padding:0}
+ol.abs > li{
+  position:relative;
+  padding-left:var(--einzug);
+  margin:0 0 2.4mm;
+}
+ol.abs > li > .n{
+  position:absolute;left:0;top:0;
+  font-variant-numeric:tabular-nums;
+}
+ol.abs > li > p:last-child{margin-bottom:0}
+/* ein Absatz bleibt zusammen, solange er kurz ist */
+ol.abs > li.kurz{break-inside:avoid}
+
+/* (a) (b) (c) – zweite Ebene, ebenfalls hängend */
+ol.buchst{list-style:none;margin:2mm 0 0;padding:0}
+ol.buchst > li{position:relative;padding-left:7.5mm;margin:0 0 2mm}
+ol.buchst > li > .n{position:absolute;left:0;top:0}
+
+/* Aufzählungen: Ebene 1 offener Kreis, Ebene 2 Quadrat (wie im Original) */
+ul.pkt{list-style:none;margin:1.2mm 0 0;padding:0}
+ul.pkt > li{position:relative;padding-left:5.5mm;margin:0 0 .9mm}
+ul.pkt > li::before{
+  content:"";position:absolute;left:.6mm;top:.5em;
+  width:1.5mm;height:1.5mm;border:.6pt solid var(--ink);border-radius:50%;
+}
+ul.pkt ul.pkt > li::before{border-radius:0;background:var(--ink);width:1.2mm;height:1.2mm;top:.56em}
+ul.pkt.voll > li::before{background:var(--ink)}
+ul.pkt.einzug{margin-left:var(--einzug)}
+
+/* ---------- Pressemitteilung ---------- */
+.kernpunkte{list-style:none;margin:0 0 7mm;padding:0}
+.kernpunkte > li{
+  position:relative;padding-left:var(--einzug);margin:0 0 2.5mm;
+  font-weight:700;font-size:11pt;line-height:1.42;
+}
+.kernpunkte > li::before{
+  content:"";position:absolute;left:0;top:.66em;width:5mm;border-top:1.2pt solid var(--ink);
+}
+.markiert{text-decoration:underline;text-decoration-thickness:.6pt;text-underline-offset:2.2pt}
+
+.kontakt{
+  margin:8mm 0 0;padding:4mm 0 0;
+  border-top:.4pt solid var(--line);
+  break-inside:avoid;
+  font-size:9.5pt;line-height:1.5;
+}
+.kontakt .label{
+  margin:0 0 1.5mm;
+  font-weight:700;
+}
+.kontakt .web{font-family:var(--schrift-mono);font-size:8.5pt}
+
+/* Fließtext auf der Textachse (z. B. Absatz ohne Nummer unter einer §-Überschrift) */
+p.einzug{margin-left:var(--einzug)}
+
+/* Kompakt: für einseitige Aushänge (Hausordnung). Bleibt im Rahmen von §9 (Fließtext ab 9,5 pt). */
+body.kompakt{font-size:9.5pt;line-height:1.42}
+body.kompakt .kopf{margin-bottom:5.5mm}
+body.kompakt .kopf .kopfzeile{margin-bottom:3mm}
+body.kompakt .kopf .stand{padding-bottom:4mm}
+body.kompakt ol.abs > li{margin-bottom:1.6mm}
